@@ -1,0 +1,12 @@
+RewriteEngine On
+
+# 2 things, to run subsequently:
+# - redirect externally "/" to "/commandes-cuisine"
+# - redirect internally "/something" to "/index.php?route=/something"
+# -> keep everything else the same
+
+# if attempting to access "/", redirect to "/commandes-cuisine" (visible)
+RewriteRule "^$" "/commandes-cuisine" [R]
+
+# if attempting to access "/something/something-else", redirect to "/index.php?route=/something/something-else" (hidden)
+RewriteRule "^([a-zA-Z/-]+)$" "/index.php?route=/$1" [PT]

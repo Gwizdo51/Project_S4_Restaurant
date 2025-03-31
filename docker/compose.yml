@@ -1,0 +1,53 @@
+name: "amp_server"
+
+networks:
+  amp_net:
+    external: false
+
+services:
+
+  apache_php_container:
+    container_name: "apache_php_container"
+    networks:
+    - "amp_net"
+    # spawn from a Dockerfile
+    build:
+      context: "./"
+      target: "apache_server_img"
+    # mount the directory containing the web app files to "/var/www/html"
+    volumes:
+    - "../:/var/www/html:ro"
+    # expose the HTTP port
+    ports:
+    - "80:80"
+
+  mysql_container:
+    container_name: "mysql_container"
+    networks:
+    - "amp_net"
+    image: "mysql:9.1"
+    ports:
+    - "3306:3306"
+    # mount a local directory to save the database files
+    volumes:
+    - "./data:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456789"
+    # bugfix when using "compose up" on a database that already exists
+    entrypoint: "bash"
+    command:
+    - "-c"
+    - "rm /var/lib/mysql/mysql.sock -f && docker-entrypoint.sh mysqld"
+
+  phpmyadmin_container:
+    container_name: "phpmyadmin_container"
+    networks:
+    - "amp_net"
+    # spawn from the official phpmyadmin image
+    image: "phpmyadmin:5.2.1-apache"
+    # expose the HTTP port
+    ports:
+    - "8080:80"
+    # define the default host as "mysql_container"
+    environment:
+      PMA_HOST: "mysql_container"
