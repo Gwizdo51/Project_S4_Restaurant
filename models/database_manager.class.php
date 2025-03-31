@@ -15,6 +15,7 @@ class DBManager {
             self::$connection->close();
         }
     }
+
     /**
      * Generates the JSON containing all the orders to be prepared in the specified place
      * @param string $place

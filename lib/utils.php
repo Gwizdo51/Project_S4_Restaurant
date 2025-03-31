@@ -18,3 +18,10 @@ function display_view($view_path, $page_title): void {
     echo "</body>\n\n"
         ."</html>\n";
 }
+
+/**
+ * @return mysqli
+ */
+function get_db_connection(): mysqli {
+    return new mysqli('mysql_container', 'root', '123456789', 'esaip_s4_restaurant');
+}
