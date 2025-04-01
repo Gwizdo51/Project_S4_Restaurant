@@ -13,7 +13,7 @@ switch ($_GET['route']) {
         require_once './controllers/kitchen_orders.controller.php';
         break;
     case '/api/get/kitchen-orders':
-        require_once './api/get_orders.api.php?place=kitchen';
+        require_once './api/get_kitchen_orders.api.php';
         break;
     case '/api/set/order-ready':
         require_once './api/set_order_ready.api.php';

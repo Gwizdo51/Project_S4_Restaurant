@@ -251,7 +251,7 @@ INSERT INTO `table` (numero, ID_secteur, ID_etat_table) VALUES
 (1, 1, 1),
 (2, 1, 1),
 (3, 1, 1),
-(4, 1, 1),
+(4, 1, 2),
 (5, 1, 1),
 (6, 2, 1),
 (7, 2, 1),
@@ -317,7 +317,7 @@ INSERT INTO `item` (ID_commande, ID_produit, details) VALUES
 (1, 5, DEFAULT),
 (2, 6, "Cuisson : Saignant - Sauces : Mayonnaise, Ketchup"),
 (2, 6, "Cuisson : A point"),
-(3, 6, DEFAULT),
+(3, 6, "Cuisson : Cuit"),
 (3, 5, "Sans tomates"),
 (4, 2, "Glaçons : Avec");
 

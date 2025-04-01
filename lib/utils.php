@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * @param mixed $mixed
+ * @return void
+ */
+function var_dump_pre($mixed): void {
+    echo "<pre>\n";
+    var_dump($mixed);
+    echo "</pre>\n";
+}
+
+/**
  * @param string $view_path
  * @param string $page_title
  * @return void
