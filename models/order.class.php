@@ -17,17 +17,17 @@ class Order {
         // informations to get : table number, list of items (labels + details), time of creation
         $db_connection = get_db_connection();
         $query = 'SELECT c.ID_commande, c.date_creation, p.label_produit, i.details, t.numero'
-            .' FROM `commande` c'
-            .' JOIN `etat_commande` e ON c.ID_etat_commande = e.ID_etat_commande'
-            .' JOIN `lieu_preparation` l ON c.ID_lieu_preparation = l.ID_lieu_preparation'
-            .' JOIN `item` i ON c.ID_commande = i.ID_commande'
-            .' JOIN `produit` p ON i.ID_produit = p.ID_produit'
-            .' JOIN `bon` b ON c.ID_bon = b.ID_bon'
-            .' JOIN `table` t ON b.ID_table = t.ID_table'
-            .' WHERE e.label_etat_commande = "à préparer"'
-            ." AND l.label_lieu = '$place'"
-            .' ORDER BY c.date_creation, c.ID_commande;';
-        $result_cursor = mysqli_query($db_connection, $query);
+               .' FROM `commande` c'
+               .' JOIN `etat_commande` e ON c.ID_etat_commande = e.ID_etat_commande'
+               .' JOIN `lieu_preparation` l ON c.ID_lieu_preparation = l.ID_lieu_preparation'
+               .' JOIN `item` i ON c.ID_commande = i.ID_commande'
+               .' JOIN `produit` p ON i.ID_produit = p.ID_produit'
+               .' JOIN `bon` b ON c.ID_bon = b.ID_bon'
+               .' JOIN `table` t ON b.ID_table = t.ID_table'
+               .' WHERE e.label_etat_commande = "à préparer"'
+               ." AND l.label_lieu = '$place'"
+               .' ORDER BY c.date_creation, c.ID_commande, p.label_produit;';
+        $result_cursor = $db_connection->query($query);
         /*
         {
             "1": {
@@ -47,7 +47,7 @@ class Order {
         }
         */
         $orders_array = [];
-        while ($row = mysqli_fetch_assoc($result_cursor)) {
+        while ($row = $result_cursor->fetch_assoc()) {
             // var_dump_pre($row);
             $order_number = (int) $row['ID_commande'];
             // if the order number already exists in the array, add the item to the order
@@ -72,12 +72,33 @@ class Order {
             }
         }
         $db_connection->close();
-        // var_dump_pre($orders_array);
-        // var_dump_pre(json_encode($orders_array));
         return json_encode($orders_array);
     }
 
     public static function set_order_to_ready($id): string {
-
+        $db_connection = get_db_connection();
+        // UPDATE `commande`
+        // SET ID_etat_commande = (
+        //     SELECT ID_etat_commande
+        //     FROM `etat_commande`
+        //     WHERE label_etat_commande = 'prête'
+        // )
+        // WHERE ID_commande = 1;
+        $query = 'UPDATE `commande`'
+               .' SET ID_etat_commande = ('
+               .'     SELECT ID_etat_commande'
+               .'     FROM `etat_commande`'
+               .'     WHERE label_etat_commande = "prête"'
+               .' )'
+               ." WHERE ID_commande = $id;";
+        $result = $db_connection->query($query);
+        if ($result === false) {
+            $result_json = '{"success": false}';
+        }
+        else {
+            $result_json = '{"success": true}';
+        }
+        $db_connection->close();
+        return $result_json;
     }
 }
