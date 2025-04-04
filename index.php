@@ -18,6 +18,9 @@ switch ($_GET['route']) {
     case '/api/set/order-ready':
         require_once './api/set_order_ready.api.php';
         break;
+    case '/test-bootstrap':
+        require_once './views/test_bootstrap.php';
+        break;
     default:
         require_once './controllers/not_found.controller.php';
 }
