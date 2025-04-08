@@ -16,8 +16,8 @@ function var_dump_pre($mixed): void {
  * @return void
  */
 function display_view($view_path, $page_title): void {
-    echo "<!DOCTYPE html>\n"
-        ."<html lang=\"en\">\n\n"
+    echo "<!doctype html>\n"
+        ."<html lang=\"fr\">\n\n"
         ."<head>\n"
         ."    <title>".$page_title."</title>\n"
         ."    <meta charset=\"utf-8\">\n"
