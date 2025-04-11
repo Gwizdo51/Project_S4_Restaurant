@@ -21,6 +21,9 @@ switch ($_GET['route']) {
     case '/test-bootstrap':
         require_once './views/test_bootstrap.php';
         break;
+    case '/test-bootstrap-navbar':
+        require_once './views/test_bootstrap_navbar.php';
+        break;
     default:
         require_once './controllers/not_found.controller.php';
 }
