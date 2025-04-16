@@ -6,8 +6,8 @@ RewriteEngine On
 # -> keep everything else the same
 
 # if attempting to access "/", redirect to "/commandes-cuisine" (visible)
-# RewriteRule "^$" "/commandes-cuisine" [R]
-RewriteRule "^$" "/test-bootstrap-navbar" [R]
+RewriteRule "^$" "/commandes-cuisine" [R]
+# RewriteRule "^$" "/test-bootstrap-kitchen-orders" [R]
 
 # if attempting to access "/something/something-else", redirect to "/index.php?route=/something/something-else" (hidden)
 RewriteRule "^([a-zA-Z/-]+)$" "/index.php?route=/$1" [PT]

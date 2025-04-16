@@ -14,7 +14,8 @@ CREATE TABLE `bon` (
     ID_bon           INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
     date_creation    DATETIME NOT NULL DEFAULT NOW(),
     date_suppression DATETIME,
-    ID_table         INTEGER UNSIGNED NOT NULL
+    ID_table         INTEGER UNSIGNED NOT NULL,
+    ID_serveur       INTEGER UNSIGNED NOT NULL
 );
 
 CREATE TABLE `categorie` (
@@ -171,6 +172,7 @@ CREATE TABLE `type_choix` (
     UNIQUE (label_type_choix)
 );
 
+ALTER TABLE `bon` ADD FOREIGN KEY (ID_serveur) REFERENCES `serveur` (ID_serveur) ON DELETE CASCADE;
 ALTER TABLE `bon` ADD FOREIGN KEY (ID_table) REFERENCES `table` (ID_table) ON DELETE CASCADE;
 
 ALTER TABLE `choix` ADD FOREIGN KEY (ID_option) REFERENCES `option_commande` (ID_option) ON DELETE CASCADE;
@@ -278,8 +280,8 @@ INSERT INTO `reserver` (ID_reservation, ID_table) VALUES
 (2, 15),
 (2, 16);
 
-INSERT INTO `bon` (ID_table) VALUES
-(4);
+INSERT INTO `bon` (ID_table, ID_serveur) VALUES
+(4, 3);
 
 INSERT INTO `etat_commande` (label_etat_commande) VALUES
 ("à préparer"),

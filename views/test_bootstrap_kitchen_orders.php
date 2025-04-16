@@ -3,14 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Commandes cuisine</title>
+    <title>Cuisine</title>
     <!-- 🔹 Bootstrap CSS -->
     <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
     <main class="container-xxl">
-        <!-- <h1>Hello world !</h1> -->
 
         <div class="row">
 
@@ -20,7 +19,7 @@
                 <hr>
                 <ul class="nav nav-pills flex-column">
                     <li>
-                        <a href="#" class="nav-link link-body-emphasis" aria-current="page">
+                        <a href="#" class="nav-link link-body-emphasis">
                             Accueil
                         </a>
                     </li>
@@ -30,7 +29,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link active">
+                        <a href="#" class="nav-link active" aria-current="page">
                             Cuisine
                         </a>
                     </li>
@@ -62,24 +61,24 @@
                 <!-- page title -->
                 <header class="sticky-top bg-body-tertiary mb-3">
                     <div class="text-center display-5 py-2">Commandes cuisine</div>
-                    <hr />
+                    <hr>
                 </header>
 
                 <!-- page content -->
-                <div class="container-xxl bg-body-tertiary px-3 pt-3 mb-3 rounded d-flex flex-column">
+                <div class="bg-body-tertiary px-3 pt-3 mb-3 rounded d-flex flex-column">
 
                     <!-- an order -->
-                    <div class="row border border-success rounded m-0 mb-3 bg-body">
-                        <div class="col-5 p-3">
+                    <div class="row border border-success border-2 rounded m-0 mb-3 bg-body">
+                        <div class="col-4 p-3">
                             <table class="table">
                                 <tbody>
                                     <tr>
                                         <td class="text-end w-75">Numéro commande :</td>
-                                        <th class="">41</th>
+                                        <th>41</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Numéro table :</td>
-                                        <th class="">4</th>
+                                        <th>4</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Commande passée il y a :</td>
@@ -88,7 +87,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-5 border-start border-end border-success p-3">
+                        <div class="col-6 border-start border-end border-success border-2 p-3">
                             <dl class="list-group list-group-flush">
                                 <div class="list-group-item">
                                     <dt>Entrecôte</dt>
@@ -97,7 +96,7 @@
                                 <div class="list-group-item">
                                     <dt>Salade verte</dt>
                                 </div>
-                            </ul>
+                            </dl>
                         </div>
                         <div class="col-2 p-3 d-grid">
                             <button type="button" class="btn btn-primary">Prête</button>
@@ -105,17 +104,17 @@
                     </div>
 
                     <!-- an order -->
-                    <div class="row border border-warning rounded m-0 mb-3 bg-body">
-                        <div class="col-5 p-3">
+                    <div class="row border border-warning border-2 rounded m-0 mb-3 bg-body">
+                        <div class="col-4 p-3">
                             <table class="table">
                                 <tbody>
                                     <tr>
                                         <td class="text-end w-75">Numéro commande :</td>
-                                        <th class="">42</th>
+                                        <th>42</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Numéro table :</td>
-                                        <th class="">16</th>
+                                        <th>16</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Commande passée il y a :</td>
@@ -124,7 +123,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-5 border-start border-end border-warning p-3">
+                        <div class="col-6 border-start border-end border-warning border-2 p-3">
                             <dl class="list-group list-group-flush">
                                 <div class="list-group-item">
                                     <dt>Entrecôte</dt>
@@ -137,7 +136,7 @@
                                 <div class="list-group-item">
                                     <dt>Flan</dt>
                                 </div>
-                            </ul>
+                            </dl>
                         </div>
                         <div class="col-2 p-3 d-grid">
                             <button type="button" class="btn btn-primary">Prête</button>
@@ -145,17 +144,17 @@
                     </div>
 
                     <!-- an order -->
-                    <div class="row border border-danger rounded m-0 mb-3 bg-body">
-                        <div class="col-5 p-3">
+                    <div class="row border border-danger border-2 rounded m-0 mb-3 bg-body">
+                        <div class="col-4 p-3">
                             <table class="table">
                                 <tbody>
                                     <tr>
                                         <td class="text-end w-75">Numéro commande :</td>
-                                        <th class="">43</th>
+                                        <th>43</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Numéro table :</td>
-                                        <th class="">8</th>
+                                        <th>8</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Commande passée il y a :</td>
@@ -164,7 +163,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-5 border-start border-end border-danger p-3">
+                        <div class="col-6 border-start border-end border-danger border-2 p-3">
                             <dl class="list-group list-group-flush">
                                 <div class="list-group-item">
                                     <dt>Frites</dt>
@@ -181,7 +180,7 @@
                                     <dt>Entrecôte</dt>
                                     <dd>Cuisson : Bleu</dd>
                                 </div>
-                            </ul>
+                            </dl>
                         </div>
                         <div class="col-2 p-3 d-grid">
                             <button type="button" class="btn btn-primary">Prête</button>
@@ -189,17 +188,17 @@
                     </div>
 
                     <!-- an order -->
-                    <div class="row border border-success rounded m-0 mb-3 bg-body">
-                        <div class="col-5 p-3">
+                    <div class="row border border-success border-2 rounded m-0 mb-3 bg-body">
+                        <div class="col-4 p-3">
                             <table class="table">
                                 <tbody>
                                     <tr>
                                         <td class="text-end w-75">Numéro commande :</td>
-                                        <th class="">41</th>
+                                        <th>41</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Numéro table :</td>
-                                        <th class="">4</th>
+                                        <th>4</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Commande passée il y a :</td>
@@ -208,7 +207,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-5 border-start border-end border-success p-3">
+                        <div class="col-6 border-start border-end border-success border-2 p-3">
                             <dl class="list-group list-group-flush">
                                 <div class="list-group-item">
                                     <dt>Entrecôte</dt>
@@ -217,7 +216,7 @@
                                 <div class="list-group-item">
                                     <dt>Salade verte</dt>
                                 </div>
-                            </ul>
+                            </dl>
                         </div>
                         <div class="col-2 p-3 d-grid">
                             <button type="button" class="btn btn-primary">Prête</button>
@@ -225,17 +224,17 @@
                     </div>
 
                     <!-- an order -->
-                    <div class="row border border-warning rounded m-0 mb-3 bg-body">
-                        <div class="col-5 p-3">
+                    <div class="row border border-warning border-2 rounded m-0 mb-3 bg-body">
+                        <div class="col-4 p-3">
                             <table class="table">
                                 <tbody>
                                     <tr>
                                         <td class="text-end w-75">Numéro commande :</td>
-                                        <th class="">42</th>
+                                        <th>42</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Numéro table :</td>
-                                        <th class="">16</th>
+                                        <th>16</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Commande passée il y a :</td>
@@ -244,7 +243,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-5 border-start border-end border-warning p-3">
+                        <div class="col-6 border-start border-end border-warning border-2 p-3">
                             <dl class="list-group list-group-flush">
                                 <div class="list-group-item">
                                     <dt>Entrecôte</dt>
@@ -257,7 +256,7 @@
                                 <div class="list-group-item">
                                     <dt>Flan</dt>
                                 </div>
-                            </ul>
+                            </dl>
                         </div>
                         <div class="col-2 p-3 d-grid">
                             <button type="button" class="btn btn-primary">Prête</button>
@@ -265,17 +264,17 @@
                     </div>
 
                     <!-- an order -->
-                    <div class="row border border-danger rounded m-0 mb-3 bg-body">
-                        <div class="col-5 p-3">
+                    <div class="row border border-danger border-2 rounded m-0 mb-3 bg-body">
+                        <div class="col-4 p-3">
                             <table class="table">
                                 <tbody>
                                     <tr>
                                         <td class="text-end w-75">Numéro commande :</td>
-                                        <th class="">43</th>
+                                        <th>43</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Numéro table :</td>
-                                        <th class="">8</th>
+                                        <th>8</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Commande passée il y a :</td>
@@ -284,7 +283,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-5 border-start border-end border-danger p-3">
+                        <div class="col-6 border-start border-end border-danger border-2 p-3">
                             <dl class="list-group list-group-flush">
                                 <div class="list-group-item">
                                     <dt>Frites</dt>
@@ -301,7 +300,7 @@
                                     <dt>Entrecôte</dt>
                                     <dd>Cuisson : Bleu</dd>
                                 </div>
-                            </ul>
+                            </dl>
                         </div>
                         <div class="col-2 p-3 d-grid">
                             <button type="button" class="btn btn-primary">Prête</button>
@@ -309,17 +308,17 @@
                     </div>
 
                     <!-- an order -->
-                    <div class="row border border-success rounded m-0 mb-3 bg-body">
-                        <div class="col-5 p-3">
+                    <div class="row border border-success border-2 rounded m-0 mb-3 bg-body">
+                        <div class="col-4 p-3">
                             <table class="table">
                                 <tbody>
                                     <tr>
                                         <td class="text-end w-75">Numéro commande :</td>
-                                        <th class="">41</th>
+                                        <th>41</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Numéro table :</td>
-                                        <th class="">4</th>
+                                        <th>4</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Commande passée il y a :</td>
@@ -328,7 +327,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-5 border-start border-end border-success p-3">
+                        <div class="col-6 border-start border-end border-success border-2 p-3">
                             <dl class="list-group list-group-flush">
                                 <div class="list-group-item">
                                     <dt>Entrecôte</dt>
@@ -337,7 +336,7 @@
                                 <div class="list-group-item">
                                     <dt>Salade verte</dt>
                                 </div>
-                            </ul>
+                            </dl>
                         </div>
                         <div class="col-2 p-3 d-grid">
                             <button type="button" class="btn btn-primary">Prête</button>
@@ -345,17 +344,17 @@
                     </div>
 
                     <!-- an order -->
-                    <div class="row border border-warning rounded m-0 mb-3 bg-body">
-                        <div class="col-5 p-3">
+                    <div class="row border border-warning border-2 rounded m-0 mb-3 bg-body">
+                        <div class="col-4 p-3">
                             <table class="table">
                                 <tbody>
                                     <tr>
                                         <td class="text-end w-75">Numéro commande :</td>
-                                        <th class="">42</th>
+                                        <th>42</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Numéro table :</td>
-                                        <th class="">16</th>
+                                        <th>16</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Commande passée il y a :</td>
@@ -364,7 +363,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-5 border-start border-end border-warning p-3">
+                        <div class="col-6 border-start border-end border-warning border-2 p-3">
                             <dl class="list-group list-group-flush">
                                 <div class="list-group-item">
                                     <dt>Entrecôte</dt>
@@ -377,7 +376,7 @@
                                 <div class="list-group-item">
                                     <dt>Flan</dt>
                                 </div>
-                            </ul>
+                            </dl>
                         </div>
                         <div class="col-2 p-3 d-grid">
                             <button type="button" class="btn btn-primary">Prête</button>
@@ -385,17 +384,17 @@
                     </div>
 
                     <!-- an order -->
-                    <div class="row border border-danger rounded m-0 mb-3 bg-body">
-                        <div class="col-5 p-3">
+                    <div class="row border border-danger border-2 rounded m-0 mb-3 bg-body">
+                        <div class="col-4 p-3">
                             <table class="table">
                                 <tbody>
                                     <tr>
                                         <td class="text-end w-75">Numéro commande :</td>
-                                        <th class="">43</th>
+                                        <th>43</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Numéro table :</td>
-                                        <th class="">8</th>
+                                        <th>8</th>
                                     </tr>
                                     <tr>
                                         <td class="text-end">Commande passée il y a :</td>
@@ -404,7 +403,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-5 border-start border-end border-danger p-3">
+                        <div class="col-6 border-start border-end border-danger border-2 p-3">
                             <dl class="list-group list-group-flush">
                                 <div class="list-group-item">
                                     <dt>Frites</dt>
@@ -421,7 +420,7 @@
                                     <dt>Entrecôte</dt>
                                     <dd>Cuisson : Bleu</dd>
                                 </div>
-                            </ul>
+                            </dl>
                         </div>
                         <div class="col-2 p-3 d-grid">
                             <button type="button" class="btn btn-primary">Prête</button>

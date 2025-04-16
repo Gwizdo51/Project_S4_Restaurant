@@ -2,6 +2,7 @@
 // front controller
 
 // import all libraries
+require_once './lib/config.php';
 require_once './lib/utils.php';
 
 // session cookie
@@ -21,8 +22,8 @@ switch ($_GET['route']) {
     case '/test-bootstrap':
         require_once './views/test_bootstrap.php';
         break;
-    case '/test-bootstrap-navbar':
-        require_once './views/test_bootstrap_navbar.php';
+    case '/test-bootstrap-kitchen-orders':
+        require_once './views/test_bootstrap_kitchen_orders.php';
         break;
     default:
         require_once './controllers/not_found.controller.php';

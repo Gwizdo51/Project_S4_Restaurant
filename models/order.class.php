@@ -31,7 +31,7 @@ class Order {
         /*
         {
             "1": {
-                "date_creation": "2025/03/30 12:12:29",
+                "date_creation": "2025-03-30 12:12:29",
                 "numero_table": 4,
                 "items": [
                     {
