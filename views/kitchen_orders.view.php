@@ -23,7 +23,7 @@
             <dl class="list-group list-group-flush"></dl>
         </div>
         <div class="col-2 p-3 d-grid">
-            <button type="button" class="btn btn-primary" onclick="onReadyButtonClick(this)">Prête</button>
+            <button type="button" class="btn btn-primary" onclick="onReadyButtonClick(this)" data-bs-toggle="modal" data-bs-target="#confirmation-modal">Prête</button>
         </div>
     </div>
 </template>
@@ -35,6 +35,33 @@
         <dd>Cuisson : Saignant</dd>
     </div>
 </template>
+
+<!-- confirmation modal -->
+<div class="modal fade" id="confirmation-modal" tabindex="-1" aria-labelledby="confirmation-modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmation</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0 fs-5">La commande est-elle prête ?</p>
+            </div>
+            <div class="modal-footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6 d-grid">
+                            <button type="button" class="btn btn-danger py-5 fs-4" data-bs-dismiss="modal">Annuler</button>
+                        </div>
+                        <div class="col-6 d-grid">
+                            <button type="button" class="btn btn-success py-5 fs-4" onclick="onConfirmButtonClick()" data-bs-dismiss="modal">OK</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- page content -->
 <div id="page-content" class="bg-body-tertiary px-3 pt-3 mb-3 rounded d-flex flex-column">
@@ -133,7 +160,7 @@
     function generateOrderElement(orderID, JSONResponse) {
         // get the order with the specified ID from the JSON
         const currentOrder = JSONResponse[orderID];
-        // clone the content of the order template
+        // clone the content from the order template
         const orderElement = document.querySelector("#template-order").content.cloneNode(true);
         const templateItem = document.querySelector("#template-item");
         const mainDiv = orderElement.querySelector("div.row");
@@ -240,36 +267,45 @@
     }
     setInterval(updateOrdersStates, 1000);
 
-    // set an order to "ready" state on button click
+    // global object to remember which button was clicked
+    const storedData = {
+        buttonClicked: null
+    };
+
+    // open confirmation modal on "order ready" button click
     function onReadyButtonClick(button) {
-        const orderID = button.parentElement.parentElement.dataset.orderId;
-        // if the user confirms that the order is ready ...
-        if (confirm(`La commande ${orderID} est prête ?`)) {
-            // disable the button
-            button.setAttribute("disabled", "");
-            // make a FormData object to send via POST
-            const formData = new FormData();
-            formData.append("order-id", orderID);
-            // send the order ID to be deleted to the API
-            const xhttp = new XMLHttpRequest();
-            xhttp.open("POST", "/api/set/order-ready");
-            xhttp.send(formData);
-            xhttp.onreadystatechange = function () {
-                if (this.readyState === 4 && this.status === 200) {
-                    const JSONResponse = JSON.parse(this.responseText);
-                    if (JSONResponse.success) {
-                        // remove the order from the list
-                        button.parentElement.parentElement.remove();
-                        // if there are no orders displayed ...
-                        if (document.querySelectorAll("#page-content > div.row").length === 0) {
-                            // display the "no orders" message
-                            document.querySelector("#no-orders-message").classList.remove("d-none");
-                        }
+        // store a reference to the button
+        storedData.buttonClicked = button;
+    }
+
+    // set an order to "ready" state on "OK" button click in confirmation modal
+    function onConfirmButtonClick() {
+        // disable the "order ready" button
+        storedData.buttonClicked.setAttribute("disabled", "");
+        // make a FormData object to send via POST
+        const formData = new FormData();
+        formData.append("order-id", storedData.buttonClicked.parentElement.parentElement.dataset.orderId);
+        // send the order ID to be deleted to the API
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "/api/set/order-ready");
+        xhttp.send(formData);
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                const JSONResponse = JSON.parse(this.responseText);
+                if (JSONResponse.success) {
+                    // remove the order from the list
+                    storedData.buttonClicked.parentElement.parentElement.remove();
+                    // allow the button to be garbage collected
+                    storedData.buttonClicked = null;
+                    // if there are no orders displayed ...
+                    if (document.querySelectorAll("#page-content > div.row").length === 0) {
+                        // display the "no orders" message
+                        document.querySelector("#no-orders-message").classList.remove("d-none");
                     }
-                    else {
-                        alert("Une erreur est survenue lors de l'envoi de la requête");
-                        button.removeAttribute("disabled");
-                    }
+                }
+                else {
+                    alert("Une erreur est survenue lors de l'envoi de la requête");
+                    storedData.buttonClicked.removeAttribute("disabled");
                 }
             }
         }

@@ -64,6 +64,33 @@
                     <hr>
                 </header>
 
+                <!-- confirmation modal -->
+                <div class="modal fade" id="confirmation-modal" tabindex="-1" aria-labelledby="confirmation-modal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Confirmation</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="mb-0 fs-5">La commande est-elle prête ?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-6 d-grid">
+                                            <button type="button" class="btn btn-danger py-5 fs-4" data-bs-dismiss="modal">Annuler</button>
+                                        </div>
+                                        <div class="col-6 d-grid">
+                                            <button type="button" class="btn btn-success py-5 fs-4" data-bs-dismiss="modal">OK</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- page content -->
                 <div class="bg-body-tertiary px-3 pt-3 mb-3 rounded d-flex flex-column">
 
@@ -99,7 +126,7 @@
                             </dl>
                         </div>
                         <div class="col-2 p-3 d-grid">
-                            <button type="button" class="btn btn-primary">Prête</button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmation-modal">Prête</button>
                         </div>
                     </div>
 
