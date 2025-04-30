@@ -4,10 +4,12 @@
 // title => link
 $SIDEBAR_CONF = [
     'Accueil' => '#',
-    'Bar' => '#',
-    'Cuisine' => '#',
+    'Bar' => '/fixe/bar',
+    'Cuisine' => '/fixe/cuisine',
     'Bons' => '#',
     'Réservations' => '#',
     'Dashboard' => '#',
     'Administration' => '#'
 ];
+
+$WEBSITE_TITLE = 'Restaurant';

@@ -25,15 +25,15 @@ function generate_navbar($index_active_tab): string {
     for ($index = 0; $index < sizeof($SIDEBAR_CONF); $index++) {
         if ($index === $index_active_tab) {
             $navbar_html .= "<li class=\"nav-item\">\n"
-                           .'    <a href="'.$SIDEBAR_CONF[$sidebar_items[$index]]."\" class=\"nav-link active\" aria-current=\"page\">\n"
-                           .'         '.$sidebar_items[$index]."\n"
+                           ."    <a href=\"{$SIDEBAR_CONF[$sidebar_items[$index]]}\" class=\"nav-link active\" aria-current=\"page\">\n"
+                           ."         {$sidebar_items[$index]}\n"
                            ."    </a>\n"
                            ."</li>\n";
         }
         else {
             $navbar_html .= "<li>\n"
-                           .'    <a href="'.$SIDEBAR_CONF[$sidebar_items[$index]]."\" class=\"nav-link link-body-emphasis\">\n"
-                           .'         '.$sidebar_items[$index]."\n"
+                           ."    <a href=\"{$SIDEBAR_CONF[$sidebar_items[$index]]}\" class=\"nav-link link-body-emphasis\">\n"
+                           ."         {$sidebar_items[$index]}\n"
                            ."    </a>\n"
                            ."</li>\n";
         }
@@ -51,7 +51,7 @@ function display_view($view_path, $page_title): void {
     echo "<!doctype html>\n"
         ."<html lang=\"fr\">\n\n"
         ."<head>\n"
-        ."    <title>".$page_title."</title>\n"
+        ."    <title>{$page_title}</title>\n"
         ."    <meta charset=\"utf-8\">\n"
         ."    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
         ."</head>\n\n"

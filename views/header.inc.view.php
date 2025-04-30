@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= $tab_title ?></title>
     <!-- 🔹 Bootstrap CSS -->
-    <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 

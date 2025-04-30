@@ -296,7 +296,7 @@ INSERT INTO `commande` (ID_bon, ID_etat_commande, ID_lieu_preparation) VALUES
 (1, 1, 1),
 (1, 1, 1),
 (1, 1, 1),
-(1, 2, 2);
+(1, 1, 2);
 
 INSERT INTO `categorie` (label_categorie) VALUES
 ("Softs"),

@@ -23,3 +23,7 @@ file tree :
 - `api/`
     - `kitchen_orders.api.php` -> answers the AJAX request with a JSON containing all orders for the kitchen
     - `order_ready.api.php` -> for declaring an order ready
+
+# Resources
+
+- JS fetch API : https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch

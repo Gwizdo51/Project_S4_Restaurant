@@ -68,7 +68,7 @@
 
 <!-- display a message when there are no orders to display -->
 <div id="no-orders-message" class="fs-4 text-center mb-3 text-secondary">
-    Aucune commande à préparer.
+    Chargement des commandes ...
 </div>
 
 </div>
@@ -81,19 +81,19 @@
 </main>
 
 <!-- 🔹 Bootstrap JS -->
-<script src="./assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
 
 <script>
     "use strict";
 
     /* pseudocode :
     on page load :
-        request the list of all orders to prepare in the kitchen (API)
+        request the list of all orders to prepare in the specified place (API)
         if the list is not empty :
             remove the "no orders" message
             display the list
     every 5 seconds :
-        request the list of all orders to prepare in the kitchen (API)
+        request the list of all orders to prepare in the specified place (API)
         if the list is empty :
             remove all displayed order
             display the "no orders" message
@@ -124,7 +124,7 @@
 
     // update the color of the text and the borders of an order based on the time passed
     function updateOrderColor(orderMainDiv, timePassedMinutes) {
-        // get the state the order should be in (success, warning or danger)
+        // get the state the order should be in ("success", "warning" or "danger")
         let newState;
         if (timePassedMinutes < timeThresholdsMinutes[0]) {
             newState = "success";
@@ -201,6 +201,8 @@
     function updateDisplayedOrders(JSONResponse) {
         const ordersContainer = document.querySelector("#page-content");
         const noOrdersMessageDiv = ordersContainer.querySelector("#no-orders-message");
+        // change the "no orders" message
+        noOrdersMessageDiv.textContent = "Aucune commande à préparer.";
         // get the list of all orders displayed on the page
         const displayedOrdersList = ordersContainer.querySelectorAll("div.row");
         // if the list of orders to prepare is empty ...
@@ -240,16 +242,11 @@
         }
     }
 
-    // request the list of new orders and update the displayed list
-    function updateOrders() {
-        const xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "/api/get/kitchen-orders");
-        xhttp.send();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                updateDisplayedOrders(JSON.parse(this.responseText));
-            }
-        };
+    async function updateOrders() {
+        const response = await fetch("/api/get-orders/<?= $place ?>");
+        if (response.ok) {
+            updateDisplayedOrders(await response.json());
+        }
     }
     updateOrders();
     setInterval(updateOrders, 5000);
@@ -272,43 +269,47 @@
         buttonClicked: null
     };
 
-    // open confirmation modal on "order ready" button click
+    // remember which "order ready" button was clicked
     function onReadyButtonClick(button) {
         // store a reference to the button
         storedData.buttonClicked = button;
     }
 
     // set an order to "ready" state on "OK" button click in confirmation modal
-    function onConfirmButtonClick() {
-        // disable the "order ready" button
-        storedData.buttonClicked.setAttribute("disabled", "");
+    async function onConfirmButtonClick() {
+        // disable every "order ready" buttons while waiting for the API response
+        document.querySelectorAll("#page-content > div.row button").forEach((button) => {
+            button.setAttribute("disabled", "");
+        });
         // make a FormData object to send via POST
         const formData = new FormData();
         formData.append("order-id", storedData.buttonClicked.parentElement.parentElement.dataset.orderId);
-        // send the order ID to be deleted to the API
-        const xhttp = new XMLHttpRequest();
-        xhttp.open("POST", "/api/set/order-ready");
-        xhttp.send(formData);
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                const JSONResponse = JSON.parse(this.responseText);
-                if (JSONResponse.success) {
-                    // remove the order from the list
-                    storedData.buttonClicked.parentElement.parentElement.remove();
-                    // allow the button to be garbage collected
-                    storedData.buttonClicked = null;
-                    // if there are no orders displayed ...
-                    if (document.querySelectorAll("#page-content > div.row").length === 0) {
-                        // display the "no orders" message
-                        document.querySelector("#no-orders-message").classList.remove("d-none");
-                    }
-                }
-                else {
-                    alert("Une erreur est survenue lors de l'envoi de la requête");
-                    storedData.buttonClicked.removeAttribute("disabled");
+        const response = await fetch("/api/set-order-ready", {
+            method: "POST",
+            body: formData
+        });
+        if (response.ok) {
+            const JSONResponse = await response.json();
+            if (JSONResponse.success) {
+                // remove the order from the list
+                storedData.buttonClicked.parentElement.parentElement.remove();
+                // if there are no orders displayed ...
+                if (document.querySelectorAll("#page-content > div.row").length === 0) {
+                    // display the "no orders" message
+                    document.querySelector("#no-orders-message").classList.remove("d-none");
                 }
             }
+            else {
+                alert("Une erreur est survenue lors du traitement de la requête");
+            }
         }
+        else {
+            alert("Une erreur est survenue lors de l'envoi de la requête");
+        }
+        // enable every "order ready" button
+        document.querySelectorAll("#page-content > div.row button").forEach((button) => {
+            button.removeAttribute("disabled");
+        });
     }
 </script>
 
