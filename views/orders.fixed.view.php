@@ -5,16 +5,16 @@
             <table class="table">
                 <tbody>
                     <tr class="order-number">
-                        <td class="text-end w-75">Numéro commande :</td>
-                        <th>41</th>
+                        <td class="text-end align-middle">Commande n°</td>
+                        <th class="fs-5 align-middle">41</th>
                     </tr>
-                    <tr class="table-number">
-                        <td class="text-end">Numéro table :</td>
-                        <th>8</th>
+                    <tr class="table-number align-middle">
+                        <td class="text-end">Table n°</td>
+                        <th class="fs-5 align-middle">8</th>
                     </tr>
-                    <tr class="time-passed">
-                        <td class="text-end">Commande passée il y a :</td>
-                        <th class="text-success-emphasis">16 min</th>
+                    <tr class="time-passed align-middle">
+                        <td class="text-end">Commande passée il y a</td>
+                        <th class="fs-5 align-middle text-success-emphasis">16 min</th>
                     </tr>
                 </tbody>
             </table>
@@ -90,7 +90,7 @@
     on page load :
         request the list of all orders to prepare in the specified place (API)
         if the list is not empty :
-            remove the "no orders" message
+            hide the "no orders" message
             display the list
     every 5 seconds :
         request the list of all orders to prepare in the specified place (API)
@@ -98,7 +98,7 @@
             remove all displayed order
             display the "no orders" message
         else :
-            remove the "no orders" message
+            hide the "no orders" message
             update the displayed list of orders
     every second :
         update the number of minutes that have passed since the order was created
@@ -168,11 +168,11 @@
         mainDiv.dataset.orderId = orderID;
         mainDiv.querySelector("tr.order-number th").textContent = orderID;
         // add the table number
-        mainDiv.querySelector("tr.table-number th").textContent = currentOrder["numero_table"];
+        mainDiv.querySelector("tr.table-number th").textContent = currentOrder.numero_table;
         // add the creation date
-        mainDiv.dataset.dateCreation = currentOrder["date_creation"];
+        mainDiv.dataset.dateCreation = currentOrder.date_creation;
         // add the time passed since the order was created
-        const timePassedMinutes = getTimePassedMinutes(currentOrder["date_creation"]);
+        const timePassedMinutes = getTimePassedMinutes(currentOrder.date_creation);
         mainDiv.querySelector("tr.time-passed th").textContent = `${timePassedMinutes} min`;
         // update the border and text color according to the time passed
         updateOrderColor(mainDiv, timePassedMinutes);
@@ -234,7 +234,7 @@
             });
             // for each order in the JSON response ...
             for (let orderID in JSONResponse) {
-                // if the order is not displayed, add it to the end of the list
+                // if the order is not displayed, display it
                 if (!displayedOrdersIDList.includes(orderID)) {
                     ordersContainer.append(generateOrderElement(orderID, JSONResponse));
                 }

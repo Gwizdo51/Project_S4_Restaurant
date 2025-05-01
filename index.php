@@ -12,14 +12,20 @@ require_once './lib/utils.php';
 $route = $_GET['route'];
 $route_regex_matches = [];
 // pages
-if ($route === '/fixe/cuisine') {
+if ($route === '/fixe') {
+    require_once './controllers/landing.fixed.controller.php';
+}
+else if ($route === '/fixe/cuisine') {
     require_once './controllers/kitchen_orders.fixed.controller.php';
 }
 else if ($route === '/fixe/bar') {
     require_once './controllers/bar_orders.fixed.controller.php';
 }
+else if ($route === '/fixe/bons') {
+    require_once './controllers/receipts.fixed.controller.php';
+}
 else if (preg_match('~^/fixe/bons/(\d+)$~u', $route, $route_regex_matches)) {
-    require_once './controllers/test_order_id.controller.php';
+    require_once './controllers/receipt_details.fixed.controller.php';
 }
 // API
 else if (preg_match('~^/api/get-orders/([a-z]+)$~u', $route, $route_regex_matches)) {
@@ -28,12 +34,15 @@ else if (preg_match('~^/api/get-orders/([a-z]+)$~u', $route, $route_regex_matche
 else if ($route === '/api/set-order-ready') {
     require_once './api/set_order_ready.api.php';
 }
+else if ($route === '/api/get-current-receipts') {
+    require_once './api/get_current_receipts.api.php';
+}
 // tests bootstrap
 else if ($route === '/test-bootstrap') {
-    require_once './views/test_bootstrap.php';
+    require_once './views/tests/test_bootstrap.php';
 }
 else if ($route === '/test-bootstrap-kitchen-orders') {
-    require_once './views/test_bootstrap_kitchen_orders.php';
+    require_once './views/tests/test_bootstrap_kitchen_orders.php';
 }
 // 404
 else {

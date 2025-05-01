@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cuisine</title>
     <!-- 🔹 Bootstrap CSS -->
-    <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -464,7 +464,7 @@
 
 
     <!-- 🔹 Bootstrap JS -->
-    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

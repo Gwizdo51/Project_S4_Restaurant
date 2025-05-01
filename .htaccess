@@ -6,7 +6,7 @@ RewriteEngine On
 # -> keep everything else the same
 
 # if attempting to access "/", redirect to "/commandes-cuisine" (visible)
-RewriteRule "^$" "/fixe/cuisine" [R]
+RewriteRule "^$" "/fixe" [R]
 
 # if attempting to access "/something/something-else", redirect to "/index.php?route=/something/something-else" (hidden)
 RewriteRule "^([a-zA-Z0-9/-]+)$" "/index.php?route=/$1" [PT]

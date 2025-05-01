@@ -2,17 +2,17 @@
 
 class Order {
     /* static methods:
-    - get all orders waiting for preparation in a specific place (kitchen or bar)
-    - set an order as ready to be collected
-    */
+     * - get all orders waiting for preparation in a specific place (kitchen or bar)
+     * - set an order as ready to be collected
+     */
 
     /**
-     * Returns the JSON containing all the orders to be prepared
+     * Returns the JSON-like array containing all the orders to be prepared
      * in a specific place (kitchen or bar)
      * @param string $place
-     * @return string
+     * @return array
      */
-    public static function get_all_orders_to_prepare($place): string {
+    public static function get_all_orders_to_prepare($place): array {
         // get all commands to be prepared in a specific place ("cuisine" or "bar")
         // informations to get : table number, list of items (labels + details), time of creation
         $db_connection = get_db_connection();
@@ -48,7 +48,6 @@ class Order {
         */
         $orders_array = [];
         while ($row = $result_cursor->fetch_assoc()) {
-            // var_dump_pre($row);
             $order_number = (int) $row['ID_commande'];
             // if the order number already exists in the array, add the item to the order
             if (array_key_exists($order_number, $orders_array)) {
@@ -72,7 +71,7 @@ class Order {
             }
         }
         $db_connection->close();
-        return json_encode($orders_array);
+        return $orders_array;
     }
 
     public static function set_order_to_ready($id): string {

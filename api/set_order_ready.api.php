@@ -1,5 +1,6 @@
 <?php
 
+// import the required models
 require_once './models/order.class.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

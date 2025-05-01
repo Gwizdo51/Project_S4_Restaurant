@@ -2,13 +2,12 @@
 
 // display the page
 // - header
-$tab_title = "Commandes bar - {$WEBSITE_TITLE}";
+$tab_title = "Accueil fixe - {$WEBSITE_TITLE}";
 require './views/header.inc.view.php';
 // - side navbar
-echo generate_navbar(2);
+echo generate_navbar(-1);
 // - page title
-$page_title = 'Commandes bar';
+$page_title = 'Accueil interface fixe';
 require './views/page_title.inc.fixed.view.php';
 // - page content
-$place = 'bar';
-require './views/orders.fixed.view.php';
+require './views/landing.fixed.view.php';

@@ -14,6 +14,7 @@ CREATE TABLE `bon` (
     ID_bon           INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
     date_creation    DATETIME NOT NULL DEFAULT NOW(),
     date_suppression DATETIME,
+    remise           DECIMAL(8,2) NOT NULL DEFAULT 0,
     ID_table         INTEGER UNSIGNED NOT NULL,
     ID_serveur       INTEGER UNSIGNED NOT NULL
 );
@@ -280,8 +281,8 @@ INSERT INTO `reserver` (ID_reservation, ID_table) VALUES
 (2, 15),
 (2, 16);
 
-INSERT INTO `bon` (ID_table, ID_serveur) VALUES
-(4, 3);
+INSERT INTO `bon` (ID_table, ID_serveur, remise) VALUES
+(4, 3, DEFAULT);
 
 INSERT INTO `etat_commande` (label_etat_commande) VALUES
 ("à préparer"),
