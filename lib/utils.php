@@ -15,24 +15,23 @@ function var_dump_pre($mixed): void {
  * @return string
  */
 function generate_navbar($index_active_tab): string {
-    global $SIDEBAR_CONF;
     $navbar_html = "<!-- side navigation bar -->\n"
                   ."<div class=\"col-2 vh-100 sticky-top overflow-y-auto p-3 bg-body-tertiary\">\n"
                   ."    <div class=\"fs-4 px-3\">Navigation</div>\n"
                   ."    <hr>\n"
                   ."    <ul class=\"nav nav-pills flex-column\">\n";
-    $sidebar_items = array_keys($SIDEBAR_CONF);
-    for ($index = 0; $index < sizeof($SIDEBAR_CONF); $index++) {
+    $sidebar_items = array_keys(SIDEBAR_CONF);
+    for ($index = 0; $index < sizeof(SIDEBAR_CONF); $index++) {
         if ($index === $index_active_tab) {
             $navbar_html .= "<li class=\"nav-item\">\n"
-                           ."    <a href=\"{$SIDEBAR_CONF[$sidebar_items[$index]]}\" class=\"nav-link active\" aria-current=\"page\">\n"
+                           .'    <a href="'.SIDEBAR_CONF[$sidebar_items[$index]]."\" class=\"nav-link active\" aria-current=\"page\">\n"
                            ."         {$sidebar_items[$index]}\n"
                            ."    </a>\n"
                            ."</li>\n";
         }
         else {
             $navbar_html .= "<li>\n"
-                           ."    <a href=\"{$SIDEBAR_CONF[$sidebar_items[$index]]}\" class=\"nav-link link-body-emphasis\">\n"
+                           .'    <a href="'.SIDEBAR_CONF[$sidebar_items[$index]]."\" class=\"nav-link link-body-emphasis\">\n"
                            ."         {$sidebar_items[$index]}\n"
                            ."    </a>\n"
                            ."</li>\n";

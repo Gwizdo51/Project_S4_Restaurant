@@ -49,7 +49,7 @@
         const currentReceipt = JSONResponse[receiptID];
         // clone the content from the receipt template
         const receiptElement = document.querySelector("#template-receipt").content.cloneNode(true);
-        const mainDiv = receiptElement.querySelector("div.row");
+        const mainDiv = receiptElement.firstElementChild;
         // add the order ID
         mainDiv.dataset.receiptId = receiptID;
         mainDiv.querySelector("strong.receipt-id").textContent = receiptID;

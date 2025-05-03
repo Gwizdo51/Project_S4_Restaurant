@@ -2,7 +2,7 @@
 
 // side navbar text and links
 // title => link
-$SIDEBAR_CONF = [
+const SIDEBAR_CONF = [
     'Accueil' => '/',
     'Cuisine' => '/fixe/cuisine',
     'Bar' => '/fixe/bar',
@@ -12,4 +12,4 @@ $SIDEBAR_CONF = [
     'Configuration' => '#'
 ];
 
-$WEBSITE_TITLE = 'Restaurant';
+const WEBSITE_TITLE = 'Restaurant';

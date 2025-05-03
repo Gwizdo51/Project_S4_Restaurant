@@ -9,4 +9,4 @@ RewriteEngine On
 RewriteRule "^$" "/fixe" [R]
 
 # if attempting to access "/something/something-else", redirect to "/index.php?route=/something/something-else" (hidden)
-RewriteRule "^([a-zA-Z0-9/-]+)$" "/index.php?route=/$1" [PT]
+RewriteRule "^([a-zA-Z\d/-]+)$" "/index.php?route=/$1" [PT]

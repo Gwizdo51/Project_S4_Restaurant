@@ -2,7 +2,7 @@
 
 // display the page
 // - header
-$tab_title = "Accueil fixe - {$WEBSITE_TITLE}";
+$tab_title = 'Accueil fixe - '.WEBSITE_TITLE;
 require './views/header.inc.view.php';
 // - side navbar
 echo generate_navbar(-1);

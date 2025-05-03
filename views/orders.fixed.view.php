@@ -163,7 +163,7 @@
         // clone the content from the order template
         const orderElement = document.querySelector("#template-order").content.cloneNode(true);
         const templateItem = document.querySelector("#template-item");
-        const mainDiv = orderElement.querySelector("div.row");
+        const mainDiv = orderElement.firstElementChild;
         // add the order ID
         mainDiv.dataset.orderId = orderID;
         mainDiv.querySelector("tr.order-number th").textContent = orderID;
@@ -180,7 +180,7 @@
         const orderedItemsContainer = mainDiv.querySelector("dl");
         currentOrder.items.forEach((item) => {
             // clone the content from the item template
-            let itemElement = document.querySelector("#template-item").content.cloneNode(true);
+            let itemElement = templateItem.content.cloneNode(true);
             // add the product label
             itemElement.querySelector("dt").textContent = item.label;
             // add the order details if there are any
@@ -243,7 +243,7 @@
     }
 
     async function updateOrders() {
-        const response = await fetch("/api/get-orders/<?= $place ?>");
+        const response = await fetch("/api/get-orders-to-prepare/<?= $id_place ?>");
         if (response.ok) {
             updateDisplayedOrders(await response.json());
         }

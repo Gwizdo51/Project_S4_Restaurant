@@ -49,7 +49,7 @@ CREATE TABLE `commande` (
 
 CREATE TABLE `etat_commande` (
     PRIMARY KEY (ID_etat_commande),
-    ID_etat_commande    INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    ID_etat_commande    INTEGER UNSIGNED NOT NULL,
     label_etat_commande VARCHAR(256) NOT NULL,
     -- deux états ne peuvent pas avoir le même label
     UNIQUE (label_etat_commande)
@@ -57,7 +57,7 @@ CREATE TABLE `etat_commande` (
 
 CREATE TABLE `etat_table` (
     PRIMARY KEY (ID_etat_table),
-    ID_etat_table    INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    ID_etat_table    INTEGER UNSIGNED NOT NULL,
     label_etat_table VARCHAR(256) NOT NULL,
     -- deux états ne peuvent pas avoir le même label
     UNIQUE (label_etat_table)
@@ -79,7 +79,7 @@ CREATE TABLE `item` (
 
 CREATE TABLE `lieu_preparation` (
     PRIMARY KEY (ID_lieu_preparation),
-    ID_lieu_preparation INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    ID_lieu_preparation INTEGER UNSIGNED NOT NULL,
     label_lieu          VARCHAR(256) NOT NULL,
     -- deux lieux ne peuvent pas avoir le même label
     UNIQUE (label_lieu)
@@ -167,7 +167,7 @@ CREATE TABLE `table` (
 
 CREATE TABLE `type_choix` (
     PRIMARY KEY (ID_type_choix),
-    ID_type_choix    INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    ID_type_choix    INTEGER UNSIGNED NOT NULL,
     label_type_choix VARCHAR(256) NOT NULL,
     -- deux types de choix ne peuvent pas avoir le même label
     UNIQUE (label_type_choix)
@@ -245,10 +245,10 @@ INSERT INTO `serveur` (nom, ID_secteur) VALUES
 ("Ines", 1),
 ("Marc", 2);
 
-INSERT INTO `etat_table` (label_etat_table) VALUES
-("disponible"),
-("occupée"),
-("à nettoyer");
+INSERT INTO `etat_table` (ID_etat_table, label_etat_table) VALUES
+(1, "disponible"),
+(2, "occupée"),
+(3, "à nettoyer");
 
 INSERT INTO `table` (numero, ID_secteur, ID_etat_table) VALUES
 (1, 1, 1),
@@ -284,14 +284,14 @@ INSERT INTO `reserver` (ID_reservation, ID_table) VALUES
 INSERT INTO `bon` (ID_table, ID_serveur, remise) VALUES
 (4, 3, DEFAULT);
 
-INSERT INTO `etat_commande` (label_etat_commande) VALUES
-("à préparer"),
-("prête"),
-("délivrée");
+INSERT INTO `etat_commande` (ID_etat_commande, label_etat_commande) VALUES
+(1, "à préparer"),
+(2, "prête"),
+(3, "délivrée");
 
-INSERT INTO `lieu_preparation` (label_lieu) VALUES
-("cuisine"),
-("bar");
+INSERT INTO `lieu_preparation` (ID_lieu_preparation, label_lieu) VALUES
+(1, "cuisine"),
+(2, "bar");
 
 INSERT INTO `commande` (ID_bon, ID_etat_commande, ID_lieu_preparation) VALUES
 (1, 1, 1),
@@ -324,9 +324,9 @@ INSERT INTO `item` (ID_commande, ID_produit, details) VALUES
 (3, 5, "Sans tomates"),
 (4, 2, "Glaçons : Avec");
 
-INSERT INTO `type_choix` (label_type_choix) VALUES
-("unique"),
-("multiple");
+INSERT INTO `type_choix` (ID_type_choix, label_type_choix) VALUES
+(1, "unique"),
+(2, "multiple");
 
 INSERT INTO `option_commande` (label_option, ID_type_choix) VALUES
 ("Cuisson", 1),
