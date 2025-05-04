@@ -42,45 +42,20 @@ function generate_navbar($index_active_tab): string {
 }
 
 /**
- * @param string $view_path
- * @param string $page_title
- * @return void
- */
-function display_view($view_path, $page_title): void {
-    echo "<!doctype html>\n"
-        ."<html lang=\"fr\">\n\n"
-        ."<head>\n"
-        ."    <title>{$page_title}</title>\n"
-        ."    <meta charset=\"utf-8\">\n"
-        ."    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
-        ."</head>\n\n"
-        ."<body>\n";
-    require $view_path;
-    echo "</body>\n\n"
-        ."</html>\n";
-}
-
-/**
- * @param string $content_view_path
- * @param string $tab_title
- * @param string $page_title
- * @param int $index_active_tab_navbar
- * @return void
- */
-function display_view_new($content_view_path, $tab_title, $page_title, $index_active_tab_navbar): void {
-    // include the header
-    require './views/header.inc.view.php';
-    // include the side navbar
-    echo generate_navbar($index_active_tab_navbar);
-    // include the page title
-    require './views/page_title.inc.view.php';
-    // include the page content
-    require $content_view_path;
-}
-
-/**
+ * Helper function to get a connection to the database
  * @return mysqli
  */
 function get_db_connection(): mysqli {
     return new mysqli('mysql_container', 'root', '123456789', 'esaip_s4_restaurant');
+}
+
+/**
+ * Sets up $_SESSION
+ * @return void
+ */
+function session_setup(): void {
+    if (count($_SESSION) === 0) {
+        // add the 'order_forms' array
+        $_SESSION['order_forms'] = [];
+    }
 }

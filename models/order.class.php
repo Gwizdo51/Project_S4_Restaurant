@@ -74,7 +74,11 @@ class Order {
         return $orders_array;
     }
 
-    public static function set_order_to_ready($id): string {
+    /**
+     * @param int $id
+     * @return bool[]
+     */
+    public static function set_order_to_ready($id): array {
         $db_connection = get_db_connection();
         // UPDATE `commande`
         // SET ID_etat_commande = 2
@@ -83,23 +87,27 @@ class Order {
                   SET ID_etat_commande = 2
                   WHERE ID_commande = {$id}";
         $result = $db_connection->query($query);
-        $result_json = $result ? '{"success": true}' : '{"success": false}';
+        $result_array = [];
+        $result_array['success'] = (bool) $result;
         $db_connection->close();
-        return $result_json;
+        return $result_array;
     }
 
     /**
      * Creates a new order in the database and returns the ID of the row created
      * @param int $id_receipt
      * @param int $id_place
+     * @param bool $new_order
      * @return int
      *   The ID of the newly created row
      */
-    public static function create_order_to_prepare($id_receipt, $id_place): int {
+    public static function create_order($id_receipt, $id_place, $new_order): int {
+        // set the order as "to prepare" or as "delivered" depending on $new_order
+        $id_order_state = $new_order ? 1 : 3;
         $db_connection = get_db_connection();
         // insert the new order
         $insert_query = "INSERT INTO `commande` (ID_bon, ID_etat_commande, ID_lieu_preparation) VALUES
-                         ({$id_receipt}, 1, {$id_place})";
+                         ({$id_receipt}, {$id_order_state}, {$id_place})";
         $db_connection->query($insert_query);
         // get the last inserted row id
         $id_query = 'SELECT LAST_INSERT_ID() `id`';

@@ -3,8 +3,17 @@
 class Item {
     private int $id_order;
     private int $id_product;
+    private string $product_label;
     private string $details;
     private int $id_place;
+
+    public function get_product_label(): string {
+        return $this->product_label;
+    }
+
+    public function get_details(): string {
+        return $this->details;
+    }
 
     /**
      * @param int $id_product
@@ -12,8 +21,9 @@ class Item {
      * @param int $id_place
      * @param int $id_order
      */
-    private function __construct($id_product, $details, $id_place, $id_order = -1) {
+    private function __construct($id_product, $product_label, $details, $id_place, $id_order = -1) {
         $this->id_product = $id_product;
+        $this->product_label = $product_label;
         $this->details = $details;
         $this->id_place = $id_place;
         $this->id_order = $id_order;

@@ -12,6 +12,6 @@
         <strong class="total fs-2"><?= $total ?> €</strong>
     </div>
     <div class="col-2 p-3 d-grid">
-        <a href="/fixe/bons/<?= $receipt_id ?>" type="button" class="btn btn-primary py-5">Détails</a>
+        <a href="/fixe/bons/<?= $receipt_id ?>" type="button" class="btn btn-primary py-5 fs-4">Détails</a>
     </div>
 </div>

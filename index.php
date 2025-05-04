@@ -6,7 +6,23 @@ require_once './lib/config.php';
 require_once './lib/utils.php';
 
 // session cookie
-// session_start();
+session_start();
+session_setup();
+// session_destroy();
+// var_dump_pre($_SESSION);
+
+// test - remove element from array
+// $test_array = [];
+// $test_array[] = 'a';
+// $test_array[] = 'b';
+// $test_array[] = 'c';
+// var_dump_pre($test_array);
+// unset($test_array[1]);
+// // the indices get messed up
+// var_dump_pre($test_array);
+// // reset the indices with "array_values"
+// $test_array = array_values($test_array);
+// var_dump_pre($test_array);
 
 // echo $_GET['route'];
 $route = $_GET['route'];
@@ -27,6 +43,17 @@ elseif ($route === '/fixe/bons') {
 elseif (preg_match('~^/fixe/bons/(\d+)$~u', $route, $route_regex_matches)) {
     require_once './controllers/receipt_details.fixed.controller.php';
 }
+elseif (preg_match('~^/fixe/bons/(\d+)/modifier-total$~u', $route, $route_regex_matches)) {
+    require_once './controllers/receipt_add_discount.fixed.controller.php';
+}
+elseif (preg_match('~^/fixe/bons/(\d+)/ajouter-produits-avec-commande$~u', $route, $route_regex_matches)) {
+    $form_session_name = FORM_SESSION_NAMES[0];
+    require_once './controllers/receipt_add_products_form.fixed.controller.php';
+}
+elseif (preg_match('~^/fixe/bons/(\d+)/ajouter-produits-sans-commande$~u', $route, $route_regex_matches)) {
+    $form_session_name = FORM_SESSION_NAMES[1];
+    require_once './controllers/receipt_add_products_form.fixed.controller.php';
+}
 // API
 elseif (preg_match('~^/api/get-orders-to-prepare/(\d+)$~u', $route, $route_regex_matches)) {
     require_once './api/get_orders_to_prepare.api.php';
@@ -39,10 +66,10 @@ elseif ($route === '/api/get-current-receipts') {
 }
 // tests bootstrap
 elseif ($route === '/test-bootstrap') {
-    require_once './views/tests/test_bootstrap.php';
+    require_once './views/tests/test_bootstrap.html';
 }
 elseif ($route === '/test-bootstrap-kitchen-orders') {
-    require_once './views/tests/test_bootstrap_kitchen_orders.php';
+    require_once './views/tests/test_bootstrap_kitchen_orders.html';
 }
 // 404
 else {

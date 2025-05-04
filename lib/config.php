@@ -13,3 +13,10 @@ const SIDEBAR_CONF = [
 ];
 
 const WEBSITE_TITLE = 'Restaurant';
+
+// $form_session_name possible values
+const FORM_SESSION_NAMES = [
+    'form_fixed_add_products_with_order',
+    'form_fixed_add_products_no_order',
+    'form_mobile_add_order'
+];

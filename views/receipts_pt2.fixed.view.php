@@ -1,21 +1,3 @@
-<!-- <div class="row border border-secondary border-2 rounded m-0 mb-3 bg-body">
-    <div class="col-3 p-3 d-flex flex-column justify-content-center align-items-center">
-        <div>Bon n°</div>
-        <strong class="fs-2">15</strong>
-    </div>
-    <div class="col-3 p-3 border-start border-end border-secondary border-2 d-flex flex-column justify-content-center align-items-center">
-        <div>Table n°</div>
-        <strong class="fs-2">8</strong>
-    </div>
-    <div class="col-4 p-3 border-end border-secondary border-2 d-flex flex-column justify-content-center align-items-center">
-        <div>Total</div>
-        <strong class="total fs-2">33,40 €</strong>
-    </div>
-    <div class="col-2 p-3 d-grid">
-        <a href="/fixe/bons/123" type="button" class="btn btn-primary py-5">Détails</a>
-    </div>
-</div> -->
-
 </div>
 <!-- end of page content -->
 
@@ -24,6 +6,9 @@
 </div>
 
 </main>
+
+<!-- 🔹 Bootstrap JS -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
 
 <script>
     "use strict";

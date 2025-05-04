@@ -23,7 +23,7 @@
             <dl class="list-group list-group-flush"></dl>
         </div>
         <div class="col-2 p-3 d-grid">
-            <button type="button" class="btn btn-primary" onclick="onReadyButtonClick(this)" data-bs-toggle="modal" data-bs-target="#confirmation-modal">Prête</button>
+            <button type="button" class="btn btn-primary fs-4" onclick="onReadyButtonClick(this);" data-bs-toggle="modal" data-bs-target="#confirmation-modal">Prête</button>
         </div>
     </div>
 </template>
@@ -36,7 +36,7 @@
     </div>
 </template>
 
-<!-- confirmation modal -->
+<!-- modal to confirm an order is ready -->
 <div class="modal fade" id="confirmation-modal" tabindex="-1" aria-labelledby="confirmation-modal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
@@ -54,7 +54,7 @@
                             <button type="button" class="btn btn-danger py-5 fs-4" data-bs-dismiss="modal">Annuler</button>
                         </div>
                         <div class="col-6 d-grid">
-                            <button type="button" class="btn btn-success py-5 fs-4" onclick="onConfirmButtonClick()" data-bs-dismiss="modal">OK</button>
+                            <button type="button" class="btn btn-success py-5 fs-4" onclick="onConfirmButtonClick();" data-bs-dismiss="modal">OK</button>
                         </div>
                     </div>
                 </div>

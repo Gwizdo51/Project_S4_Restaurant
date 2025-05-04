@@ -11,7 +11,7 @@ class Receipt {
      */
     public static function get_all_current_receipts_json(): array {
         $db_connection = get_db_connection();
-        $query = 'SELECT b.ID_bon, t.numero `numero_table`, SUM(p.prix) `total` FROM `bon` b
+        $query = 'SELECT b.ID_bon, t.numero `numero_table`, SUM(p.prix) - b.remise `total` FROM `bon` b
                   JOIN `table` t ON b.ID_table = t.ID_table
                   JOIN `commande` c ON b.ID_bon = c.ID_bon
                   JOIN `item` i ON c.ID_commande = i.ID_commande
@@ -50,7 +50,7 @@ class Receipt {
         $result_cursor = $db_connection->query($query);
         $row = $result_cursor->fetch_assoc();
         $receipt_details_array = [
-            'remise' => str_replace('.', ',', $row['remise']),
+            'remise' => str_replace('.', ',', sprintf("%.2f", - (float) $row['remise'])),
             'total' => str_replace('.', ',', $row['total']),
             'produits' => []
         ];
@@ -74,5 +74,53 @@ class Receipt {
         }
         $db_connection->close();
         return $receipt_details_array;
+    }
+
+    /**
+     * @param int $id
+     * @param float $amount
+     * @return bool[]
+     */
+    public static function set_discount($id, $amount): array {
+        $db_connection = get_db_connection();
+        $query = "UPDATE `bon`
+                  SET remise = {$amount}
+                  WHERE ID_bon = {$id}";
+        $result = $db_connection->query($query);
+        $result_array = [];
+        $result_array['success'] = (bool) $result;
+        $db_connection->close();
+        return $result_array;
+    }
+
+    /**
+     * @param int $id
+     * @return bool[]
+     */
+    public static function set_to_payed($id): array {
+        $db_connection = get_db_connection();
+        $result_array = [
+            'successQuery1' => false,
+            'successQuery2' => false
+        ];
+        // add a deletion date to the receipt
+        $query_1 = "UPDATE `bon`
+                    SET date_suppression = NOW()
+                    WHERE ID_bon = {$id}";
+        $result_array['successQuery1'] = (bool) $db_connection->query($query_1);
+        if (!$result_array['successQuery1']) {
+            $db_connection->close();
+            return $result_array;
+        }
+        // set the associated table to "to clean"
+        $query_2 = "UPDATE `table`
+                    SET ID_etat_table = 3
+                    WHERE ID_table = (
+                        SELECT ID_table FROM `bon`
+                        WHERE ID_bon = {$id}
+                    )";
+        $result_array['successQuery2'] = (bool) $db_connection->query($query_2);
+        $db_connection->close();
+        return $result_array;
     }
 }
