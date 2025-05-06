@@ -9,7 +9,7 @@
                 <input type="submit" class="btn btn-primary fs-4 py-4 ms-2 me-2 text-wrap" name="add_product" value="Ajouter produit">
             </div>
             <div class="col-4 p-0 d-grid">
-                <button type="button" class="btn btn-success fs-4 py-4 ms-2" data-bs-toggle="modal" data-bs-target="#confirmation-modal-confirm">Valider</button>
+                <button type="button" class="btn btn-success fs-4 py-4 ms-2" data-bs-toggle="modal" data-bs-target="#confirmation-modal-confirm"<?= $disable_confirm_button ?>>Valider</button>
             </div>
         </div>
     </div>

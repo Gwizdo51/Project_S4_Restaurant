@@ -22,7 +22,6 @@ class Receipt {
         $result_cursor = $db_connection->query($query);
         $receipts_array = [];
         while ($row = $result_cursor->fetch_assoc()) {
-            // var_dump_pre($row);
             $receipts_array[(int) $row['ID_bon']] = [
                 'numero_table' => $row['numero_table'],
                 'total' => str_replace('.', ',', $row['total'])

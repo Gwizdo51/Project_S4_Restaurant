@@ -303,7 +303,7 @@ INSERT INTO `categorie` (label_categorie) VALUES
 ("Softs"),
 ("Vins"),
 ("Entrées"),
-("Pizzas"),
+("Plats"),
 ("Desserts");
 
 INSERT INTO `produit` (label_produit, prix, ID_categorie, ID_lieu_preparation) VALUES

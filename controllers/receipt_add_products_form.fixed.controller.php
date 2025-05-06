@@ -2,6 +2,7 @@
 
 // import the order form model
 require_once './models/order_form_fixed.class.php';
+require_once './models/product.class.php';
 
 $id_receipt = $route_regex_matches[1];
 
@@ -42,7 +43,16 @@ else {
             // display the sumup view
             $order_form_items_list = $order_form->get_items_list();
             // - part 1
-            $display_no_items_message = count($order_form_items_list) === 0 ? '' : ' d-none';
+            if (count($order_form_items_list) === 0) {
+                $display_no_items_message = '';
+                $display_columns_title = ' d-none';
+                $disable_confirm_button = ' disabled';
+            }
+            else {
+                $display_no_items_message = ' d-none';
+                $display_columns_title = '';
+                $disable_confirm_button = '';
+            }
             require './views/receipt_add_products_form_sumup_pt1.fixed.view.php';
             // - list of items
             // foreach ($order_form_items_list as $item) {
@@ -56,12 +66,72 @@ else {
             require './views/receipt_add_products_form_sumup_pt2.fixed.view.php';
             break;
         case 1:
-            // ...
-            require './views/receipt_add_products_form_select_product.fixed.view.php';
+            // get the list of categories and products from the database
+            $products_array = Product::get_all_products_by_category_json();
+            // display the product selection view
+            // - part 1
+            require './views/receipt_add_products_form_select_product_pt1.fixed.view.php';
+            // - list of categories and items
+            foreach (array_keys($products_array) as $category_label) {
+                // add the category name
+                // <h3 class="mt-3 mx-3 ps-3">• Softs</h3>
+                // <div class="row mx-2">
+                echo "<h3 class=\"mt-3 mx-3 ps-3\">• {$category_label}</h3>\n<div class=\"row mx-2\">\n";
+                foreach ($products_array[$category_label] as $product_array) {
+                    // add the product button
+                    $product_id = $product_array['id'];
+                    $product_label = $product_array['label'];
+                    require './views/templates/receipt_add_products_form_product.template.fixed.view.php';
+                }
+                echo "</div>\n";
+            }
+            // - part 2
+            require './views/receipt_add_products_form_select_product_pt2.fixed.view.php';
             break;
         case 2:
-            // ...
-            require './views/receipt_add_products_form_product_details.fixed.view.php';
+            // get the product order options from the form
+            $product_order_options_array = $order_form->get_current_order_options();
+            // display the product details view
+            // - part 1
+            $product_label = $order_form->get_current_product_json()['label'];
+            $display_no_options_message = count($product_order_options_array) === 0 ? '' : ' d-none';
+            require './views/receipt_add_products_form_product_details_pt1.fixed.view.php';
+            // - list of order options
+            foreach (array_keys($product_order_options_array) as $option_id) {
+                $option_array = $product_order_options_array[$option_id];
+                $option_label = $option_array['label'];
+                $choice_type_id = $option_array['id_type_choix'];
+                require './views/templates/receipt_add_products_form_option.template.fixed.view.php';
+                $choices_array = $option_array['choix'];
+                $is_first_choice = true;
+                foreach (array_keys($choices_array) as $choice_id) {
+                    $choice_label = $choices_array[$choice_id];
+                    if ($choice_type_id === 1) {
+                        // radio buttons
+                        $type = 'radio';
+                        if ($is_first_choice) {
+                            $checked = ' checked';
+                            $is_first_choice = false;
+                        }
+                        else {
+                            $checked = '';
+                        }
+                        $name = $option_id;
+                        $value = $choice_id;
+                    }
+                    else {
+                        // checkboxes
+                        $type = 'checkbox';
+                        $checked = '';
+                        $name = "{$option_id}_{$choice_id}";
+                        $value = '';
+                    }
+                    require './views/templates/receipt_add_products_form_choice.template.fixed.view.php';
+                }
+                echo "</div>\n</div>\n</div>\n";
+            }
+            // - part 2
+            require './views/receipt_add_products_form_product_details_pt2.fixed.view.php';
             break;
         default:
             throw new RuntimeException("This error should never be thrown");

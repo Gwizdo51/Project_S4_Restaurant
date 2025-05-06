@@ -8,8 +8,8 @@ require_once './lib/utils.php';
 // session cookie
 session_start();
 session_setup();
-// session_destroy();
 // var_dump_pre($_SESSION);
+// session_destroy();
 
 // test - remove element from array
 // $test_array = [];

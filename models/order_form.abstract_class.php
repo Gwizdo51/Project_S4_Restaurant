@@ -2,6 +2,7 @@
 
 require_once './models/order.class.php';
 require_once './models/item.class.php';
+require_once './models/product.class.php';
 
 abstract class OrderForm {
 
@@ -15,7 +16,7 @@ abstract class OrderForm {
      * @var Item[]
      */
     protected array $items_list = [];
-    protected int $current_product_id;
+    protected array $current_product_json;
     protected array $current_order_options;
     protected int $step = 0;
 
@@ -28,6 +29,14 @@ abstract class OrderForm {
      */
     public function get_items_list(): array {
         return $this->items_list;
+    }
+
+    public function get_current_order_options(): array {
+        return $this->current_order_options;
+    }
+
+    public function get_current_product_json(): array {
+        return $this->current_product_json;
     }
 
     /**
@@ -172,10 +181,41 @@ abstract class OrderForm {
 
     /**
      * Summary of generate_details_string
-     * @param array $details_data
+     * @param string[] $post_array
      * @return string
      */
-    protected static function generate_details_string($details_data): string {
-        return '';
+    protected function generate_details_string($post_array): string {
+        $item_details_string_list = [];
+        foreach (array_keys($this->current_order_options) as $option_id) {
+            $order_option_array = $this->current_order_options[$option_id];
+            $item_details = "{$order_option_array['label']} : ";
+            if ($order_option_array['id_type_choix'] === 1) {
+                // unique choice -> get the selected choice in the POST array
+                $item_details .= $order_option_array['choix'][(int) $post_array[$option_id]];
+            }
+            else {
+                // multiple choices
+                $at_least_one_choice_selected = false;
+                $selected_choices_strings_array = [];
+                foreach (array_keys($post_array) as $post_array_key) {
+                    $regex_matches = [];
+                    if (preg_match("~^{$option_id}_(\d+)$~u", $post_array_key, $regex_matches)) {
+                        $at_least_one_choice_selected = true;
+                        $selected_choices_strings_array[] = $order_option_array['choix'][(int) $regex_matches[1]];
+                    }
+                }
+                if (!$at_least_one_choice_selected) {
+                    $selected_choices_strings_array[] = 'Aucun(e)';
+                }
+                $item_details .= implode(', ', $selected_choices_strings_array);
+            }
+            $item_details_string_list[] = $item_details;
+        }
+        // add the user input details
+        $details = trim($post_array['details']);
+        if (strlen($details) !== 0) {
+            $item_details_string_list[] = $details;
+        }
+        return implode('<br>', $item_details_string_list);
     }
 }

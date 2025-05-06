@@ -5,7 +5,7 @@
 <hr class="mx-3 mt-0">
 
 <!-- columns description -->
-<div class="row mx-3 mb-3 text-secondary">
+<div class="row mx-3 mb-3 text-secondary<?= $display_columns_title ?>">
     <div class="col-4 px-3">Label du produit</div>
     <div class="col-6 px-3">Détails</div>
 </div>

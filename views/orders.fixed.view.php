@@ -186,7 +186,7 @@
             // add the order details if there are any
             let detailsElement = itemElement.querySelector("dd");
             if (item.details.length !== 0) {
-                detailsElement.textContent = item.details;
+                detailsElement.innerHTML = item.details;
             }
             else {
                 detailsElement.remove();

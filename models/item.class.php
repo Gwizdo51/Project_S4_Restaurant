@@ -7,21 +7,14 @@ class Item {
     private string $details;
     private int $id_place;
 
-    public function get_product_label(): string {
-        return $this->product_label;
-    }
-
-    public function get_details(): string {
-        return $this->details;
-    }
-
     /**
      * @param int $id_product
+     * @param string $product_label
      * @param string $details
      * @param int $id_place
      * @param int $id_order
      */
-    private function __construct($id_product, $product_label, $details, $id_place, $id_order = -1) {
+    public function __construct($id_product, $product_label, $details, $id_place, $id_order = -1) {
         $this->id_product = $id_product;
         $this->product_label = $product_label;
         $this->details = $details;
@@ -41,6 +34,14 @@ class Item {
         return $this->id_place;
     }
 
+    public function get_product_label(): string {
+        return $this->product_label;
+    }
+
+    public function get_details(): string {
+        return $this->details;
+    }
+
     /**
      * Saves the item in the database and returns the ID of the created row
      * @return int
@@ -48,7 +49,7 @@ class Item {
     public function save_to_db(): int {
         $db_connection = get_db_connection();
         $insert_query = "INSERT INTO `item` (ID_commande, ID_produit, details) VALUES
-                         ({$this->id_order}, {$this->id_product}, `{$this->details}`)";
+                         ({$this->id_order}, {$this->id_product}, '{$this->details}')";
         $db_connection->query($insert_query);
         // get the last inserted row id
         $id_query = 'SELECT LAST_INSERT_ID() `id`';
