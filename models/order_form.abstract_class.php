@@ -212,7 +212,7 @@ abstract class OrderForm {
             $item_details_string_list[] = $item_details;
         }
         // add the user input details
-        $details = trim($post_array['details']);
+        $details = sanitize_input($post_array['details']);
         if (strlen($details) !== 0) {
             $item_details_string_list[] = $details;
         }

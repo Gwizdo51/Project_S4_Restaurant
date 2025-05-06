@@ -59,3 +59,14 @@ function session_setup(): void {
         $_SESSION['order_forms'] = [];
     }
 }
+
+/**
+ * @param string $input
+ * @return string
+ */
+function sanitize_input($input): string {
+    $input = trim($input);
+    $input = stripslashes($input);
+    $input = htmlspecialchars($input);
+    return $input;
+}
