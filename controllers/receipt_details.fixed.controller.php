@@ -6,7 +6,7 @@ require_once './models/receipt.class.php';
 $id_receipt = $route_regex_matches[1];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (array_key_exists('confirmPayment', $_POST)) {
+    if (array_key_exists('confirm_payment', $_POST)) {
         // set the receipt as "payed" in the database
         $result_array = Receipt::set_to_payed($id_receipt);
         if ($result_array['successQuery1'] and $result_array['successQuery2']) {

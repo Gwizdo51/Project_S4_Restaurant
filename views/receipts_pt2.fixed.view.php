@@ -95,7 +95,28 @@
             updateDisplayedReceipts(await response.json());
         }
     }
-    setInterval(updateReceipts, 5000);
+
+    // update receipts
+    let idTimerUpdateOrders;
+    document.onreadystatechange = () => {
+        // on DOM content loaded
+        if (document.readyState === "interactive") {
+            idTimerUpdateOrders = setInterval(updateReceipts, 5000);
+        }
+    };
+
+    // disable page updates when it is not visible
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+            // stop requesting receipts updates
+            clearInterval(idTimerUpdateOrders);
+        }
+        else {
+            // restart requesting receipts updates
+            updateReceipts();
+            idTimerUpdateOrders = setInterval(updateReceipts, 5000);
+        }
+    });
 </script>
 
 </body>

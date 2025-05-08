@@ -46,6 +46,7 @@ abstract class OrderForm {
      */
     protected function remove_item($index): void {
         unset($this->items_list[$index]);
+        // reset the array indices
         $this->items_list = array_values($this->items_list);
     }
 

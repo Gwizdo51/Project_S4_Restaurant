@@ -90,30 +90,31 @@
 
 <!-- controls -->
 <div class="row m-0 px-3 pb-3 sticky-bottom">
-    <div class="col-12 bg-body-tertiary border border-secondary rounded">
-        <div class="row p-3">
-            <div class="col-5 p-0 d-grid">
-                <a href="/fixe/bons/<?= $id_receipt ?>/ajouter-produits-avec-commande" type="button" class="btn btn-warning py-4 fs-4 d-flex justify-content-center align-items-center<?= $disable_add_products_with_order_button ?>">Ajouter produits avec commande</a>
+    <!-- <div class="col-12 bg-body-tertiary border border-secondary rounded p-2 m-0" style="max-height: 25vh"> -->
+    <div class="col-12 bg-body-tertiary border border-secondary rounded p-2 m-0">
+        <div class="row m-0">
+            <div class="col-5 p-2 d-grid">
+                <a href="/fixe/bons/<?= $id_receipt ?>/ajouter-produits-avec-commande" type="button" class="btn btn-warning fs-4 py-4 d-flex justify-content-center align-items-center<?= $disable_add_products_with_order_button ?>">Ajouter produits avec commande</a>
             </div>
-            <div class="col-3 p-0 d-grid">
-                <a href="/fixe/bons/<?= $id_receipt ?>/modifier-total" type="button" class="btn btn-secondary py-4 ms-3 fs-4 d-flex justify-content-center align-items-center">Modifier le total</a>
+            <div class="col-3 p-2 d-grid">
+                <a href="/fixe/bons/<?= $id_receipt ?>/modifier-total" type="button" class="btn btn-secondary fs-4 py-4 d-flex justify-content-center align-items-center">Modifier le total</a>
             </div>
-            <div class="col-4 p-0 d-grid">
-                <div class="border border-info-subtle rounded ms-3 d-flex flex-column justify-content-center align-items-center">
+            <div class="col-4 p-2 d-grid">
+                <div class="border border-info-subtle rounded d-flex flex-column justify-content-center align-items-center">
                     <div>Total à payer</div>
                     <strong class="total fs-2"><?= $receipt_total ?> €</strong>
                 </div>
             </div>
         </div>
-        <div class="row px-3 pb-3">
-            <div class="col-5 p-0 d-grid">
+        <div class="row m-0">
+            <div class="col-5 p-2 d-grid">
                 <a href="/fixe/bons/<?= $id_receipt ?>/ajouter-produits-sans-commande" type="button" class="btn btn-warning py-4 fs-4 d-flex justify-content-center align-items-center<?= $disable_add_products_no_order_button ?>">Ajouter produits sans commande</a>
             </div>
-            <div class="col-3 p-0 d-grid">
-                <a href="/fixe/bons" type="button" class="btn btn-danger py-4 ms-3 fs-4 d-flex justify-content-center align-items-center">Retour</a>
+            <div class="col-3 p-2 d-grid">
+                <a href="/fixe/bons" type="button" class="btn btn-danger py-4 fs-4 d-flex justify-content-center align-items-center">Retour</a>
             </div>
-            <div class="col-4 p-0 d-grid">
-                <button type="button" class="btn btn-success py-4 ms-3 fs-4 d-flex justify-content-center align-items-center" data-bs-toggle="modal" data-bs-target="#confirmation-modal">Valider le paiement</button>
+            <div class="col-4 p-2 d-grid">
+                <button type="button" class="btn btn-success py-4 fs-4 d-flex justify-content-center align-items-center" data-bs-toggle="modal" data-bs-target="#confirmation-modal">Valider le paiement</button>
             </div>
         </div>
     </div>
@@ -147,7 +148,7 @@
                         </div>
                         <div class="col-6">
                             <form method="POST" class="d-grid">
-                                <input type="submit" class="btn btn-success py-5 fs-4" name="confirmPayment" value="OK">
+                                <input type="submit" class="btn btn-success py-5 fs-4" name="confirm_payment" value="OK">
                             </form>
                         </div>
                     </div>

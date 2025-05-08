@@ -114,6 +114,15 @@
             display the "no orders" message
     */
 
+    // global object to store data
+    const storedData = {
+        // which button was clicked
+        buttonClicked: null,
+        // the id of the timers
+        idTimerUpdateOrders: null,
+        idTimerUpdateOrdersStates: null
+    };
+
     // get the number of minutes that passed since a given datetime
     function getTimePassedMinutes(date) {
         return Math.floor((Date.now() - Date.parse(date)) / 60000);
@@ -248,8 +257,6 @@
             updateDisplayedOrders(await response.json());
         }
     }
-    updateOrders();
-    setInterval(updateOrders, 5000);
 
     // update the amount of minutes passed and the state of each displayed orders
     function updateOrdersStates() {
@@ -262,12 +269,6 @@
             updateOrderColor(orderElement, timePassedMinutes);
         });
     }
-    setInterval(updateOrdersStates, 1000);
-
-    // global object to remember which button was clicked
-    const storedData = {
-        buttonClicked: null
-    };
 
     // remember which "order ready" button was clicked
     function onReadyButtonClick(button) {
@@ -311,6 +312,38 @@
             button.removeAttribute("disabled");
         });
     }
+
+    // schedule update functions when the DOM is loaded
+    // https://developer.mozilla.org/en-US/docs/Web/API/Document/readyState
+    document.onreadystatechange = () => {
+        // on DOM content loaded
+        if (document.readyState === "interactive") {
+            updateOrders();
+            storedData.idTimerUpdateOrders = setInterval(updateOrders, 5000);
+            storedData.idTimerUpdateOrdersStates = setInterval(updateOrdersStates, 1000);
+        }
+    };
+
+    // disable page updates when it is not visible
+    // https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
+    document.addEventListener("visibilitychange", () => {
+        // if the window becomes hidden ...
+        if (document.hidden) {
+            // stop requesting new orders
+            clearInterval(storedData.idTimerUpdateOrders);
+            // stop updating the orders States
+            clearInterval(storedData.idTimerUpdateOrdersStates);
+        }
+        // otherwise ...
+        else {
+            // restart requesting new orders
+            updateOrders();
+            storedData.idTimerUpdateOrders = setInterval(updateOrders, 5000);
+            // restart updating the orders states
+            updateOrdersStates();
+            storedData.idTimerUpdateOrdersStates = setInterval(updateOrdersStates, 1000);
+        }
+    });
 </script>
 
 </body>
