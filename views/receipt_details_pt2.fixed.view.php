@@ -120,14 +120,14 @@
     </div>
 </div>
 
-</div>
+</main>
 <!-- end of page content -->
 
 </div>
 
 </div>
 
-</main>
+</div>
 
 <!-- modal to confirm a receipt has been payed -->
 <div class="modal fade" id="confirmation-modal" tabindex="-1" aria-labelledby="confirmation-modal" aria-hidden="true">

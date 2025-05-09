@@ -23,7 +23,7 @@
             <dl class="list-group list-group-flush"></dl>
         </div>
         <div class="col-2 p-3 d-grid">
-            <button type="button" class="btn btn-primary fs-4" onclick="onReadyButtonClick(this);" data-bs-toggle="modal" data-bs-target="#confirmation-modal">Prête</button>
+            <button type="button" class="btn btn-primary fs-4" onclick="storedData.buttonClicked = this;" data-bs-toggle="modal" data-bs-target="#confirmation-modal">Prête</button>
         </div>
     </div>
 </template>
@@ -64,21 +64,21 @@
 </div>
 
 <!-- page content -->
-<div id="page-content" class="bg-body-tertiary px-3 pt-3 mb-3 rounded d-flex flex-column">
+<main id="page-content" class="bg-body-tertiary px-3 pt-3 mb-3 rounded d-flex flex-column">
 
 <!-- display a message when there are no orders to display -->
 <div id="no-orders-message" class="fs-4 text-center mb-3 text-secondary">
     Chargement des commandes ...
 </div>
 
-</div>
+</main>
 <!-- end of page content -->
 
 </div>
 
 </div>
 
-</main>
+</div>
 
 <!-- 🔹 Bootstrap JS -->
 <script src="/assets/js/bootstrap.bundle.min.js"></script>
@@ -271,10 +271,10 @@
     }
 
     // remember which "order ready" button was clicked
-    function onReadyButtonClick(button) {
-        // store a reference to the button
-        storedData.buttonClicked = button;
-    }
+    // function onReadyButtonClick(button) {
+    //     // store a reference to the button
+    //     storedData.buttonClicked = button;
+    // }
 
     // set an order to "ready" state on "OK" button click in confirmation modal
     async function onConfirmButtonClick() {

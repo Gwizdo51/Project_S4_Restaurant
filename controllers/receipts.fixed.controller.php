@@ -8,7 +8,7 @@ $receipts_array = Receipt::get_all_current_receipts_json();
 
 // display the page
 // - header
-$tab_title = 'Bons - '.WEBSITE_TITLE;
+$tab_title = 'Bons de commande - '.WEBSITE_TITLE;
 require './views/header.inc.view.php';
 // - side navbar
 echo generate_navbar(3);

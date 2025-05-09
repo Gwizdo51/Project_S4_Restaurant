@@ -1,5 +1,5 @@
 <!-- page content -->
-<div id="page-content" class="bg-body-tertiary rounded mt-3 d-flex flex-column">
+<main id="page-content" class="bg-body-tertiary rounded mt-3 d-flex flex-column">
 
 <h3 class="m-3 pb-1 text-center"><?= $product_label ?></h3>
 <hr class="mx-3 mt-0">

@@ -9,6 +9,6 @@
 </head>
 <body>
 
-<main class="container-xxl">
+<div class="container-xxl">
 
 <div class="row">

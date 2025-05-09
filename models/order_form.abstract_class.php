@@ -206,7 +206,7 @@ abstract class OrderForm {
                     }
                 }
                 if (!$at_least_one_choice_selected) {
-                    $selected_choices_strings_array[] = 'Aucun(e)';
+                    $selected_choices_strings_array[] = '-';
                 }
                 $item_details .= implode(', ', $selected_choices_strings_array);
             }

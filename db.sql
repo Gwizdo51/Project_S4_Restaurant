@@ -273,8 +273,8 @@ INSERT INTO `table` (numero, ID_secteur, ID_etat_table) VALUES
 (20, 4, 1);
 
 INSERT INTO `reservation` (nom_client, date, nombre_personnes, notes) VALUES
-("Anderson", "2025-04-10 20:15:00", 2, DEFAULT),
-("Smith", "2025-04-15 12:30:00", 8, "un bébé");
+("Anderson", "2025-05-09 20:15:00", 2, DEFAULT),
+("Smith", "2025-05-10 12:30:00", 8, "un bébé");
 
 INSERT INTO `reserver` (ID_reservation, ID_table) VALUES
 (1, 10),

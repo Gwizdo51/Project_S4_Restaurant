@@ -54,6 +54,9 @@ elseif (preg_match('~^/fixe/bons/(\d+)/ajouter-produits-sans-commande$~u', $rout
     $form_session_name = FORM_SESSION_NAMES[1];
     require_once './controllers/receipt_add_products_form.fixed.controller.php';
 }
+elseif ($route === '/fixe/reservations') {
+    require_once './controllers/reservations.fixed.controller.php';
+}
 // API
 elseif (preg_match('~^/api/get-orders-to-prepare/(\d+)$~u', $route, $route_regex_matches)) {
     require_once './api/get_orders_to_prepare.api.php';
@@ -63,6 +66,9 @@ elseif ($route === '/api/set-order-ready') {
 }
 elseif ($route === '/api/get-current-receipts') {
     require_once './api/get_current_receipts.api.php';
+}
+elseif ($route === '/api/cancel-reservation') {
+    require_once './api/cancel_reservation.api.php';
 }
 // tests bootstrap
 elseif ($route === '/test-bootstrap') {

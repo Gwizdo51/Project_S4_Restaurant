@@ -1,5 +1,5 @@
 <!-- page content -->
-<div id="page-content" class="bg-body-tertiary rounded mt-3">
+<main id="page-content" class="bg-body-tertiary rounded mt-3">
 
     <form method="POST" class="d-flex flex-column">
 
@@ -43,14 +43,14 @@
 
     </form>
 
-</div>
+</main>
 <!-- end of page content -->
 
 </div>
 
 </div>
 
-</main>
+</div>
 
 <!-- 🔹 Bootstrap JS -->
 <script src="/assets/js/bootstrap.bundle.min.js"></script>

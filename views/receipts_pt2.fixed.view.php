@@ -1,11 +1,11 @@
-</div>
+</main>
 <!-- end of page content -->
 
 </div>
 
 </div>
 
-</main>
+</div>
 
 <!-- 🔹 Bootstrap JS -->
 <script src="/assets/js/bootstrap.bundle.min.js"></script>

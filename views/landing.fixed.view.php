@@ -1,5 +1,5 @@
 <!-- page content -->
-<div id="page-content" class="bg-body-tertiary rounded p-3">
+<main id="page-content" class="bg-body-tertiary rounded p-3">
     <div class="fs-4 mb-3">
         Cliquez sur un onglet pour accéder à l'interface désirée :
     </div>
@@ -19,14 +19,14 @@
             </ul>
         </li>
     </ul>
-</div>
+</main>
 <!-- end of page content -->
 
 </div>
 
 </div>
 
-</main>
+</div>
 
 <!-- 🔹 Bootstrap JS -->
 <script src="/assets/js/bootstrap.bundle.min.js"></script>

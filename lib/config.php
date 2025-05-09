@@ -7,7 +7,7 @@ const SIDEBAR_CONF = [
     'Cuisine' => '/fixe/cuisine',
     'Bar' => '/fixe/bar',
     'Bons' => '/fixe/bons',
-    'Réservations' => '#',
+    'Réservations' => '/fixe/reservations',
     'Dashboard' => '#',
     'Configuration' => '#'
 ];
