@@ -1,6 +1,6 @@
 <!-- order template -->
 <template id="template-order">
-    <div class="row border border-success border-2 rounded m-0 mb-3 bg-body" data-order-id="" data-date-creation="" data-state="success">
+    <div class="row border border-success border-2 rounded mb-3 mx-3 bg-body" data-order-id="" data-date-creation="" data-state="success">
         <div class="col-4 p-3">
             <table class="table">
                 <tbody>
@@ -64,7 +64,7 @@
 </div>
 
 <!-- page content -->
-<main id="page-content" class="bg-body-tertiary px-3 pt-3 mb-3 rounded d-flex flex-column">
+<main id="page-content" class="bg-body-tertiary mt-3 pt-3 rounded flex-grow-1">
 
 <!-- display a message when there are no orders to display -->
 <div id="no-orders-message" class="fs-4 text-center mb-3 text-secondary">

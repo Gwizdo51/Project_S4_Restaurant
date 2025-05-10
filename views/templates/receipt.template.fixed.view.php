@@ -1,4 +1,4 @@
-<div class="row border border-secondary border-2 rounded m-0 mb-3 bg-body" data-receipt-id="<?= $receipt_id ?>">
+<div class="row border border-secondary border-2 rounded mb-3 mx-3 bg-body" data-receipt-id="<?= $receipt_id ?>">
     <div class="col-3 p-3 d-flex flex-column justify-content-center align-items-center">
         <div>Bon n°</div>
         <strong class="receipt-id fs-2"><?= $receipt_id ?></strong>

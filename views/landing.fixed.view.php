@@ -1,5 +1,5 @@
 <!-- page content -->
-<main id="page-content" class="bg-body-tertiary rounded p-3">
+<main id="page-content" class="bg-body-tertiary rounded mt-3 p-3 flex-grow-1">
     <div class="fs-4 mb-3">
         Cliquez sur un onglet pour accéder à l'interface désirée :
     </div>

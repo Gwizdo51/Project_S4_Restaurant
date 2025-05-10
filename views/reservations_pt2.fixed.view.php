@@ -1,5 +1,5 @@
 <!-- controls -->
-<div class="row pb-3 mx-3 rounded sticky-bottom justify-content-center pe-none">
+<div class="row pb-3 mx-3 mb-0 mt-auto rounded sticky-bottom justify-content-center pe-none">
     <div class="col-4 bg-body-tertiary border border-secondary rounded p-3 d-grid pe-auto">
         <a href="/fixe/reservations/nouvelle-reservation" type="button" class="btn btn-secondary fs-4 py-4">Ajouter une réservation</a>
     </div>

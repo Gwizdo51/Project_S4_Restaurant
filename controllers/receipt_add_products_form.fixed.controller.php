@@ -76,7 +76,7 @@ else {
                 // add the category name
                 // <h3 class="mt-3 mx-3 ps-3">• Softs</h3>
                 // <div class="row mx-2">
-                echo "<h3 class=\"mt-3 mx-3 ps-3\">• {$category_label}</h3>\n<div class=\"row mx-2\">\n";
+                echo "<h3 class=\"mb-2 mx-3 ps-3\">• {$category_label}</h3>\n<div class=\"row mx-2 mb-2\">\n";
                 foreach ($products_array[$category_label] as $product_array) {
                     // add the product button
                     $product_id = $product_array['id'];

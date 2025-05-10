@@ -1,14 +1,14 @@
 <!-- page content -->
-<main id="page-content" class="bg-body-tertiary rounded mt-3 d-flex flex-column">
+<main id="page-content" class="bg-body-tertiary rounded mt-3 pt-3 d-flex flex-column flex-grow-1">
 
 <!-- display a message when there are no reservation to display -->
-<div id="no-reservations-message" class="fs-4 text-center m-3 text-secondary<?= $display_no_reservations_message ?>">
+<div id="no-reservations-message" class="fs-4 text-center mb-3 text-secondary<?= $display_no_reservations_message ?>">
     Aucune réservation.
 </div>
 
 <!-- columns description -->
 <!-- $0.getBoundingClientRect() to get the position of a selected element -->
-<div id="columns-description" class="row m-3 text-secondary sticky-top bg-body-tertiary<?= $display_columns_descriptions ?>" style="top: 107px;">
+<div id="columns-description" class="row mb-3 mx-3 text-secondary sticky-top bg-body-tertiary<?= $display_columns_descriptions ?>" style="top: 107px;">
     <div class="col-12 p-0 bg-body-tertiary border border-secondary rounded">
         <div class="row m-0">
             <div class="col-10 p-0">

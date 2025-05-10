@@ -1,8 +1,8 @@
 <!-- page content -->
-<main id="page-content" class="bg-body-tertiary rounded mt-3 d-flex flex-column">
+<main id="page-content" class="bg-body-tertiary mt-3 pt-3 rounded d-flex flex-column flex-grow-1">
 
 <!-- table of products in the receipt -->
-<div class="m-3">
+<div class="mx-3 mb-3">
     <table class="table border border-secondary mb-0">
         <thead>
             <tr>
