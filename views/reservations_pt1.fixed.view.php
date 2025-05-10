@@ -10,16 +10,16 @@
 <!-- $0.getBoundingClientRect() to get the position of a selected element -->
 <div id="columns-description" class="row m-3 text-secondary sticky-top bg-body-tertiary<?= $display_columns_descriptions ?>" style="top: 107px;">
     <div class="col-12 p-0 bg-body-tertiary border border-secondary rounded">
-        <div class="row p-3">
+        <div class="row m-0">
             <div class="col-10 p-0">
                 <div class="row m-0">
-                    <div class="col-4 p-0 d-flex flex-column justify-content-center text-center">Date et heure</div>
-                    <div class="col-4 p-0 d-flex flex-column justify-content-center text-center">Nom du client</div>
-                    <div class="col-2 p-0 d-flex flex-column justify-content-center text-center">Nombre de personnes</div>
-                    <div class="col-2 p-0 d-flex flex-column justify-content-center text-center">Table(s) réservée(s)</div>
+                    <div class="col-4 py-3 d-flex flex-column justify-content-center text-center">Date et heure</div>
+                    <div class="col-4 py-3 d-flex flex-column justify-content-center text-center">Nom du client</div>
+                    <div class="col-2 py-3 d-flex flex-column justify-content-center text-center">Nombre de personnes</div>
+                    <div class="col-2 py-3 d-flex flex-column justify-content-center text-center">Table(s) réservée(s)</div>
                 </div>
             </div>
-            <div class="col-2 p-0 d-flex flex-column justify-content-center text-center">Annuler la réservation</div>
+            <div class="col-2 p-0 d-flex flex-column justify-content-center text-center">Annuler ou valider</div>
         </div>
     </div>
 </div>

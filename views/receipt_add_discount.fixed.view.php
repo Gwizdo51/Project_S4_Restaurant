@@ -32,7 +32,7 @@
         </div>
 
         <!-- controls -->
-        <div class="row m-3 justify-content-center">
+        <div class="row mb-3 mx-3 justify-content-center">
             <div class="col-3 p-0 d-grid">
                 <a href="/fixe/bons/<?= $id_receipt ?>" type="button" class="btn btn-danger me-2 d-flex justify-content-center align-items-center fs-4 py-4">Annuler</a>
             </div>

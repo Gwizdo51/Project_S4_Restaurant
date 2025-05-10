@@ -11,6 +11,9 @@ session_setup();
 // var_dump_pre($_SESSION);
 // session_destroy();
 
+// set the timezone
+date_default_timezone_set('Europe/Paris');
+
 // test - remove element from array
 // $test_array = [];
 // $test_array[] = 'a';
@@ -56,6 +59,12 @@ elseif (preg_match('~^/fixe/bons/(\d+)/ajouter-produits-sans-commande$~u', $rout
 }
 elseif ($route === '/fixe/reservations') {
     require_once './controllers/reservations.fixed.controller.php';
+}
+elseif ($route === '/fixe/reservations/nouvelle-reservation') {
+    require_once './controllers/reservation_form_new.fixed.controller.php';
+}
+elseif (preg_match('~^/fixe/reservations/(\d+)$~u', $route, $route_regex_matches)) {
+    require_once './controllers/reservation_form_modify.fixed.controller.php';
 }
 // API
 elseif (preg_match('~^/api/get-orders-to-prepare/(\d+)$~u', $route, $route_regex_matches)) {

@@ -52,14 +52,18 @@ else {
     }
     // part 2
     // the user can not start 2 separate order forms for the same receipt
+    $add_products_with_order_button_text = 'Ajouter produits avec commande';
+    $add_products_no_order_button_text = 'Ajouter produits sans commande';
     $disable_add_products_with_order_button = '';
     $disable_add_products_no_order_button = '';
     if (array_key_exists($id_receipt, $_SESSION['order_forms'])) {
         if (array_key_exists(FORM_SESSION_NAMES[0], $_SESSION['order_forms'][$id_receipt])) {
             $disable_add_products_no_order_button = ' disabled';
+            $add_products_with_order_button_text .= ' (reprendre)';
         }
         if (array_key_exists(FORM_SESSION_NAMES[1], $_SESSION['order_forms'][$id_receipt])) {
             $disable_add_products_with_order_button = ' disabled';
+            $add_products_no_order_button_text .= ' (reprendre)';
         }
     }
     $discount = $receipt_details_array['remise'];

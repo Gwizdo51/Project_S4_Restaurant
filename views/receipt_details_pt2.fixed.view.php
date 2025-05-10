@@ -94,7 +94,7 @@
     <div class="col-12 bg-body-tertiary border border-secondary rounded p-2 m-0">
         <div class="row m-0">
             <div class="col-5 p-2 d-grid">
-                <a href="/fixe/bons/<?= $id_receipt ?>/ajouter-produits-avec-commande" type="button" class="btn btn-warning fs-4 py-4 d-flex justify-content-center align-items-center<?= $disable_add_products_with_order_button ?>">Ajouter produits avec commande</a>
+                <a href="/fixe/bons/<?= $id_receipt ?>/ajouter-produits-avec-commande" type="button" class="btn btn-warning fs-4 py-4 d-flex justify-content-center align-items-center<?= $disable_add_products_with_order_button ?>"><?= $add_products_with_order_button_text ?></a>
             </div>
             <div class="col-3 p-2 d-grid">
                 <a href="/fixe/bons/<?= $id_receipt ?>/modifier-total" type="button" class="btn btn-secondary fs-4 py-4 d-flex justify-content-center align-items-center">Modifier le total</a>
@@ -108,7 +108,7 @@
         </div>
         <div class="row m-0">
             <div class="col-5 p-2 d-grid">
-                <a href="/fixe/bons/<?= $id_receipt ?>/ajouter-produits-sans-commande" type="button" class="btn btn-warning py-4 fs-4 d-flex justify-content-center align-items-center<?= $disable_add_products_no_order_button ?>">Ajouter produits sans commande</a>
+                <a href="/fixe/bons/<?= $id_receipt ?>/ajouter-produits-sans-commande" type="button" class="btn btn-warning py-4 fs-4 d-flex justify-content-center align-items-center<?= $disable_add_products_no_order_button ?>"><?= $add_products_no_order_button_text ?></a>
             </div>
             <div class="col-3 p-2 d-grid">
                 <a href="/fixe/bons" type="button" class="btn btn-danger py-4 fs-4 d-flex justify-content-center align-items-center">Retour</a>

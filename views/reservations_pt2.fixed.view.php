@@ -14,7 +14,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="mb-0 fs-5">Annuler la réservation ?</p>
+                <p class="mb-0 fs-5">Effacer la réservation ?</p>
             </div>
             <div class="modal-footer">
                 <div class="container-fluid">
@@ -61,13 +61,12 @@
     let reservationElementToDelete = null;
 
     async function onModalConfirmButtonClick() {
-        console.log(`canceling order #${reservationElementToDelete.dataset.reservationId}`);
         // disable every reservation delete buttons
         const deleteButtonsList = document.querySelectorAll("div.reservation button");
         deleteButtonsList.forEach((button) => {
             button.setAttribute("disabled", "");
         });
-        // make a FormData object to send via POST
+        // make a FormData object to send to the API via POST
         const formData = new FormData();
         formData.append("reservation_id", reservationElementToDelete.dataset.reservationId);
         const response = await fetch("/api/cancel-reservation", {
@@ -100,9 +99,8 @@
         });
     }
 
-    // change the color of the background of the reservations on hover
+    // change the color of the background of the reservations on mouse hover
     document.querySelectorAll("div.reservation").forEach((reservationElement) => {
-        // console.log(reservationElement);
         reservationElement.addEventListener("mouseenter", (event) => {
             reservationElement.classList.remove("bg-body");
             reservationElement.classList.add("bg-secondary-subtle");

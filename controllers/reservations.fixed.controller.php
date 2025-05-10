@@ -5,7 +5,6 @@ require_once './models/reservation.class.php';
 
 // get the list of all reservations for today and in the future
 $reservations_array = Reservation::get_all_incoming_reservations_json();
-// var_dump_pre($reservations_array);
 
 // display the page
 // - header
@@ -29,7 +28,7 @@ else {
 require './views/reservations_pt1.fixed.view.php';
 // list of reservations
 foreach ($reservations_array as $reservation_id => $reservation_array) {
-    $reservation_date = new DateTime($reservation_array['date']);
+    $reservation_date = new DateTimeImmutable($reservation_array['date']);
     if ($reservation_array['for_today']) {
         $border_color = 'warning';
         $date_text_color = ' text-warning-emphasis';
