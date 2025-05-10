@@ -66,6 +66,27 @@ elseif ($route === '/fixe/reservations/nouvelle-reservation') {
 elseif (preg_match('~^/fixe/reservations/(\d+)$~u', $route, $route_regex_matches)) {
     require_once './controllers/reservation_form_modify.fixed.controller.php';
 }
+elseif ($route === '/fixe/configuration') {
+    require_once './controllers/settings.fixed.controller.php';
+}
+elseif ($route === '/fixe/configuration/carte') {
+    require_once './controllers/settings_menu.fixed.controller.php';
+}
+elseif ($route === '/fixe/configuration/carte/categories') {
+    // ...
+}
+elseif ($route === '/fixe/configuration/carte/options') {
+    // ...
+}
+elseif ($route === '/fixe/configuration/secteurs') {
+    require_once './controllers/settings_sectors.fixed.controller.php';
+}
+elseif ($route === '/fixe/configuration/serveurs') {
+    require_once './controllers/settings_servers.fixed.controller.php';
+}
+elseif ($route === '/fixe/configuration/horaires') {
+    require_once './controllers/settings_schedule.fixed.controller.php';
+}
 // API
 elseif (preg_match('~^/api/get-orders-to-prepare/(\d+)$~u', $route, $route_regex_matches)) {
     require_once './api/get_orders_to_prepare.api.php';

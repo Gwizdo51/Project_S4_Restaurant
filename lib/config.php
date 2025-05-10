@@ -9,7 +9,7 @@ const SIDEBAR_CONF = [
     'Bons' => '/fixe/bons',
     'Réservations' => '/fixe/reservations',
     'Dashboard' => '#',
-    'Configuration' => '#'
+    'Configuration' => '/fixe/configuration'
 ];
 
 const WEBSITE_TITLE = 'Restaurant';
