@@ -9,7 +9,7 @@ $reservations_array = Reservation::get_all_incoming_reservations_json();
 // display the page
 // - header
 $tab_title = 'Réservations - '.WEBSITE_TITLE;
-require './views/header.inc.view.php';
+require './views/header.inc.fixed.view.php';
 // - side navbar
 echo generate_navbar(4);
 // - page title

@@ -7,7 +7,7 @@
 // display the page
 // - header
 $tab_title = 'Commandes cuisine - '.WEBSITE_TITLE;
-require './views/header.inc.view.php';
+require './views/header.inc.fixed.view.php';
 // - side navbar
 echo generate_navbar(1);
 // - page title

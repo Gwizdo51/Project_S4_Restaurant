@@ -8,7 +8,3 @@
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
-<div class="container-xxl">
-
-<div class="row">

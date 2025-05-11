@@ -3,7 +3,7 @@
 // display the page
 // - header
 $tab_title = 'Configuration - '.WEBSITE_TITLE;
-require './views/header.inc.view.php';
+require './views/header.inc.fixed.view.php';
 // - side navbar
 echo generate_navbar(6);
 // - page title

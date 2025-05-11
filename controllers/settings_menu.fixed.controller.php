@@ -2,8 +2,8 @@
 
 // display the page
 // - header
-$tab_title = 'Configuration de la carte - '.WEBSITE_TITLE;
-require './views/header.inc.view.php';
+$tab_title = 'Modification de la carte - '.WEBSITE_TITLE;
+require './views/header.inc.fixed.view.php';
 // - side navbar
 echo generate_navbar(6);
 // - page title

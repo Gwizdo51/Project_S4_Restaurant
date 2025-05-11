@@ -33,7 +33,7 @@ else {
     // display the page
     // - header
     $tab_title = "Bon n°{$id_receipt} - ".WEBSITE_TITLE;
-    require './views/header.inc.view.php';
+    require './views/header.inc.fixed.view.php';
     // - side navbar
     echo generate_navbar(3);
     // - page title

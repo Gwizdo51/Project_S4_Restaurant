@@ -32,7 +32,7 @@ else {
         $page_title = "Bon n°{$id_receipt} - Ajouter des produits sans commande";
     }
     // - header
-    require './views/header.inc.view.php';
+    require './views/header.inc.fixed.view.php';
     // - side navbar
     echo generate_navbar(3);
     // - page title

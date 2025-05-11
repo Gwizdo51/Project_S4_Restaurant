@@ -3,7 +3,7 @@
 // display the page
 // - header
 $tab_title = 'Commandes bar - '.WEBSITE_TITLE;
-require './views/header.inc.view.php';
+require './views/header.inc.fixed.view.php';
 // - side navbar
 echo generate_navbar(2);
 // - page title

@@ -7,6 +7,7 @@ require_once './lib/utils.php';
 
 // session cookie
 session_start();
+// setup the session array structure
 session_setup();
 // var_dump_pre($_SESSION);
 // session_destroy();
@@ -31,7 +32,21 @@ date_default_timezone_set('Europe/Paris');
 $route = $_GET['route'];
 $route_regex_matches = [];
 // pages
-if ($route === '/fixe') {
+if ($route === '/accueil') {
+    require_once './controllers/main_landing.controller.php';
+}
+// MOBILE
+elseif ($route === '/mobile') {
+    require_once './controllers/login.mobile.controller.php';
+}
+elseif (preg_match('~^/mobile/(\d+)/tables$~u', $route, $route_regex_matches)) {
+    // ...
+}
+elseif (preg_match('~^/mobile/(\d+)/commandes$~u', $route, $route_regex_matches)) {
+    // ...
+}
+// FIXE
+elseif ($route === '/fixe') {
     require_once './controllers/landing.fixed.controller.php';
 }
 elseif ($route === '/fixe/cuisine') {
@@ -87,7 +102,8 @@ elseif ($route === '/fixe/configuration/serveurs') {
 elseif ($route === '/fixe/configuration/horaires') {
     require_once './controllers/settings_schedule.fixed.controller.php';
 }
-// API
+// MOBILE
+// api
 elseif (preg_match('~^/api/get-orders-to-prepare/(\d+)$~u', $route, $route_regex_matches)) {
     require_once './api/get_orders_to_prepare.api.php';
 }
