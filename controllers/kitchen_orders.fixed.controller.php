@@ -1,9 +1,5 @@
 <?php
 
-// test : add a new order;
-// require_once './models/order.class.php';
-// var_dump_pre(Order::create_order_to_prepare(1, 1));
-
 // display the page
 // - header
 $tab_title = 'Commandes cuisine - '.WEBSITE_TITLE;

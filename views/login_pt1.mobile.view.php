@@ -1,13 +1,13 @@
 <div class="container-fluid min-vh-100 d-flex flex-column">
 
 <!-- title bar -->
-<div class="row bg-body-tertiary position-sticky top-0">
-    <div class="d-flex justify-content-center display-5 pt-1 pb-2">Sélectionnez votre nom</div>
+<div class="row text-center bg-body-tertiary position-sticky top-0">
+    <div class="display-5 pt-2 pb-3">Sélectionnez votre nom</div>
     <hr class="mb-0">
 </div>
 
 <!-- page content -->
-<main class="row flex-grow-1 d-flex flex-column justify-content-center fs-4 text-center py-2">
+<main class="row flex-grow-1 d-flex flex-column justify-content-center fs-5 text-center py-2">
 
 <!-- display a message is there are no active servers in the database -->
 <div class="text-center text-secondary<?= $display_no_servers_message ?>">

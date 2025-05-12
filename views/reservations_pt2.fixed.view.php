@@ -45,6 +45,8 @@
 <script src="/assets/js/bootstrap.bundle.min.js"></script>
 
 <script>
+    "use strict";
+
     /* pseudocode :
     on delete button click :
         remember the ID of the parent reservation

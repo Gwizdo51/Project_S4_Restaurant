@@ -39,11 +39,8 @@ if ($route === '/accueil') {
 elseif ($route === '/mobile') {
     require_once './controllers/login.mobile.controller.php';
 }
-elseif (preg_match('~^/mobile/(\d+)/tables$~u', $route, $route_regex_matches)) {
-    // ...
-}
-elseif (preg_match('~^/mobile/(\d+)/commandes$~u', $route, $route_regex_matches)) {
-    // ...
+elseif (preg_match('~^/mobile/(\d+)$~u', $route, $route_regex_matches)) {
+    require_once './controllers/server_hub.mobile.controller.php';
 }
 // FIXE
 elseif ($route === '/fixe') {
