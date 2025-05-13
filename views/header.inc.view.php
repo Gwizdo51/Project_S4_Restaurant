@@ -6,5 +6,13 @@
     <title><?= $tab_title ?></title>
     <!-- 🔹 Bootstrap CSS -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .icon {
+            height: 3rem;
+        }
+        .hide-last-hr hr:last-child {
+            display: none;
+        }
+    </style>
 </head>
 <body>

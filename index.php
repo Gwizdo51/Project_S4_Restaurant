@@ -99,8 +99,7 @@ elseif ($route === '/fixe/configuration/serveurs') {
 elseif ($route === '/fixe/configuration/horaires') {
     require_once './controllers/settings_schedule.fixed.controller.php';
 }
-// MOBILE
-// api
+// API
 elseif (preg_match('~^/api/get-orders-to-prepare/(\d+)$~u', $route, $route_regex_matches)) {
     require_once './api/get_orders_to_prepare.api.php';
 }
@@ -112,6 +111,9 @@ elseif ($route === '/api/get-current-receipts') {
 }
 elseif ($route === '/api/cancel-reservation') {
     require_once './api/cancel_reservation.api.php';
+}
+elseif (preg_match('~^/api/get-server-hub-data/(\d+)$~u', $route, $route_regex_matches)) {
+    require_once './api/get_server_hub_data.api.php';
 }
 // tests bootstrap
 elseif ($route === '/test-bootstrap') {

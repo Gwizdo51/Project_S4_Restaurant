@@ -229,7 +229,6 @@
             const displayedOrdersIDList = [];
             // for each order displayed ...
             displayedOrdersList.forEach((displayedOrder) => {
-                // let displayedOrderID = displayedOrder.getAttribute("order-id");
                 let displayedOrderID = displayedOrder.dataset.orderId;
                 // if the order is not in the JSON response ...
                 if (!Object.keys(JSONResponse).includes(displayedOrderID)) {
