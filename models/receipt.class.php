@@ -6,19 +6,51 @@ class Receipt {
      */
 
     /**
+     * Creates a new receipt in the database
+     * @param int $id_table
+     * @param int $id_server
+     * @return int
+     */
+    public static function create($id_table, $id_server): int {
+        $db_connection = get_db_connection();
+        // create a new receipt in the database
+        $insert_query = "INSERT INTO `bon` (ID_table, ID_serveur) VALUES
+                ({$id_table}, {$id_server})";
+        $result = $db_connection->query($insert_query);
+        if (!$result) {
+            return -1;
+        }
+        $id_query = 'SELECT LAST_INSERT_ID() `id`';
+        $result_cursor = $db_connection->query($id_query);
+        $row = $result_cursor->fetch_assoc();
+        $id_receipt = (int) $row['id'];
+        // set the table state to "occupied"
+        $query = "UPDATE `table`
+                SET ID_etat_table = 2
+                WHERE ID_table = {$id_table}";
+        $result = $db_connection->query($query);
+        if (!$result) {
+            return -1;
+        }
+        $db_connection->close();
+        return $id_receipt;
+    }
+
+    /**
      * Returns the JSON-like array of all current receipts
      * @return array
      */
     public static function get_all_current_receipts_json(): array {
         $db_connection = get_db_connection();
-        $query = 'SELECT b.ID_bon, t.numero `numero_table`, SUM(p.prix) - b.remise `total` FROM `bon` b
-                  JOIN `table` t ON b.ID_table = t.ID_table
-                  JOIN `commande` c ON b.ID_bon = c.ID_bon
-                  JOIN `item` i ON c.ID_commande = i.ID_commande
-                  JOIN `produit` p ON i.ID_produit = p.ID_produit
-                  WHERE b.date_suppression IS NULL
-                  GROUP BY b.ID_bon
-                  ORDER BY b.date_creation, b.ID_bon';
+        $query = 'SELECT b.ID_bon, t.numero `numero_table`, COALESCE(SUM(p.prix) - b.remise, 0) `total`
+                FROM `bon` b
+                JOIN `table` t ON b.ID_table = t.ID_table
+                LEFT JOIN `commande` c ON b.ID_bon = c.ID_bon
+                LEFT JOIN `item` i ON c.ID_commande = i.ID_commande
+                LEFT JOIN `produit` p ON i.ID_produit = p.ID_produit
+                WHERE b.date_suppression IS NULL
+                GROUP BY b.ID_bon
+                ORDER BY b.date_creation, b.ID_bon';
         $result_cursor = $db_connection->query($query);
         $receipts_array = [];
         while ($row = $result_cursor->fetch_assoc()) {
@@ -40,12 +72,13 @@ class Receipt {
     public static function get_receipt_details_json($id): array {
         $db_connection = get_db_connection();
         // get the total and the eventual discount of the receipt
-        $query = "SELECT b.remise, SUM(p.prix) - b.remise `total` FROM `bon` b
-                  JOIN `commande` c ON b.ID_bon = c.ID_bon
-                  JOIN `item` i ON c.ID_commande = i.ID_commande
-                  JOIN `produit` p ON i.ID_produit = p.ID_produit
-                  WHERE b.ID_bon = {$id}
-                  GROUP BY b.ID_bon";
+        $query = "SELECT b.remise, COALESCE(SUM(p.prix) - b.remise, 0) `total`
+                FROM `bon` b
+                LEFT JOIN `commande` c ON b.ID_bon = c.ID_bon
+                LEFT JOIN `item` i ON c.ID_commande = i.ID_commande
+                LEFT JOIN `produit` p ON i.ID_produit = p.ID_produit
+                WHERE b.ID_bon = 2
+                GROUP BY b.ID_bon";
         $result_cursor = $db_connection->query($query);
         $row = $result_cursor->fetch_assoc();
         $receipt_details_array = [
@@ -54,13 +87,14 @@ class Receipt {
             'produits' => []
         ];
         // get the list of products in the receipt
-        $query = "SELECT p.label_produit, p.prix `prix_unitaire`, COUNT(p.ID_produit) `quantite`, SUM(p.prix) `total` FROM `bon` b
-                  JOIN `commande` c ON b.ID_bon = c.ID_bon
-                  JOIN `item` i ON c.ID_commande = i.ID_commande
-                  JOIN `produit` p ON i.ID_produit = p.ID_produit
-                  WHERE b.ID_bon = {$id}
-                  GROUP BY p.ID_produit
-                  ORDER BY p.ID_produit";
+        $query = "SELECT p.label_produit, p.prix `prix_unitaire`, COUNT(p.ID_produit) `quantite`, SUM(p.prix) `total`
+                FROM `bon` b
+                JOIN `commande` c ON b.ID_bon = c.ID_bon
+                JOIN `item` i ON c.ID_commande = i.ID_commande
+                JOIN `produit` p ON i.ID_produit = p.ID_produit
+                WHERE b.ID_bon = {$id}
+                GROUP BY p.ID_produit
+                ORDER BY p.ID_produit";
         $result_cursor = $db_connection->query($query);
         while ($row = $result_cursor->fetch_assoc()) {
             $product_array = [

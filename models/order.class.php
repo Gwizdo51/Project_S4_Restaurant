@@ -75,20 +75,21 @@ class Order {
     }
 
     /**
-     * @param int $id
+     * @param int $id_order
+     * @param int $id_state
      * @return bool[]
      */
-    public static function set_order_to_ready($id): array {
+    // public static function set_order_to_ready($id): array {
+    public static function set_order_state($id_order, $id_state): array {
         $db_connection = get_db_connection();
         // UPDATE `commande`
         // SET ID_etat_commande = 2
         // WHERE ID_commande = $id;
         $query = "UPDATE `commande`
-                  SET ID_etat_commande = 2
-                  WHERE ID_commande = {$id}";
+                SET ID_etat_commande = {$id_state}
+                WHERE ID_commande = {$id_order}";
         $result = $db_connection->query($query);
-        $result_array = [];
-        $result_array['success'] = (bool) $result;
+        $result_array = ['success' => (bool) $result];
         $db_connection->close();
         return $result_array;
     }

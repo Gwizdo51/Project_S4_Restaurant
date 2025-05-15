@@ -53,15 +53,19 @@ class Server {
                     JOIN `reservation` r1 ON r2.ID_reservation = r1.ID_reservation
                     WHERE CAST(r1.date AS DATE) >= CAST(NOW() AS DATE)
                 ) res2 ON t.ID_table = res2.ID_table
-                LEFT JOIN `reservation` res1 ON res2.ID_reservation = res1.ID_reservation
-                LEFT JOIN `bon` b ON t.ID_table = b.ID_table
+                LEFT JOIN (
+                    SELECT r.* FROM `reservation` r
+                    WHERE r.date_suppression IS NULL
+                ) res1 ON res2.ID_reservation = res1.ID_reservation
+                LEFT JOIN (
+                    SELECT b.* FROM `bon` b
+                    WHERE b.date_suppression IS NULL
+                ) b ON t.ID_table = b.ID_table
                 LEFT JOIN (
                     SELECT c.* FROM `commande` c
                     WHERE c.ID_etat_commande = 2
                 ) c ON b.ID_bon = c.ID_bon
                 WHERE t.date_suppression IS NULL
-                AND res1.date_suppression IS NULL
-                AND b.date_suppression IS NULL
                 AND ser.ID_serveur = {$id_server}
                 ORDER BY t.numero, res1.date, c.ID_commande";
         $result_cursor = $db_connection->query($query);

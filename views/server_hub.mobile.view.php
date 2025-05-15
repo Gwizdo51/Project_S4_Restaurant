@@ -19,18 +19,19 @@
 <!-- table template -->
 <template id="tableTemplate">
     <div class="row bg-body-secondary border border-2 border-success rounded my-2" data-table-id="1" data-state="success">
-        <div class="col-9 d-flex flex-column" role="button" onclick="console.log('table clicked');">
+        <div class="col-9 d-flex flex-column" role="button" onclick="onTableClick(this);">
             <div class="row flex-grow-1">
-                <div class="col-6 px-0 d-flex flex-column justify-content-center">
+                <div class="tableNumber col-6 px-0 d-flex flex-column justify-content-center">
                     Table 1
                 </div>
-                <div class="col-6 border-start border-end border-2 border-success px-0 d-flex flex-column justify-content-center text-success-emphasis">
+                <div class="tableState col-6 border-start border-end border-2 border-success px-0 d-flex flex-column justify-content-center text-success-emphasis">
                     Disponible
                 </div>
             </div>
         </div>
         <div class="col-3 px-0">
-            <button type="button" class="btn btn-secondary m-2 invisible" data-bs-toggle="modal" data-bs-target="#reservations-details-modal" onclick="console.log('reservation icon clicked');">
+            <!-- <button type="button" class="btn btn-secondary m-2 invisible" data-bs-toggle="modal" data-bs-target="#reservationsDetailsModal" onclick="console.log('reservation icon clicked');"> -->
+            <button type="button" class="btn btn-secondary m-2 invisible" onclick="onReservationButtonClick(this);">
                 <img src="/assets/img/reserved.svg" alt="reservation icon" class="icon">
             </button>
         </div>
@@ -47,10 +48,10 @@
             <div>Détails</div>
         </div>
         <div class="col-6">
-            <div>Anderson</div>
-            <div>19:20</div>
-            <div>4</div>
-            <div>Un bébé</div>
+            <div class="rowName">Anderson</div>
+            <div class="rowTime">19:20</div>
+            <div class="rowPeople">4</div>
+            <div class="rowDetails">Un bébé</div>
         </div>
     </div>
     <hr>
@@ -58,21 +59,21 @@
 
 <!-- order template -->
 <template id="orderTemplate">
-    <div class="row bg-body-secondary border border-2 border-secondary rounded my-2" role="button" data-bs-toggle="modal" data-bs-target="#confirmation-modal" data-order-id="48" onclick="console.log('order clicked');">
-        <div class="col-4 px-0 py-4 d-flex flex-column justify-content-center">
-            Table 1
-        </div>
-        <div class="col-4 border-start border-end border-2 border-secondary px-0 py-4 d-flex flex-column justify-content-center">
+    <div class="row bg-body-secondary border border-2 border-secondary rounded my-2" role="button" data-order-id="48" onclick="onOrderClick(this);">
+        <div class="orderId col-4 px-0 py-4 d-flex flex-column justify-content-center text-secondary-emphasis">
             Commande 48
         </div>
-        <div class="col-4 px-0 py-4">
+        <div class="tableNumber col-4 border-start border-end border-2 border-secondary px-0 py-4 d-flex flex-column justify-content-center">
+            Table 1
+        </div>
+        <div class="place col-4 px-0 py-4 d-flex flex-column justify-content-center">
             Cuisine
         </div>
     </div>
 </template>
 
 <!-- page content -->
-<main class="row flex-grow-1 d-flex flex-column justify-content-center text-center py-2">
+<main class="row flex-grow-1 d-flex flex-column justify-content-center text-center py-2 overflow-x-hidden">
 
     <!-- loading spinner -->
     <div id="spinnerFirstLoad" class="row justify-content-center">
@@ -94,7 +95,7 @@
                     <div class="col-9">
                         <div class="row">
                             <div class="col-6 offset-6">
-                                États des tables du secteur
+                                États des tables
                             </div>
                         </div>
                     </div>
@@ -107,59 +108,7 @@
 
         <!-- list of tables -->
         <div id="tablesList" class="row justify-content-center">
-            <div class="col-11 d-flex flex-column">
-                <!-- <div class="row bg-body-secondary border border-2 border-success rounded my-2" dataset-table-id="1">
-                    <div class="col-9 d-flex flex-column" role="button" onclick="console.log('table clicked');">
-                        <div class="row flex-grow-1">
-                            <div class="col-6 px-0 d-flex flex-column justify-content-center">
-                                Table 1
-                            </div>
-                            <div class="col-6 border-start border-end border-2 border-success px-0 d-flex flex-column justify-content-center text-success-emphasis">
-                                Disponible
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3 px-0">
-                        <button type="button" class="btn btn-secondary m-2 invisible" data-bs-toggle="modal" data-bs-target="#reservations-details-modal" onclick="console.log('reservation icon clicked');">
-                            <img src="/assets/img/reserved.svg" alt="reservation icon" class="icon">
-                        </button>
-                    </div>
-                </div>
-                <div class="row bg-body-secondary border border-2 border-primary rounded my-2" dataset-table-id="2">
-                    <div class="col-9 d-flex flex-column" role="button" onclick="console.log('table clicked');">
-                        <div class="row flex-grow-1">
-                            <div class="col-6 px-0 d-flex flex-column justify-content-center">
-                                Table 2
-                            </div>
-                            <div class="col-6 border-start border-end border-2 border-primary px-0 d-flex flex-column justify-content-center text-primary-emphasis">
-                                Occupée
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3 px-0">
-                        <button type="button" class="btn btn-secondary m-2" data-bs-toggle="modal" data-bs-target="#reservations-details-modal" onclick="console.log('reservation icon clicked');">
-                            <img src="/assets/img/reserved.svg" alt="reservation icon" class="icon">
-                        </button>
-                    </div>
-                </div>
-                <div class="row bg-body-secondary border border-2 border-danger rounded my-2" dataset-table-id="3">
-                    <div class="col-9 d-flex flex-column" onclick="console.log('table clicked');">
-                        <div class="row flex-grow-1">
-                            <div class="col-6 px-0 d-flex flex-column justify-content-center">
-                                Table 3
-                            </div>
-                            <div class="col-6 border-start border-end border-2 border-danger px-0 d-flex flex-column justify-content-center text-danger-emphasis">
-                                À nettoyer
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3 px-0">
-                        <button type="button" class="btn btn-secondary m-2" data-bs-toggle="modal" data-bs-target="#reservations-details-modal" onclick="console.log('reservation icon clicked');">
-                            <img src="/assets/img/reserved.svg" alt="reservation icon" class="icon">
-                        </button>
-                    </div>
-                </div> -->
-            </div>
+            <div class="col-11 d-flex flex-column"></div>
         </div>
 
     </div>
@@ -185,41 +134,7 @@
 
         <!-- list of ready order -->
         <div id="ordersList" class="row justify-content-center">
-            <div class="col-11 d-flex flex-column">
-                <!-- <div class="row bg-body-secondary border border-2 border-secondary rounded my-2" role="button" data-bs-toggle="modal" data-bs-target="#confirmation-modal" dataset-order-id="48" onclick="console.log('order clicked');">
-                    <div class="col-4 px-0 py-4 d-flex flex-column justify-content-center">
-                        Table 1
-                    </div>
-                    <div class="col-4 border-start border-end border-2 border-secondary px-0 py-4 d-flex flex-column justify-content-center">
-                        Commande 48
-                    </div>
-                    <div class="col-4 px-0 py-4">
-                        Cuisine
-                    </div>
-                </div>
-                <div class="row bg-body-secondary border border-2 border-secondary rounded my-2" role="button" data-bs-toggle="modal" data-bs-target="#confirmation-modal" dataset-order-id="72" onclick="console.log('order clicked');">
-                    <div class="col-4 px-0 py-4 d-flex flex-column justify-content-center">
-                        Table 2
-                    </div>
-                    <div class="col-4 border-start border-end border-2 border-secondary px-0 py-4 d-flex flex-column justify-content-center">
-                        Commande 72
-                    </div>
-                    <div class="col-4 px-0 py-4">
-                        Bar
-                    </div>
-                </div>
-                <div class="row bg-body-secondary border border-2 border-secondary rounded my-2" role="button" data-bs-toggle="modal" data-bs-target="#confirmation-modal" dataset-order-id="127" onclick="console.log('order clicked');">
-                    <div class="col-4 px-0 py-4 d-flex flex-column justify-content-center">
-                        Table 3
-                    </div>
-                    <div class="col-4 border-start border-end border-2 border-secondary px-0 py-4 d-flex flex-column justify-content-center">
-                        Commande 127
-                    </div>
-                    <div class="col-4 px-0 py-4">
-                        Cuisine
-                    </div>
-                </div> -->
-            </div>
+            <div class="col-11 d-flex flex-column"></div>
         </div>
 
     </div>
@@ -227,17 +142,34 @@
 </main>
 
 <!-- bottom navigation tabs -->
-<div id="navTabs" class="row position-sticky bottom-0 text-center fs-4">
+<!-- display was buggy on android
+https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-below-the-mobile-navigation-bar-in-chrome-fire -->
+<!-- add a second hidden one to account for the space -->
+<div class="row text-center fs-4 invisible">
     <div class="col-6 py-3 px-0 rounded-top-5 bg-primary active-tab" data-content-id="pageTables" data-tab-index="0">
         Tables
     </div>
     <div class="col-6 py-3 px-0 rounded-top-5 bg-primary-subtle text-primary-emphasis" data-content-id="pageOrders" data-tab-index="1" role="button">
         Commandes
     </div>
+    <span class="position-absolute end-0 top-0 translate-middle badge rounded-circle bg-danger border border-light d-none me-3 w-auto" style="padding: .75rem;">
+        <span class="visually-hidden">!</span>
+    </span>
+</div>
+<div id="navTabs" class="row position-fixed bottom-0 w-100 text-center fs-4">
+    <div class="col-6 py-3 px-0 rounded-top-5 bg-primary active-tab" data-content-id="pageTables" data-tab-index="0">
+        Tables
+    </div>
+    <div class="col-6 py-3 px-0 rounded-top-5 bg-primary-subtle text-primary-emphasis" data-content-id="pageOrders" data-tab-index="1" role="button">
+        Commandes
+    </div>
+    <span id="newOrdersBadge" class="position-absolute end-0 top-0 translate-middle badge rounded-circle bg-danger border border-light d-none me-3 w-auto" style="padding: .75rem;">
+        <span class="visually-hidden">!</span>
+    </span>
 </div>
 
 <!-- confirmation modal -->
-<div id="confirmation-modal" class="modal fade" tabindex="-1" aria-labelledby="confirmation-modal" aria-hidden="true">
+<div id="confirmationModal" class="modal fade" tabindex="-1" aria-labelledby="confirmationModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -264,46 +196,17 @@
 </div>
 
 <!-- reservations details modal -->
-<div id="reservations-details-modal" class="modal fade" tabindex="-1" aria-labelledby="reservations-details-modal" aria-hidden="true">
+<div id="reservationsDetailsModal" class="modal fade" tabindex="-1" aria-labelledby="reservationsDetailsModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Réservations pour aujourd'hui<br>table X</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body hide-last-hr">
-                <!-- <div class="row">
-                    <div class="col-6 text-secondary text-end">
-                        <div>Nom du client</div>
-                        <div>Heure</div>
-                        <div>Nombre de personnes</div>
-                        <div>Détails</div>
-                    </div>
-                    <div class="col-6">
-                        <div>Anderson</div>
-                        <div>19:20</div>
-                        <div>4</div>
-                        <div>Un bébé</div>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-6 text-secondary text-end">
-                        <div>Nom du client</div>
-                        <div>Heure</div>
-                        <div>Nombre de personnes</div>
-                        <div>Détails</div>
-                    </div>
-                    <div class="col-6">
-                        <div>Anderson</div>
-                        <div>19:20</div>
-                        <div>4</div>
-                        <div>Un bébé</div>
-                    </div>
-                </div>
-                <hr> -->
+            <div class="modal-body hide-last-hr"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary px-5 py-3" data-bs-dismiss="modal">OK</button>
             </div>
-        </div>
     </div>
 </div>
 
@@ -317,8 +220,9 @@
 
     /* pseudocode :
     on page load :
-        request the list of all tables in the sector assigned to the server
+        request the JSON of all tables in the sector assigned to the server
         and the list of all orders that are ready for the tables in the sector (API)
+        store the JSON in storedData
         if the list of tables is not empty :
             hide the "loading" message
             display the tables in the list
@@ -330,7 +234,7 @@
         else :
             change the "loading" message to "no orders"
     every 5 seconds :
-        ...
+        update the table states and the orders with the API
     on clicking an inactive tab :
         hide the content of the active tab
         display the content of the inactive tab
@@ -339,10 +243,12 @@
     on clicking an order :
         ...
     on clicking a reservation icon :
-        ...
+        fill the modal with the reservation data from the stored JSON
+        display the modal
     */
 
     const storedData = {
+        serverId: <?= $server_id ?>,
         // 0 -> tables
         // 1 -> orders
         activeTabIndex: 0,
@@ -357,8 +263,33 @@
         tablesList: null,
         ordersList: null,
         spinnerFirstLoad: null,
-        spinnerFullPage: null
+        spinnerFullPage: null,
+        reservationsDetailsModalContent: null,
+        confirmationModalBody: null,
+        newOrdersBadge: null,
+        // update from API timer id
+        idTimerupdateData: null
     };
+
+    const tableStates = {
+        1: {
+            dataset: "success",
+            text: "Disponible"
+        },
+        2: {
+            dataset: "primary",
+            text: "Occupée"
+        },
+        3: {
+            dataset: "danger",
+            text: "À nettoyer"
+        }
+    }
+
+    const places = {
+        1: "Cuisine",
+        2: "Bar"
+    }
 
     function onNavTabClick(tabElement) {
         // if the tab is active, return
@@ -384,20 +315,83 @@
     }
 
     function generateTableElements() {
-        // ...
+        for (let tableId in storedData.apiJsonResponse) {
+            const currentTableJson = storedData.apiJsonResponse[tableId];
+            // clone the content from the table template
+            const tableElement = document.querySelector("#tableTemplate").content.cloneNode(true);
+            const mainDiv = tableElement.firstElementChild;
+            // add the table ID
+            mainDiv.dataset.tableId = tableId;
+            // add the table number
+            mainDiv.querySelector("div.tableNumber").textContent = `Table ${currentTableJson.numero}`;
+            // add the table element to the document
+            storedData.tablesList.firstElementChild.append(tableElement);
+        }
     }
 
-    function generateOrderElement(orderId, tableId, preparationPlaceId) {
-        console.log(orderId, tableId, preparationPlaceId);
-        // ...
+    function generateOrderElement(orderId, tableNumber, preparationPlaceId) {
+        // clone the content from the order template
+        const orderElement = document.querySelector("#orderTemplate").content.cloneNode(true);
+        const mainDiv = orderElement.firstElementChild;
+        // console.log(mainDiv);
+        mainDiv.dataset.orderId = orderId;
+        orderElement.querySelector(".tableNumber").textContent = `Table ${tableNumber}`;
+        orderElement.querySelector(".orderId").textContent = `Commande ${orderId}`;
+        orderElement.querySelector(".place").textContent = places[preparationPlaceId];
+        return orderElement;
     }
 
-    function updateTablesStates() {
-        console.log(storedData.tablesList);
+    function updateTableState(tableElement, newState) {
+        const oldState = tableElement.dataset.state;
+        if (newState.dataset !== oldState) {
+            // update the state of the table element
+            tableElement.dataset.state = newState.dataset;
+            // - the outer borders
+            tableElement.classList.remove(`border-${oldState}`);
+            tableElement.classList.add(`border-${newState.dataset}`);
+            // - the inner borders and the text color
+            const stateElement = tableElement.querySelector("div.tableState");
+            stateElement.classList.remove(`border-${oldState}`, `text-${oldState}-emphasis`);
+            stateElement.classList.add(`border-${newState.dataset}`, `text-${newState.dataset}-emphasis`);
+            // - the text content
+            stateElement.textContent = newState.text;
+        }
+    }
+
+    function updateTables() {
+        // for each table displayed ...
+        document.querySelectorAll("#tablesList > div > div").forEach((tableElement) => {
+            const currentTableJson = storedData.apiJsonResponse[tableElement.dataset.tableId];
+            // const oldState = tableElement.dataset.state;
+            // const newState = tableStates[currentTableJson.etat].dataset;
+            const newState = tableStates[currentTableJson.etat];
+            // update the state if it is different from the one in the json
+            // if (newState !== oldState) {
+            //     // update the state of the table element
+            //     tableElement.dataset.state = newState;
+            //     // - the outer borders
+            //     tableElement.classList.remove(`border-${oldState}`);
+            //     tableElement.classList.add(`border-${newState}`);
+            //     // - the inner borders and the text color
+            //     const stateElement = tableElement.querySelector("div.tableState");
+            //     stateElement.classList.remove(`border-${oldState}`, `text-${oldState}-emphasis`);
+            //     stateElement.classList.add(`border-${newState}`, `text-${newState}-emphasis`);
+            //     // - the text content
+            //     stateElement.textContent = tableStates[currentTableJson.etat].text;
+            // }
+            updateTableState(tableElement, newState);
+            // display or hide the reservation button
+            if (Object.keys(currentTableJson).includes("reservations")) {
+                tableElement.querySelector("button").classList.remove("invisible");
+            }
+            else {
+                tableElement.querySelector("button").classList.add("invisible");
+            }
+        });
     }
 
     function updateDisplayedContent() {
-        console.log(storedData.apiJsonResponse);
+        // console.log(storedData.apiJsonResponse);
         // add the list of tables on the first call
         if (!storedData.spinnerFirstLoad.classList.contains("d-none")) {
             // hide the first load spinner spinnerFirstLoad
@@ -419,21 +413,20 @@
         // make a list of all the orders in the json response
         const ordersToDisplay = {};
         for (let tableId in storedData.apiJsonResponse) {
-            // console.log(storedData.apiJsonResponse[tableId]);
             if (Object.keys(storedData.apiJsonResponse[tableId]).includes('commandes')) {
                 for (let orderId in storedData.apiJsonResponse[tableId].commandes) {
                     ordersToDisplay[orderId] = {
-                        tableId,
+                        tableNumber: storedData.apiJsonResponse[tableId].numero,
                         preparationPlaceId: storedData.apiJsonResponse[tableId].commandes[orderId].id_lieu_preparation
                     };
                 }
             }
         }
-        console.log(ordersToDisplay);
+        // console.log(ordersToDisplay);
         // get the list of all displayed orders
         const displayedOrdersList = storedData.ordersList.querySelectorAll("div.row");
         // if the list of orders to display is empty ...
-        if (ordersToDisplay.length === 0) {
+        if (Object.keys(ordersToDisplay).length === 0) {
             // remove all displayed orders
             displayedOrdersList.forEach((displayedOrder) => {
                 displayedOrder.remove();
@@ -442,12 +435,16 @@
             storedData.ordersColumnsDescriptions.classList.add("d-none");
             // display the "no orders" message
             storedData.noOrdersMessage.classList.remove("d-none");
+            // hide the "new orders" badge
+            storedData.newOrdersBadge.classList.add("d-none");
         }
         else {
             // display the columns descriptions
             storedData.ordersColumnsDescriptions.classList.remove("d-none");
             // hide the "no orders" message
             storedData.noOrdersMessage.classList.add("d-none");
+            // display the "new orders" badge
+            storedData.newOrdersBadge.classList.remove("d-none");
             // update the displayed list of orders
             const displayedOrdersIDList = [];
             // for each order displayed ...
@@ -466,24 +463,155 @@
             for (let jsonResponseOrderId in ordersToDisplay) {
                 // if the order is not displayed, display it
                 if (!displayedOrdersIDList.includes(jsonResponseOrderId)) {
-                    generateOrderElement(
+                    storedData.ordersList.firstElementChild.append(generateOrderElement(
                         jsonResponseOrderId,
-                        ordersToDisplay[jsonResponseOrderId].tableId,
+                        ordersToDisplay[jsonResponseOrderId].tableNumber,
                         ordersToDisplay[jsonResponseOrderId].preparationPlaceId
-                    );
+                    ));
                 }
             }
         }
-        // update the states of the tables
-        updateTablesStates();
+        // update the states and the reservations of the tables
+        updateTables();
     }
 
     async function updateData() {
-        const response = await fetch("/api/get-server-hub-data/<?= $server_id ?>");
+        const response = await fetch(`/api/get-server-hub-data/${storedData.serverId}`);
         if (response.ok) {
             storedData.apiJsonResponse = await response.json();
             updateDisplayedContent()
         }
+    }
+
+    function onReservationButtonClick(button) {
+        const tableId = button.parentElement.parentElement.dataset.tableId;
+        // console.log(tableId);
+        // clear the content of the reservation modal
+        storedData.reservationsDetailsModalContent.innerHTML = "";
+        // fill the reservation modal with the reservations data
+        const reservationsDataArray = storedData.apiJsonResponse[tableId].reservations;
+        reservationsDataArray.forEach((reservationDataArray) => {
+            // clone the content from the reservation template
+            const reservationElement = document.querySelector("#reservationTemplate").content.cloneNode(true);
+            const mainDiv = reservationElement.firstElementChild;
+            const dataColumn = mainDiv.querySelector("div.row > div:last-child");
+            // get the time of the reservation
+            const reservationDate = new Date(reservationDataArray.date);
+            const hoursString = `${reservationDate.getHours()}`.padStart(2, "0");
+            const minutesString = `${reservationDate.getMinutes()}`.padStart(2, "0");
+            // fill the reservation element with the data
+            dataColumn.querySelector(".rowName").textContent = reservationDataArray.nomClient;
+            dataColumn.querySelector(".rowTime").textContent = `${hoursString}:${minutesString}`;
+            dataColumn.querySelector(".rowPeople").textContent = reservationDataArray.nombrePersonnes;
+            dataColumn.querySelector(".rowDetails").innerHTML = reservationDataArray.notes.replace("\r\n", "<br>");
+            // add the element to the modal
+            storedData.reservationsDetailsModalContent.append(reservationElement);
+        });
+        // show the modal
+        (new bootstrap.Modal("#reservationsDetailsModal")).show();
+    }
+
+    function onTableClick(tableElement) {
+        // console.log(tableElement);
+        // remember which table was clicked
+        storedData.clickedElement = tableElement.parentElement;
+        // if the table is in the "occupied" state ...
+        if (storedData.clickedElement.dataset.state === "primary") {
+            // console.log("creating a new order ...");
+            window.location.href = `/mobile/${storedData.serverId}/nouvelle-commande/${storedData.clickedElement.dataset.tableId}`;
+        }
+        else {
+            // replace the text of the confirmation modal
+            const tableNumber = storedData.apiJsonResponse[storedData.clickedElement.dataset.tableId].numero;
+            if (storedData.clickedElement.dataset.state === "success") {
+                storedData.confirmationModalBody.querySelector("p").textContent = `Créer un bon pour la table ${tableNumber} ?`;
+            }
+            else {
+                storedData.confirmationModalBody.querySelector("p").textContent = `La table ${tableNumber} est-elle prête ?`;
+            }
+            // show the confirmation modal
+            (new bootstrap.Modal("#confirmationModal")).show();
+        }
+    }
+
+    function onOrderClick(orderElement) {
+        // remember which order was clicked
+        storedData.clickedElement = orderElement;
+        // replace the text of the confirmation modal
+        storedData.confirmationModalBody.querySelector("p").textContent = "Effacer la notification ?";
+        // show the confirmation modal
+        (new bootstrap.Modal("#confirmationModal")).show();
+    }
+
+    async function onConfirmButtonClick() {
+        // console.log("modal confirmed");
+        // display the full page spinner
+        storedData.spinnerFullPage.classList.remove("d-none");
+        // make a FormData object to send via POST
+        const formData = new FormData();
+        // if the active tab is "Tables" ...
+        if (storedData.activeTabIndex === 0) {
+            formData.append("tableId", storedData.clickedElement.dataset.tableId);
+            // if the table clicked is in the "available" state ...
+            if (storedData.clickedElement.dataset.state === "success") {
+                // create a new receipt for this table and set the table to "occupied"
+                formData.append("serverId", storedData.serverId);
+                const response = await fetch("/api/create-receipt", {
+                    method: "POST",
+                    body: formData
+                });
+                if (!response.ok) {
+                    console.error("The server encountered an error while creating an order");
+                }
+                else {
+                    // update the table state
+                    updateTableState(storedData.clickedElement, tableStates[2]);
+                }
+            }
+            else {
+                // setting the table to "ready"
+                formData.append("stateId", 1);
+                const response = await fetch("/api/set-table-state", {
+                    method: "POST",
+                    body: formData
+                });
+                if (!response.ok) {
+                    console.error("The server encountered an error while creating an order");
+                }
+                else {
+                    // update the table state
+                    updateTableState(storedData.clickedElement, tableStates[1]);
+                }
+            }
+        }
+        // otherwise, if the active tab is "Orders" ...
+        else {
+            // make a FormData object to send via POST
+            const formData = new FormData();
+            formData.append("order-id", storedData.clickedElement.dataset.orderId);
+            const response = await fetch("/api/set-order-delivered", {
+                method: "POST",
+                body: formData
+            });
+            if (response.ok) {
+                const JSONResponse = await response.json();
+                if (JSONResponse.success) {
+                    // remove the order from the list
+                    storedData.clickedElement.remove();
+                    // if there are no orders displayed ...
+                    if (storedData.ordersList.querySelectorAll("div.row").length === 0) {
+                        // hide the columns descriptions
+                        storedData.ordersColumnsDescriptions.classList.add("d-none");
+                        // display the "no orders" message
+                        storedData.noOrdersMessage.classList.remove("d-none");
+                        // hide the "new orders" badge
+                        storedData.newOrdersBadge.classList.add("d-none");
+                    }
+                }
+            }
+        }
+        // hide the full page spinner
+        storedData.spinnerFullPage.classList.add("d-none");
     }
 
     // schedule update functions when the DOM is loaded
@@ -491,9 +619,6 @@
     document.onreadystatechange = () => {
         // on DOM content loaded
         if (document.readyState === "interactive") {
-            // updateOrders();
-            // storedData.idTimerUpdateOrders = setInterval(updateOrders, 5000);
-            // storedData.idTimerUpdateOrdersStates = setInterval(updateOrdersStates, 1000);
             // add the handles to the relevant HTML elements
             storedData.noTablesMessage = document.querySelector("#noTablesMessage");
             storedData.noOrdersMessage = document.querySelector("#noOrdersMessage");
@@ -503,12 +628,16 @@
             storedData.ordersList = document.querySelector("#ordersList");
             storedData.spinnerFirstLoad = document.querySelector("#spinnerFirstLoad");
             storedData.spinnerFullPage = document.querySelector("#spinnerFullPage");
+            storedData.reservationsDetailsModalContent = document.querySelector("#reservationsDetailsModal div.hide-last-hr");
+            storedData.confirmationModalBody = document.querySelector("#confirmationModal div.modal-body");
+            storedData.newOrdersBadge = document.querySelector("#newOrdersBadge");
             // add the tabs click listeners
             document.querySelectorAll("#navTabs > div").forEach((tabElement) => {
                 tabElement.addEventListener("click", (event) => {onNavTabClick(tabElement);});
             });
             // get and update the list of displayed tables and ready orders
             updateData();
+            storedData.idTimerupdateData = setInterval(updateData, 5000);
         }
     };
 
@@ -517,19 +646,14 @@
     document.addEventListener("visibilitychange", () => {
         // if the window becomes hidden ...
         if (document.hidden) {
-            // // stop requesting new orders
-            // clearInterval(storedData.idTimerUpdateOrders);
-            // // stop updating the orders States
-            // clearInterval(storedData.idTimerUpdateOrdersStates);
+            // stop requesting updates
+            clearInterval(storedData.idTimerupdateData);
         }
         // otherwise ...
         else {
-            // // restart requesting new orders
-            // updateOrders();
-            // storedData.idTimerUpdateOrders = setInterval(updateOrders, 5000);
-            // // restart updating the orders states
-            // updateOrdersStates();
-            // storedData.idTimerUpdateOrdersStates = setInterval(updateOrdersStates, 1000);
+            // restart requesting updates
+            updateData();
+            storedData.idTimerupdateData = setInterval(updateData, 5000);
         }
     });
 </script>

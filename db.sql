@@ -4,8 +4,7 @@ CREATE DATABASE esaip_s4_restaurant COLLATE utf8_general_ci;
 USE esaip_s4_restaurant;
 
 -- on utilise le fuseau horaire français
-SET GLOBAL time_zone = 'Europe/Paris';
-SET time_zone = 'Europe/Paris';
+-- -> maintenant géré avec docker
 
 -- tables et contraintes
 
@@ -273,8 +272,8 @@ INSERT INTO `table` (numero, ID_secteur, ID_etat_table) VALUES
 (20, 4, 1);
 
 INSERT INTO `reservation` (nom_client, date, nombre_personnes, notes) VALUES
-("Anderson", "2025-05-09 20:15:00", 2, DEFAULT),
-("Smith", "2025-05-10 12:30:00", 8, "un bébé");
+("Anderson", "2025-05-11 20:15:00", 2, DEFAULT),
+("Smith", "2025-05-10 08:30:00", 8, "un bébé");
 
 INSERT INTO `reserver` (ID_reservation, ID_table) VALUES
 (1, 10),

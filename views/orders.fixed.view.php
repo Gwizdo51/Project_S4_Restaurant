@@ -269,12 +269,6 @@
         });
     }
 
-    // remember which "order ready" button was clicked
-    // function onReadyButtonClick(button) {
-    //     // store a reference to the button
-    //     storedData.buttonClicked = button;
-    // }
-
     // set an order to "ready" state on "OK" button click in confirmation modal
     async function onConfirmButtonClick() {
         // disable every "order ready" buttons while waiting for the API response

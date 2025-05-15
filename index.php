@@ -42,6 +42,10 @@ elseif ($route === '/mobile') {
 elseif (preg_match('~^/mobile/(\d+)$~u', $route, $route_regex_matches)) {
     require_once './controllers/server_hub.mobile.controller.php';
 }
+// /mobile/3/nouvelle-commande
+elseif (preg_match('~^/mobile/(\d+)/nouvelle-commande/(\d+)$~u', $route, $route_regex_matches)) {
+    // ...
+}
 // FIXE
 elseif ($route === '/fixe') {
     require_once './controllers/landing.fixed.controller.php';
@@ -106,14 +110,23 @@ elseif (preg_match('~^/api/get-orders-to-prepare/(\d+)$~u', $route, $route_regex
 elseif ($route === '/api/set-order-ready') {
     require_once './api/set_order_ready.api.php';
 }
+elseif ($route === '/api/set-order-delivered') {
+    require_once './api/set_order_delivered.api.php';
+}
 elseif ($route === '/api/get-current-receipts') {
     require_once './api/get_current_receipts.api.php';
+}
+elseif ($route === '/api/create-receipt') {
+    require_once './api/create_receipt.api.php';
 }
 elseif ($route === '/api/cancel-reservation') {
     require_once './api/cancel_reservation.api.php';
 }
 elseif (preg_match('~^/api/get-server-hub-data/(\d+)$~u', $route, $route_regex_matches)) {
     require_once './api/get_server_hub_data.api.php';
+}
+elseif ($route === '/api/set-table-state') {
+    require_once './api/set_table_state.api.php';
 }
 // tests bootstrap
 elseif ($route === '/test-bootstrap') {

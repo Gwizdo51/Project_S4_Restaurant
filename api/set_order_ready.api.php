@@ -4,7 +4,9 @@
 require_once './models/order.class.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    echo json_encode(Order::set_order_to_ready($_POST['order-id']));
+    // send back a JSON
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(Order::set_order_state($_POST['order-id'], 2));
 }
 else {
     echo 'Wrong use of this API';

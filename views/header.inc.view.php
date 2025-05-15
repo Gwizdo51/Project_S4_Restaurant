@@ -7,10 +7,14 @@
     <!-- 🔹 Bootstrap CSS -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* on mobile only */
+        /* .container-fluid > * {
+            overflow-x: hidden;
+        } */
         .icon {
             height: 3rem;
         }
-        .hide-last-hr hr:last-child {
+        .hide-last-hr > hr:last-child {
             display: none;
         }
     </style>

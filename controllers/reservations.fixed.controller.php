@@ -39,7 +39,6 @@ foreach ($reservations_array as $reservation_id => $reservation_array) {
         $date_text_color = '';
         $date_time = $reservation_date->format('d/m<br>H:i');
     }
-    // $date_time = (new DateTime($reservation_array['date']))->format('d/m<br>H:i');
     $client_name = $reservation_array['nom_client'];
     $number_people = $reservation_array['nombre_personnes'];
     $tables_reserved = implode(', ', $reservation_array['tables']);
