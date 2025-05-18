@@ -32,6 +32,7 @@ services:
     - "3306:3306"
     # mount a local directory to save the database files
     volumes:
+    # - "./data:/var/lib/mysql"
     - "~/Documents/code/docker_data/Project_S4_Restaurant:/var/lib/mysql"
     environment:
       TZ: "Europe/Paris"
@@ -55,3 +56,22 @@ services:
     environment:
       TZ: "Europe/Paris"
       PMA_HOST: "mysql_container"
+
+  scss_compiler_container:
+    container_name: "scss_compiler_container"
+    networks:
+    - "amp_net"
+    # spawn from a Dockerfile
+    build:
+      context: "./"
+      target: "scss_compiler_img"
+    user: "1000:1000"
+    volumes:
+    - "../assets/scss:/sass:ro"
+    - "../assets/css:/css"
+    # uncomment to compile the css files after every change
+    # command:
+    # - "--watch"
+    # - "--no-source-map"
+    # - "-s"
+    # - "compressed"

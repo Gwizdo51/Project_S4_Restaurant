@@ -6,11 +6,11 @@
 <div class="container-fluid min-vh-100 d-flex flex-column">
 
 <!-- title bar -->
-<div class="row bg-body-tertiary position-sticky top-0 align-items-center">
+<div class="row bg-body-tertiary position-sticky top-0 align-items-center z-1">
     <div class="col-9 display-5 pt-2 pb-3 text-center text-body">Serveur: <?= $server_name ?></div>
     <div class="col-3 p-0 text-end">
         <a href="/mobile" type="button" class="btn btn-primary p-1 m-2">
-            <img src="/assets/img/log-out.svg" alt="logout icon" class="img-fluid icon">
+            <img src="/assets/img/log-out.svg" alt="logout icon" class="img-fluid mh-3rem">
         </a>
     </div>
     <hr class="mb-0">
@@ -32,7 +32,7 @@
         <div class="col-3 px-0">
             <!-- <button type="button" class="btn btn-secondary m-2 invisible" data-bs-toggle="modal" data-bs-target="#reservationsDetailsModal" onclick="console.log('reservation icon clicked');"> -->
             <button type="button" class="btn btn-secondary m-2 invisible" onclick="onReservationButtonClick(this);">
-                <img src="/assets/img/reserved.svg" alt="reservation icon" class="icon">
+                <img src="/assets/img/reserved.svg" alt="reservation icon" class="mh-3rem">
             </button>
         </div>
     </div>

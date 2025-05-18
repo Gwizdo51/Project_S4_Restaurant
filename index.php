@@ -14,9 +14,6 @@ session_setup();
 
 // set the timezone
 date_default_timezone_set('Europe/Paris');
-// set the locale for money formatting
-// setlocale(LC_MONETARY, 'fr_FR');
-$price_formatter = new NumberFormatter('fr_FR', NumberFormatter::CURRENCY);
 
 // test - remove element from array
 // $test_array = [];

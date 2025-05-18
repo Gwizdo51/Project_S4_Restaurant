@@ -93,7 +93,7 @@ else {
             foreach ($category_array[$category_label] as $product_array) {
                 $product_id = $product_array['id'];
                 $product_label = $product_array['label'];
-                $product_price = $price_formatter->formatCurrency($product_array['prix'], "EUR");
+                $product_price = format_price((float) $product_array['prix']);
                 require './views/templates/order_form_product.template.mobile.view.php';
             }
             // - part 2

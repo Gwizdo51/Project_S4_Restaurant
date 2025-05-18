@@ -51,12 +51,10 @@ class Server {
                 LEFT JOIN (
                     SELECT r2.* FROM `reserver` r2
                     JOIN `reservation` r1 ON r2.ID_reservation = r1.ID_reservation
-                    WHERE CAST(r1.date AS DATE) >= CAST(NOW() AS DATE)
+                    WHERE CAST(r1.date AS DATE) = CAST(NOW() AS DATE)
+                    AND r1.date_suppression IS NULL
                 ) res2 ON t.ID_table = res2.ID_table
-                LEFT JOIN (
-                    SELECT r.* FROM `reservation` r
-                    WHERE r.date_suppression IS NULL
-                ) res1 ON res2.ID_reservation = res1.ID_reservation
+                LEFT JOIN `reservation` res1 ON res2.ID_reservation = res1.ID_reservation
                 LEFT JOIN (
                     SELECT b.* FROM `bon` b
                     WHERE b.date_suppression IS NULL

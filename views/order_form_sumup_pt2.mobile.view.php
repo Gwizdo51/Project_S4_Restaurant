@@ -5,15 +5,15 @@
     <div class="col-12 bg-body-tertiary border border-secondary rounded d-grid pe-auto">
         <div class="row p-2">
             <div class="col-sm-4 col-6 p-0 d-grid">
-                <button type="button" class="btn btn-danger fs-5 p-0 m-2" data-bs-toggle="modal" data-bs-target="#confirmationModal" onclick="onCancelOrderButtonClick();" style="min-height: 50px;">Annuler</button>
+                <button type="button" class="btn btn-control btn-danger fs-5 p-0 m-2" data-bs-toggle="modal" data-bs-target="#confirmationModal" onclick="onCancelOrderButtonClick();">Annuler</button>
             </div>
             <div class="col-sm-4 col-6 p-0 d-grid">
                 <button type="button" class="btn btn-primary fs-5 p-0 m-2" onclick="onAddItemButtonClick();">
-                    <img src="/assets/img/plus.svg" alt="plus icon" class="img-fluid icon">
+                    <img src="/assets/img/plus.svg" alt="plus icon" class="mh-3rem img-fluid">
                 </button>
             </div>
             <div class="col-sm-4 col-12 p-0 d-grid">
-                <button type="button" class="btn btn-success fs-5 m-2" data-bs-toggle="modal" data-bs-target="#confirmationModal" onclick="onConfirmOrderButtonClick();" style="min-height: 50px;"<?= $disable_confirm_button ?>>Valider</button>
+                <button type="button" class="btn btn-control btn-success fs-5 m-2" data-bs-toggle="modal" data-bs-target="#confirmationModal" onclick="onConfirmOrderButtonClick();"<?= $disable_confirm_button ?>>Valider</button>
             </div>
         </div>
     </div>
@@ -22,15 +22,15 @@
     <div class="col-12 bg-body-tertiary border border-secondary rounded d-grid pe-auto">
         <div class="row p-2">
             <div class="col-sm-4 col-6 p-0 d-grid">
-                <button type="button" class="btn btn-danger fs-5 p-0 m-2" data-bs-toggle="modal" data-bs-target="#confirmationModal" onclick="onCancelOrderButtonClick();" style="min-height: 50px;">Annuler</button>
+                <button type="button" class="btn btn-control btn-danger fs-5 p-0 m-2" data-bs-toggle="modal" data-bs-target="#confirmationModal" onclick="onCancelOrderButtonClick();">Annuler</button>
             </div>
             <div class="col-sm-4 col-6 p-0 d-grid">
                 <button type="button" class="btn btn-primary fs-5 p-0 m-2" onclick="onAddItemButtonClick();">
-                    <img src="/assets/img/plus.svg" alt="plus icon" class="img-fluid icon">
+                    <img src="/assets/img/plus.svg" alt="plus icon" class="mh-3rem img-fluid">
                 </button>
             </div>
             <div class="col-sm-4 col-12 p-0 d-grid">
-                <button type="button" class="btn btn-success fs-5 m-2" data-bs-toggle="modal" data-bs-target="#confirmationModal" onclick="onConfirmOrderButtonClick();" style="min-height: 50px;"<?= $disable_confirm_button ?>>Valider</button>
+                <button type="button" class="btn btn-control btn-success fs-5 m-2" data-bs-toggle="modal" data-bs-target="#confirmationModal" onclick="onConfirmOrderButtonClick();"<?= $disable_confirm_button ?>>Valider</button>
             </div>
         </div>
     </div>

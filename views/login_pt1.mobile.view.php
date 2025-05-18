@@ -1,7 +1,7 @@
 <div class="container-fluid min-vh-100 d-flex flex-column">
 
 <!-- title bar -->
-<div class="row text-center bg-body-tertiary position-sticky top-0">
+<div class="row text-center bg-body-tertiary position-sticky top-0 z-1">
     <div class="display-5 pt-2 pb-3">Sélectionnez votre nom</div>
     <hr class="mb-0">
 </div>

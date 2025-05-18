@@ -4,22 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= $tab_title ?></title>
+    <!-- custom css -->
+    <link href="/assets/css/design.css" rel="stylesheet">
     <!-- 🔹 Bootstrap CSS -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* on mobile only */
-        /* .container-fluid > * {
-            overflow-x: hidden;
-        } */
-        .icon {
-            height: 3rem;
-        }
-        .hide-last-hr > hr:last-child {
-            display: none;
-        }
-        .btn-control {
-            min-height: 50px;
-        }
-    </style>
 </head>
 <body>

@@ -1,7 +1,7 @@
 <div class="container-fluid min-vh-100 d-flex flex-column">
 
 <!-- title bar -->
-<div class="row text-center bg-body-tertiary position-sticky top-0">
+<div class="row text-center bg-body-tertiary position-sticky top-0 z-1">
     <div class="display-5 pt-2 pb-3">Nouvelle commande - Table <?= $table_number ?></div>
     <hr class="mb-0">
 </div>
@@ -16,7 +16,7 @@
 <main class="row flex-grow-1 d-flex flex-column justify-content-center align-items-center text-center py-2">
 
 <!-- list of products -->
-<div class="col-10 p-0 fs-5 d-flex flex-column">
+<div class="col-sm-10 p-0 fs-5 d-flex flex-column">
     <!-- <div role="button" class="row m-2 bg-body-secondary border border-secondary border-2 rounded" onclick="onProductClick(7);">
         <div class="col-8 p-3 border-end border-secondary border-2">Evian</div>
         <div class="col-4 p-3 text-secondary-emphasis">1 €</div>

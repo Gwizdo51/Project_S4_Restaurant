@@ -70,3 +70,14 @@ function sanitize_input($input): string {
     $input = htmlspecialchars($input);
     return $input;
 }
+
+const PRICE_FORMATTER = new NumberFormatter('fr_FR', NumberFormatter::CURRENCY);
+/**
+ * Returns the string representing the specified number
+ * formatted as a price in euros
+ * @param float $price_number
+ * @return string
+ */
+function format_price($price_number): string {
+    return PRICE_FORMATTER->formatCurrency($price_number, "EUR");
+}
