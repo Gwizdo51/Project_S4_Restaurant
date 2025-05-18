@@ -1,7 +1,13 @@
--- script de création de database (mysql)
+DROP USER IF EXISTS "restaurant_app_user"@"%"; -- '%' = any host
 DROP DATABASE IF EXISTS esaip_s4_restaurant;
+
+-- script de création de database (mysql)
 CREATE DATABASE esaip_s4_restaurant COLLATE utf8_general_ci;
 USE esaip_s4_restaurant;
+
+-- création de l'utilisateur
+CREATE USER "restaurant_app_user"@"%" IDENTIFIED BY "password";
+GRANT ALL PRIVILEGES ON esaip_s4_restaurant.* TO "restaurant_app_user"@"%";
 
 -- on utilise le fuseau horaire français
 -- -> maintenant géré avec docker

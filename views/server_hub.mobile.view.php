@@ -183,10 +183,10 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-6 d-grid">
-                            <button type="button" class="btn btn-danger py-5 fs-4" data-bs-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn btn-danger py-3 fs-4" data-bs-dismiss="modal">Annuler</button>
                         </div>
                         <div class="col-6 d-grid">
-                            <button type="button" class="btn btn-success py-5 fs-4" onclick="onConfirmButtonClick();" data-bs-dismiss="modal">OK</button>
+                            <button type="button" class="btn btn-success py-3 fs-4" onclick="onConfirmButtonClick();" data-bs-dismiss="modal">OK</button>
                         </div>
                     </div>
                 </div>
@@ -207,6 +207,7 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary px-5 py-3" data-bs-dismiss="modal">OK</button>
             </div>
+        </div>
     </div>
 </div>
 
@@ -489,7 +490,9 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
         // clear the content of the reservation modal
         storedData.reservationsDetailsModalContent.innerHTML = "";
         // fill the reservation modal with the reservations data
-        const reservationsDataArray = storedData.apiJsonResponse[tableId].reservations;
+        const tableJson = storedData.apiJsonResponse[tableId];
+        document.querySelector("#reservationsDetailsModal h4").innerHTML = `Réservations pour aujourd'hui<br>Table ${tableJson.numero}`;
+        const reservationsDataArray = tableJson.reservations;
         reservationsDataArray.forEach((reservationDataArray) => {
             // clone the content from the reservation template
             const reservationElement = document.querySelector("#reservationTemplate").content.cloneNode(true);
@@ -503,7 +506,7 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
             dataColumn.querySelector(".rowName").textContent = reservationDataArray.nomClient;
             dataColumn.querySelector(".rowTime").textContent = `${hoursString}:${minutesString}`;
             dataColumn.querySelector(".rowPeople").textContent = reservationDataArray.nombrePersonnes;
-            dataColumn.querySelector(".rowDetails").innerHTML = reservationDataArray.notes.replace("\r\n", "<br>");
+            dataColumn.querySelector(".rowDetails").innerHTML = reservationDataArray.notes.replaceAll("\n", "<br>");
             // add the element to the modal
             storedData.reservationsDetailsModalContent.append(reservationElement);
         });
@@ -512,12 +515,11 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
     }
 
     function onTableClick(tableElement) {
-        // console.log(tableElement);
         // remember which table was clicked
         storedData.clickedElement = tableElement.parentElement;
         // if the table is in the "occupied" state ...
         if (storedData.clickedElement.dataset.state === "primary") {
-            // console.log("creating a new order ...");
+            // redirect to the order form page
             window.location.href = `/mobile/${storedData.serverId}/nouvelle-commande/${storedData.clickedElement.dataset.tableId}`;
         }
         else {

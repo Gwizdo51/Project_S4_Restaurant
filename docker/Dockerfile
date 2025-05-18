@@ -1,9 +1,14 @@
 # start from the official php apache image
 FROM php:8.3-apache AS apache_server_img
 # set php engine in development mode
-# RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+# update apt
+RUN apt-get -y update
 # add mysqli extension
 RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+# install libicu and add the intl extension (currency formatting)
+RUN apt-get install -y libicu-dev
+RUN docker-php-ext-configure intl && docker-php-ext-install intl
 # activate the rewrite mod
 RUN a2enmod rewrite
 # copy the apache2.conf

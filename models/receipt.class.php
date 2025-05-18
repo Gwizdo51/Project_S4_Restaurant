@@ -1,9 +1,6 @@
 <?php
 
 class Receipt {
-    /* Static methods
-     * - get all current receipts (waiting for payment)
-     */
 
     /**
      * Creates a new receipt in the database
@@ -77,7 +74,7 @@ class Receipt {
                 LEFT JOIN `commande` c ON b.ID_bon = c.ID_bon
                 LEFT JOIN `item` i ON c.ID_commande = i.ID_commande
                 LEFT JOIN `produit` p ON i.ID_produit = p.ID_produit
-                WHERE b.ID_bon = 2
+                WHERE b.ID_bon = {$id}
                 GROUP BY b.ID_bon";
         $result_cursor = $db_connection->query($query);
         $row = $result_cursor->fetch_assoc();
@@ -153,6 +150,32 @@ class Receipt {
                         WHERE ID_bon = {$id}
                     )";
         $result_array['successQuery2'] = (bool) $db_connection->query($query_2);
+        $db_connection->close();
+        return $result_array;
+    }
+
+    /**
+     * @param int $id_table
+     * @return int[]
+     */
+    public static function get_table_current_receipt_id_and_number($id_table): array {
+        $db_connection = get_db_connection();
+        // SELECT b.ID_bon, t.numero
+        // FROM `table` t
+        // JOIN `bon` b ON t.ID_table = b.ID_table
+        // WHERE t.ID_table = 11
+        // AND b.date_suppression IS NULL
+        $query = "SELECT b.ID_bon, t.numero
+                FROM `table` t
+                JOIN `bon` b ON t.ID_table = b.ID_table
+                WHERE t.ID_table = {$id_table}
+                AND b.date_suppression IS NULL";
+        $result_cursor = $db_connection->query($query);
+        $row = $result_cursor->fetch_assoc();
+        $result_array = [
+            'id_bon' => (int) $row['ID_bon'],
+            'numero_table' => (int) $row['numero']
+        ];
         $db_connection->close();
         return $result_array;
     }

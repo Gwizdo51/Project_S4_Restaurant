@@ -31,6 +31,7 @@ else {
         $tab_title = "Bon n°{$id_receipt} - Ajout de produits sans commande - ".WEBSITE_TITLE;
         $page_title = "Bon n°{$id_receipt} - Ajouter des produits sans commande";
     }
+    // display the page
     // - header
     require './views/header.inc.fixed.view.php';
     // - side navbar
@@ -55,11 +56,10 @@ else {
             }
             require './views/receipt_add_products_form_sumup_pt1.fixed.view.php';
             // - list of items
-            // foreach ($order_form_items_list as $item) {
             for ($item_index = 0; $item_index < count($order_form_items_list); $item_index++) {
                 $item = $order_form_items_list[$item_index];
                 $product_label = $item->get_product_label();
-                $details = $item->get_details();
+                $details = str_replace("\n", '<br>', $item->get_details());
                 require './views/templates/receipt_add_products_form_item.template.fixed.view.php';
             }
             // - part 2
@@ -97,24 +97,19 @@ else {
             $display_no_options_message = count($product_order_options_array) === 0 ? '' : ' d-none';
             require './views/receipt_add_products_form_product_details_pt1.fixed.view.php';
             // - list of order options
-            foreach (array_keys($product_order_options_array) as $option_id) {
-                $option_array = $product_order_options_array[$option_id];
+            foreach ($product_order_options_array as $option_id => $option_array) {
                 $option_label = $option_array['label'];
-                $choice_type_id = $option_array['id_type_choix'];
                 require './views/templates/receipt_add_products_form_option.template.fixed.view.php';
-                $choices_array = $option_array['choix'];
+                $choice_type_id = $option_array['id_type_choix'];
                 $is_first_choice = true;
-                foreach (array_keys($choices_array) as $choice_id) {
-                    $choice_label = $choices_array[$choice_id];
+                foreach ($option_array['choix'] as $choice_id => $choice_label) {
                     if ($choice_type_id === 1) {
                         // radio buttons
+                        $checked = '';
                         $type = 'radio';
                         if ($is_first_choice) {
                             $checked = ' checked';
                             $is_first_choice = false;
-                        }
-                        else {
-                            $checked = '';
                         }
                         $name = $option_id;
                         $value = $choice_id;
@@ -134,10 +129,9 @@ else {
             require './views/receipt_add_products_form_product_details_pt2.fixed.view.php';
             break;
         default:
-            throw new RuntimeException("This error should never be thrown");
+            throw new RuntimeException('This error should never be thrown');
     }
 }
 
 // finish processing
 $order_form->end($keep);
-// var_dump_pre($_SESSION);

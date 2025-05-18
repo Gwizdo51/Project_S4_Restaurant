@@ -217,6 +217,6 @@ abstract class OrderForm {
         if (strlen($details) !== 0) {
             $item_details_string_list[] = $details;
         }
-        return implode('<br>', $item_details_string_list);
+        return implode("\n", $item_details_string_list);
     }
 }

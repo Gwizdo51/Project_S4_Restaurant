@@ -17,6 +17,9 @@
         .hide-last-hr > hr:last-child {
             display: none;
         }
+        .btn-control {
+            min-height: 50px;
+        }
     </style>
 </head>
 <body>

@@ -7,7 +7,7 @@
 <!-- details textarea -->
 <label class="row mx-3 mb-3 mb-3 justify-content-center fs-4" for="inputDetails">Détails</label>
 <div class="mb-3 mx-3 p-0">
-    <textarea id="inputDetails" class="p-3 form-control form-control-lg" form="form" name="details" rows="5" placeholder="Entrez des détails"></textarea>
+    <textarea id="inputDetails" class="p-3 form-control form-control-lg" form="form" name="details" rows="5" placeholder="Entrez des détails ..."></textarea>
 </div>
 
 <!-- order options -->

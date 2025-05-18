@@ -9,11 +9,14 @@ require_once './lib/utils.php';
 session_start();
 // setup the session array structure
 session_setup();
-// var_dump_pre($_SESSION);
 // session_destroy();
+// var_dump_pre($_SESSION);
 
 // set the timezone
 date_default_timezone_set('Europe/Paris');
+// set the locale for money formatting
+// setlocale(LC_MONETARY, 'fr_FR');
+$price_formatter = new NumberFormatter('fr_FR', NumberFormatter::CURRENCY);
 
 // test - remove element from array
 // $test_array = [];
@@ -28,11 +31,14 @@ date_default_timezone_set('Europe/Paris');
 // $test_array = array_values($test_array);
 // var_dump_pre($test_array);
 
-// echo $_GET['route'];
 $route = $_GET['route'];
 $route_regex_matches = [];
+// remove trailing forward slashes
+if (preg_match('~^(.+)/$~u', $route, $route_regex_matches)) {
+    header("Location: {$route_regex_matches[1]}");
+}
 // pages
-if ($route === '/accueil') {
+elseif ($route === '/accueil') {
     require_once './controllers/main_landing.controller.php';
 }
 // MOBILE
@@ -44,7 +50,11 @@ elseif (preg_match('~^/mobile/(\d+)$~u', $route, $route_regex_matches)) {
 }
 // /mobile/3/nouvelle-commande
 elseif (preg_match('~^/mobile/(\d+)/nouvelle-commande/(\d+)$~u', $route, $route_regex_matches)) {
-    // ...
+    require_once './controllers/order_form.mobile.controller.php';
+}
+elseif (preg_match('~^/mobile/(\d+)/nouvelle-commande$~u', $route, $route_regex_matches)) {
+    // redirect to the server hub
+    header("Location: /mobile/{$route_regex_matches[1]}");
 }
 // FIXE
 elseif ($route === '/fixe') {

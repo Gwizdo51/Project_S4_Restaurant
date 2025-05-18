@@ -10,7 +10,7 @@ $server_name = Server::get_server_name_json($server_id);
 
 // display the page
 // - header
-$tab_title = 'Identification du serveur - '.WEBSITE_TITLE;
+$tab_title = $server_name.' - '.WEBSITE_TITLE;
 require './views/header.inc.view.php';
 // - page content
 require './views/server_hub.mobile.view.php';

@@ -46,7 +46,7 @@ function generate_navbar($index_active_tab): string {
  * @return mysqli
  */
 function get_db_connection(): mysqli {
-    return new mysqli('mysql_container', 'root', '123456789', 'esaip_s4_restaurant');
+    return new mysqli('mysql_container', 'restaurant_app_user', 'password', 'esaip_s4_restaurant');
 }
 
 /**
