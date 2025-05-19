@@ -65,13 +65,14 @@ services:
     build:
       context: "./"
       target: "scss_compiler_img"
+    # write the files as myself (not root)
     user: "1000:1000"
     volumes:
     - "../assets/scss:/sass:ro"
     - "../assets/css:/css"
-    # uncomment to compile the css files after every change
-    # command:
-    # - "--watch"
-    # - "--no-source-map"
-    # - "-s"
-    # - "compressed"
+    command:
+    - "/sass/:/css/"
+    - "--no-source-map"
+    - "--style=compressed"
+    # uncomment the following line to compile the css files after every change
+    - "--watch"

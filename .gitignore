@@ -1,4 +1,5 @@
 # don't version the database
 docker/data/
-assets/css/design.css*
-assets/css/bootstrap
+
+# scss compiler output
+assets/css/design.css

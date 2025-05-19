@@ -28,4 +28,5 @@ ARG DART_SASS_URL=https://github.com/sass/dart-sass/releases/download/${DART_SAS
 ADD ${DART_SASS_URL} /opt/
 RUN cd /opt/ && tar -xzf ${DART_SASS_TAR} && rm ${DART_SASS_TAR}
 WORKDIR /opt/dart-sass
-ENTRYPOINT ["/opt/dart-sass/sass", "/sass:/css"]
+# ENTRYPOINT ["/opt/dart-sass/sass", "/sass:/css"]
+ENTRYPOINT ["/opt/dart-sass/sass"]
