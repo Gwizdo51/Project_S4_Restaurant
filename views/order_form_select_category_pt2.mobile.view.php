@@ -14,7 +14,7 @@
     <div class="col-sm-4 col-8 bg-body-tertiary border border-secondary rounded d-grid pe-auto">
         <div class="row p-2 d-grid">
             <div class="col-12 p-0 d-grid">
-                <input type="submit" class="btn btn-control btn-danger fs-5 p-0 m-2" form="form" name="back" value="Retour">
+                <input type="submit" class="btn btn-control btn-danger fs-5 p-0 m-2 text-wrap" form="form" name="back" value="Retour">
             </div>
         </div>
     </div>

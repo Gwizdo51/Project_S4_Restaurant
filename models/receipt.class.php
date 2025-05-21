@@ -142,6 +142,11 @@ class Receipt {
             $db_connection->close();
             return $result_array;
         }
+        // set every order of the receipt to "delivered"
+        $query = "UPDATE `commande`
+                SET ID_etat_commande = 3
+                WHERE ID_bon = {$id}";
+        $db_connection->query($query);
         // set the associated table to "to clean"
         $query_2 = "UPDATE `table`
                     SET ID_etat_table = 3

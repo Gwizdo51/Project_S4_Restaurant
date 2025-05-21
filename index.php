@@ -123,6 +123,12 @@ elseif ($route === '/api/set-order-delivered') {
 elseif ($route === '/api/get-current-receipts') {
     require_once './api/get_current_receipts.api.php';
 }
+elseif ($route === '/api/get-server-settings') {
+    require_once './api/get_server_settings_data.api.php';
+}
+elseif ($route === '/api/update-servers') {
+    require_once './api/update-servers.api.php';
+}
 elseif ($route === '/api/create-receipt') {
     require_once './api/create_receipt.api.php';
 }

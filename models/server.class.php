@@ -4,10 +4,10 @@ class Server {
     public static function get_all_active_servers_json(): array {
         $db_connection = get_db_connection();
         $query = "SELECT ser.ID_serveur, ser.nom 'nom_serveur', sec.nom 'nom_secteur'
-                  FROM `serveur` ser
-                  JOIN `secteur` sec ON ser.ID_secteur = sec.ID_secteur
-                  WHERE ser.date_suppression IS NULL
-                  ORDER BY ser.ID_serveur";
+                FROM `serveur` ser
+                LEFT JOIN `secteur` sec ON ser.ID_secteur = sec.ID_secteur
+                WHERE ser.date_suppression IS NULL
+                ORDER BY ser.ID_serveur";
         $result_cursor = $db_connection->query($query);
         $servers_array = [];
         while ($row = $result_cursor->fetch_assoc()) {
@@ -130,5 +130,77 @@ class Server {
         $db_connection->close();
         return $data_array;
         // return [];
+    }
+
+    public static function get_server_settings_json(): array {
+        $data_array = [
+            'serveurs' => [],
+            'secteurs' => []
+        ];
+        $db_connection = get_db_connection();
+        $servers_query = "SELECT ser.ID_serveur, ser.nom, sec.ID_secteur
+                        FROM `serveur` ser
+                        LEFT JOIN `secteur` sec ON ser.ID_secteur = sec.ID_secteur
+                        WHERE ser.date_suppression IS NULL
+                        ORDER BY ser.ID_serveur";
+        $servers_result_cursor = $db_connection->query($servers_query);
+        while ($row = $servers_result_cursor->fetch_assoc()) {
+            $data_array['serveurs'][(int) $row['ID_serveur']] = [
+                'nom' => $row['nom'],
+                'id_secteur' => (int) $row['ID_secteur']
+            ];
+        }
+        $sectors_query = "SELECT sec.ID_secteur, sec.nom
+                        FROM `secteur` sec
+                        WHERE sec.date_suppression IS NULL
+                        ORDER BY sec.ID_secteur";
+        $sectors_result_cursor = $db_connection->query($sectors_query);
+        while ($row = $sectors_result_cursor->fetch_assoc()) {
+            $data_array['secteurs'][(int) $row['ID_secteur']] = $row['nom'];
+        }
+        $db_connection->close();
+        return $data_array;
+    }
+
+    /**
+     * @param array $json_content
+     * @return array
+     */
+    public static function update_servers($json_content): array {
+        $result_array = ['success' => true];
+        $db_connection = get_db_connection();
+        // update the servers in $json_content['changed']
+        foreach ($json_content['changed'] as $server_to_update) {
+            $id_sector = $server_to_update['sectorId'] === 0 ? 'NULL' : $server_to_update['sectorId'];
+            $update_query = "UPDATE `serveur`
+                            SET nom = '{$server_to_update['serverName']}', ID_secteur = {$id_sector}
+                            WHERE ID_serveur = {$server_to_update['serverId']}";
+            $db_connection->query($update_query);
+        }
+        // add the servers in $json_content['new']
+        if (count($json_content['new']) !== 0) {
+            $insert_query = 'INSERT INTO `serveur` (nom, ID_secteur) VALUES ';
+            $strings_array = [];
+            foreach ($json_content['new'] as $server_to_add) {
+                $id_sector = $server_to_add['sectorId'] === 0 ? 'NULL' : $server_to_add['sectorId'];
+                $strings_array[] = "('{$server_to_add['serverName']}', {$id_sector})";
+            }
+            $insert_query .= implode(', ', $strings_array);
+            $db_connection->query($insert_query);
+        }
+        // delete the servers in $json_content['toDelete']
+        if (count($json_content['toDelete']) !== 0) {
+            $delete_query = 'UPDATE `serveur`
+                            SET date_suppression = NOW()
+                            WHERE ';
+            $strings_array = [];
+            foreach ($json_content['toDelete'] as $id_server_to_delete) {
+                $strings_array[] = "ID_serveur = {$id_server_to_delete}";
+            }
+            $delete_query .= implode(' OR ', $strings_array);
+            $db_connection->query($delete_query);
+        }
+        $db_connection->close();
+        return $result_array;
     }
 }

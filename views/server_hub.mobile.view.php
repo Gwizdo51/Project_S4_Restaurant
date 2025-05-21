@@ -480,7 +480,7 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
         const response = await fetch(`/api/get-server-hub-data/${storedData.serverId}`);
         if (response.ok) {
             storedData.apiJsonResponse = await response.json();
-            updateDisplayedContent()
+            updateDisplayedContent();
         }
     }
 
