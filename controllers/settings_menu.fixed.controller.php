@@ -2,7 +2,7 @@
 
 // display the page
 // - header
-$tab_title = 'Modification de la carte - '.WEBSITE_TITLE;
+$tab_title = 'Configuration - Carte - '.WEBSITE_TITLE;
 require './views/header.inc.fixed.view.php';
 // - side navbar
 echo generate_navbar(6);

@@ -40,19 +40,21 @@
 
 <!-- reservation template -->
 <template id="reservationTemplate">
-    <div class="row">
-        <div class="col-6 text-secondary text-end">
-            <div>Nom du client</div>
-            <div>Heure</div>
-            <div>Nombre de personnes</div>
-            <div>Détails</div>
-        </div>
-        <div class="col-6">
-            <div class="rowName">Anderson</div>
-            <div class="rowTime">19:20</div>
-            <div class="rowPeople">4</div>
-            <div class="rowDetails">Un bébé</div>
-        </div>
+    <div class="row align-items-center">
+        <div class="col-6 text-secondary text-end">Nom du client</div>
+        <div class="rowName col-6">Anderson</div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col-6 text-secondary text-end">Heure</div>
+        <div class="rowTime col-6">19:20</div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col-6 text-secondary text-end">Nombre de personnes</div>
+        <div class="rowPeople col-6">4</div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col-6 text-secondary text-end">Détails</div>
+        <div class="rowDetails col-6">Un bébé</div>
     </div>
     <hr>
 </template>
@@ -486,7 +488,6 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
 
     function onReservationButtonClick(button) {
         const tableId = button.parentElement.parentElement.dataset.tableId;
-        // console.log(tableId);
         // clear the content of the reservation modal
         storedData.reservationsDetailsModalContent.innerHTML = "";
         // fill the reservation modal with the reservations data
@@ -496,17 +497,15 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
         reservationsDataArray.forEach((reservationDataArray) => {
             // clone the content from the reservation template
             const reservationElement = document.querySelector("#reservationTemplate").content.cloneNode(true);
-            const mainDiv = reservationElement.firstElementChild;
-            const dataColumn = mainDiv.querySelector("div.row > div:last-child");
             // get the time of the reservation
             const reservationDate = new Date(reservationDataArray.date);
             const hoursString = `${reservationDate.getHours()}`.padStart(2, "0");
             const minutesString = `${reservationDate.getMinutes()}`.padStart(2, "0");
             // fill the reservation element with the data
-            dataColumn.querySelector(".rowName").textContent = reservationDataArray.nomClient;
-            dataColumn.querySelector(".rowTime").textContent = `${hoursString}:${minutesString}`;
-            dataColumn.querySelector(".rowPeople").textContent = reservationDataArray.nombrePersonnes;
-            dataColumn.querySelector(".rowDetails").innerHTML = reservationDataArray.notes.replaceAll("\n", "<br>");
+            reservationElement.querySelector(".rowName").textContent = reservationDataArray.nomClient;
+            reservationElement.querySelector(".rowTime").textContent = `${hoursString}:${minutesString}`;
+            reservationElement.querySelector(".rowPeople").textContent = reservationDataArray.nombrePersonnes;
+            reservationElement.querySelector(".rowDetails").innerHTML = reservationDataArray.notes.replaceAll("\n", "<br>");
             // add the element to the modal
             storedData.reservationsDetailsModalContent.append(reservationElement);
         });

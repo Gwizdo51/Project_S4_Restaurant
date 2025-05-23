@@ -126,11 +126,11 @@ class Reservation {
             //     AND t.numero = 17
             // ))
             $insert_query = "INSERT INTO `reserver` (ID_reservation, ID_table) VALUES
-                             ({$id_reservation}, (
-                                 SELECT ID_table FROM `table` t
-                                 WHERE t.date_suppression IS NULL
-                                 AND t.numero = {$table_number}
-                             ))";
+                            ({$id_reservation}, (
+                                SELECT ID_table FROM `table` t
+                                WHERE t.date_suppression IS NULL
+                                AND t.numero = {$table_number}
+                            ))";
             $db_connection->query($insert_query);
         }
         $db_connection->close();
@@ -149,10 +149,10 @@ class Reservation {
         // WHERE r1.ID_reservation = 4
         $db_connection = get_db_connection();
         $query = "SELECT r1.nom_client, r1.date, r1.nombre_personnes, r1.notes, t.numero numero_table
-                  FROM `reservation` r1
-                  LEFT JOIN `reserver` r2 ON r2.ID_reservation = r1.ID_reservation
-                  LEFT JOIN `table` t ON t.ID_table = r2.ID_table
-                  WHERE r1.ID_reservation = {$id}";
+                FROM `reservation` r1
+                LEFT JOIN `reserver` r2 ON r2.ID_reservation = r1.ID_reservation
+                LEFT JOIN `table` t ON t.ID_table = r2.ID_table
+                WHERE r1.ID_reservation = {$id}";
         $result_cursor = $db_connection->query($query);
         $reservation = null;
         while ($row = $result_cursor->fetch_assoc()) {
@@ -186,19 +186,19 @@ class Reservation {
         $db_connection = get_db_connection();
         $datetime = (new DateTimeImmutable($this->input_datetime))->format('Y-m-d H:i:s');
         $update_query = "UPDATE `reservation`
-                         SET nom_client = '{$this->input_name_client}', date = '{$datetime}', nombre_personnes = {$this->input_number_people}, notes = '{$this->input_details}'
-                         WHERE ID_reservation = {$id}";
+                        SET nom_client = '{$this->input_name_client}', date = '{$datetime}', nombre_personnes = {$this->input_number_people}, notes = '{$this->input_details}'
+                        WHERE ID_reservation = {$id}";
         $db_connection->query($update_query);
         // update the reserved tables
         // remove all tables that are not reserved anymore
         foreach ($saved_reservation->reserved_tables as $old_table_number) {
             if (!in_array($old_table_number, $this->reserved_tables)) {
                 $delete_query = "DELETE FROM `reserver`
-                                 WHERE ID_reservation = {$id} AND ID_table = (
-                                     SELECT ID_table FROM `table` t
-                                     WHERE t.date_suppression IS NULL
-                                     AND t.numero = {$old_table_number}
-                                 )";
+                                WHERE ID_reservation = {$id} AND ID_table = (
+                                    SELECT ID_table FROM `table` t
+                                    WHERE t.date_suppression IS NULL
+                                    AND t.numero = {$old_table_number}
+                                )";
                 $db_connection->query($delete_query);
             }
         }
@@ -206,11 +206,11 @@ class Reservation {
         foreach ($this->reserved_tables as $new_table_number) {
             if (!in_array($new_table_number, $saved_reservation->reserved_tables)) {
                 $create_query = "INSERT INTO `reserver` (ID_reservation, ID_table) VALUES
-                                 ({$id}, (
-                                     SELECT ID_table FROM `table` t
-                                     WHERE t.date_suppression IS NULL
-                                     AND t.numero = {$new_table_number}
-                                 ))";
+                                ({$id}, (
+                                    SELECT ID_table FROM `table` t
+                                    WHERE t.date_suppression IS NULL
+                                    AND t.numero = {$new_table_number}
+                                ))";
                 $db_connection->query($create_query);
             }
         }
@@ -224,13 +224,12 @@ class Reservation {
     public static function get_all_incoming_reservations_json(): array {
         $db_connection = get_db_connection();
         $query = "SELECT r1.ID_reservation, r1.nom_client, r1.date, (CAST(r1.date AS DATE) = CAST(NOW() AS DATE)) for_today, r1.nombre_personnes, t.numero numero_table
-                  FROM `reservation` r1
-                  LEFT JOIN `reserver` r2 ON r1.ID_reservation = r2.ID_reservation
-                  LEFT JOIN `table` t ON t.ID_table = r2.ID_table
-                  WHERE CAST(r1.date AS DATE) >= CAST(NOW() AS DATE)
-                  AND r1.date_suppression IS NULL
-                  AND t.date_suppression IS NULL
-                  ORDER BY r1.date";
+                FROM `reservation` r1
+                LEFT JOIN `reserver` r2 ON r1.ID_reservation = r2.ID_reservation
+                LEFT JOIN `table` t ON t.ID_table = r2.ID_table
+                WHERE CAST(r1.date AS DATE) >= CAST(NOW() AS DATE)
+                AND r1.date_suppression IS NULL
+                ORDER BY r1.date";
         $result_cursor = $db_connection->query($query);
         $reservations_array = [];
         while ($row = $result_cursor->fetch_assoc()) {
@@ -264,8 +263,8 @@ class Reservation {
     public static function cancel_reservation($id): array {
         $db_connection = get_db_connection();
         $query = "UPDATE `reservation`
-                  SET date_suppression = NOW()
-                  WHERE ID_reservation = {$id}";
+                SET date_suppression = NOW()
+                WHERE ID_reservation = {$id}";
         $result = $db_connection->query($query);
         $result_array = [
             'success' => (bool) $result

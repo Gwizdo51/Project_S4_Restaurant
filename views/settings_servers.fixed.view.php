@@ -14,7 +14,6 @@
 <!-- columns descriptions -->
 <div id="columnsDescriptions" class="row justify-content-center text-secondary d-none">
     <div class="col-10 border border-2" style="border-color: #0000 !important;">
-    <!-- <div class="col-10"> -->
         <div class="row align-items-center text-center px-2">
             <div class="col-5">Nom du serveur</div>
             <div class="col-5">Secteur assigné</div>
@@ -24,96 +23,7 @@
 </div>
 
 <!-- list of servers -->
-<div id="serversContainer" class="d-flex flex-column">
-    <!-- <div class="row justify-content-center my-2" data-server-id="1">
-        <div class="col-10 border border-2 border-secondary rounded bg-body">
-            <div class="row p-2 align-items-center">
-                <div class="col-5 p-2">
-                    <input type="text" class="form-control form-control-lg" form="form"
-                    name="1_name" placeholder="Nom du serveur" value="Jean" required>
-                </div>
-                <div class="col-5 p-2">
-                    <select class="form-select form-select-lg" form="form" name="1_sectorId">
-                        <option value="0">(Aucun)</option>
-                        <option value="1">Salle 1</option>
-                        <option value="2" selected>Salle 2</option>
-                        <option value="3">Etage</option>
-                        <option value="4">Terrasse</option>
-                    </select>
-                </div>
-                <div class="col-2 p-2 d-flex justify-content-center">
-                    <input class="form-check-input fs-2 m-0" form="form" type="checkbox" name="1_delete" onclick="console.log(this);">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center my-2" data-server-id="2">
-        <div class="col-10 border border-2 border-primary rounded bg-body">
-            <div class="row p-2 align-items-center">
-                <div class="col-5 p-2">
-                    <input type="text" class="form-control form-control-lg" form="form"
-                    name="2_name" placeholder="Nom du serveur" value="Pierre" required>
-                </div>
-                <div class="col-5 p-2">
-                    <select class="form-select form-select-lg" form="form" name="2_sectorId">
-                        <option value="0">(Aucun)</option>
-                        <option value="1" selected>Salle 1</option>
-                        <option value="2">Salle 2</option>
-                        <option value="3">Etage</option>
-                        <option value="4">Terrasse</option>
-                    </select>
-                </div>
-                <div class="col-2 p-2 d-flex justify-content-center">
-                    <input class="form-check-input fs-2 m-0" form="form" type="checkbox" name="2_delete" onclick="console.log(this);">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center my-2" data-server-id="3">
-        <div class="col-10 border border-2 border-danger rounded bg-body">
-            <div class="row p-2 align-items-center">
-                <div class="col-5 p-2">
-                    <input type="text" class="form-control form-control-lg" form="form"
-                    name="3_name" placeholder="Nom du serveur" value="Marie" required>
-                </div>
-                <div class="col-5 p-2">
-                    <select class="form-select form-select-lg" form="form" name="3_sectorId">
-                        <option value="0">(Aucun)</option>
-                        <option value="1">Salle 1</option>
-                        <option value="2">Salle 2</option>
-                        <option value="3" selected>Etage</option>
-                        <option value="4">Terrasse</option>
-                    </select>
-                </div>
-                <div class="col-2 p-2 d-flex justify-content-center">
-                    <input class="form-check-input fs-2 m-0" form="form" type="checkbox" name="3_delete" onclick="console.log(this);">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center my-2" data-server-id="0">
-        <div class="col-10 border border-2 border-success rounded bg-body">
-            <div class="row p-2 align-items-center">
-                <div class="col-5 p-2">
-                    <input type="text" class="form-control form-control-lg is-invalid" form="form"
-                    name="3_name" placeholder="Nom du serveur" value="" required>
-                </div>
-                <div class="col-5 p-2">
-                    <select class="form-select form-select-lg" form="form" name="3_sectorId">
-                        <option value="0" selected>(Aucun)</option>
-                        <option value="1">Salle 1</option>
-                        <option value="2">Salle 2</option>
-                        <option value="3">Etage</option>
-                        <option value="4">Terrasse</option>
-                    </select>
-                </div>
-                <div class="col-2 p-2 d-flex justify-content-center">
-                    <input class="form-check-input fs-2 m-0" form="form" type="checkbox" name="3_delete" onclick="console.log(this);">
-                </div>
-            </div>
-        </div>
-    </div> -->
-</div>
+<div id="serversContainer" class="d-flex flex-column"></div>
 
 <!-- controls -->
 <div id="controls" class="row px-3 pb-3 pt-2 mt-auto sticky-bottom justify-content-center pe-none">
@@ -128,7 +38,6 @@
                 </button>
             </div>
             <div class="col-4 p-2 d-grid">
-                <!-- <button class="btn btn-success btn-control-big fs-4 text-wrap" data-bs-toggle="modal" data-bs-target="#confirmationModal">Valider</button> -->
                 <button class="btn btn-success btn-control-big fs-4 text-wrap" data-bs-toggle="modal" data-bs-target="#confirmationModal" disabled>Valider</button>
             </div>
         </div>
@@ -247,6 +156,13 @@
         on response, redirect to /fixe/configuration
     */
 
+    // returns a string in which the HTML characters are decoded
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+
     let apiJsonResponse = null;
 
     // update the border color and validates the name field (must not be empty)
@@ -337,7 +253,7 @@
         if (response.ok) {
             apiJsonResponse = await response.json();
             // apiJsonResponse.serveurs = {};
-            // console.log(apiJsonResponse);
+            console.log(apiJsonResponse);
             // hide the first load spinner
             document.querySelector("#spinnerFirstLoad").classList.add("d-none");
             // enable the disabled control buttons
@@ -371,7 +287,7 @@
                     // add the server ID
                     mainDiv.dataset.serverId = serverId;
                     // add the server name
-                    mainDiv.querySelector("input.serverNameInput").setAttribute("value", serverData.nom);
+                    mainDiv.querySelector("input.serverNameInput").setAttribute("value", decodeHtml(serverData.nom));
                     // set the correct sector option as selected
                     if (serverData.id_secteur !== null) {
                         mainDiv.querySelector('option[value="0"]').removeAttribute("selected");

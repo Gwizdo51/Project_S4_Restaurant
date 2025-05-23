@@ -172,8 +172,9 @@ class Server {
         // update the servers in $json_content['changed']
         foreach ($json_content['changed'] as $server_to_update) {
             $id_sector = $server_to_update['sectorId'] === 0 ? 'NULL' : $server_to_update['sectorId'];
+            $server_name = sanitize_input($server_to_update['serverName']);
             $update_query = "UPDATE `serveur`
-                            SET nom = '{$server_to_update['serverName']}', ID_secteur = {$id_sector}
+                            SET nom = '{$server_name}', ID_secteur = {$id_sector}
                             WHERE ID_serveur = {$server_to_update['serverId']}";
             $db_connection->query($update_query);
         }
@@ -183,7 +184,8 @@ class Server {
             $strings_array = [];
             foreach ($json_content['new'] as $server_to_add) {
                 $id_sector = $server_to_add['sectorId'] === 0 ? 'NULL' : $server_to_add['sectorId'];
-                $strings_array[] = "('{$server_to_add['serverName']}', {$id_sector})";
+                $server_name = sanitize_input($server_to_add['serverName']);
+                $strings_array[] = "('{$server_name}', {$id_sector})";
             }
             $insert_query .= implode(', ', $strings_array);
             $db_connection->query($insert_query);
