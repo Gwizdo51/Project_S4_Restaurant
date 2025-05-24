@@ -30,7 +30,6 @@
             </div>
         </div>
         <div class="col-3 px-0">
-            <!-- <button type="button" class="btn btn-secondary m-2 invisible" data-bs-toggle="modal" data-bs-target="#reservationsDetailsModal" onclick="console.log('reservation icon clicked');"> -->
             <button type="button" class="btn btn-secondary m-2 invisible" onclick="onReservationButtonClick(this);">
                 <img src="/assets/img/reserved.svg" alt="reservation icon" class="mh-3rem">
             </button>
@@ -75,7 +74,7 @@
 </template>
 
 <!-- page content -->
-<main class="row flex-grow-1 d-flex flex-column justify-content-center text-center py-2 overflow-x-hidden">
+<main class="row flex-grow-1 d-flex flex-column justify-content-center text-center py-2">
 
     <!-- loading spinner -->
     <div id="spinnerFirstLoad" class="row justify-content-center">

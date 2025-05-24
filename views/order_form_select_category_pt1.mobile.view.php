@@ -21,12 +21,3 @@
 </div>
 
 <!-- list of categories -->
-<!-- <div class="col-10 p-0 fs-5 d-grid">
-    <input type="submit" class="btn btn-secondary fs-5 p-3 m-2 text-wrap" form="form" name="1" value="Softs">
-</div>
-<div class="col-10 p-0 fs-5 d-grid">
-    <input type="submit" class="btn btn-secondary fs-5 p-3 m-2 text-wrap" form="form" name="2" value="Entrées">
-</div>
-<div class="col-10 p-0 fs-5 d-grid">
-    <input type="submit" class="btn btn-secondary fs-5 p-3 m-2 text-wrap" form="form" name="3" value="Desserts">
-</div> -->

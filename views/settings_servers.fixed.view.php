@@ -1,5 +1,5 @@
 <!-- page content -->
-<main id="pageContent" class="container-fluid bg-body-tertiary rounded mt-3 pt-2 px-0 d-flex flex-column flex-grow-1">
+<main id="pageContent" class="bg-body-tertiary rounded mt-3 pt-2 px-0 d-flex flex-column flex-grow-1">
 
 <!-- display a message when there are no servers to display -->
 <div id="noServersMessage" class="row fs-4 justify-content-center m-3 text-secondary d-none">
@@ -12,7 +12,7 @@
 </div>
 
 <!-- columns descriptions -->
-<div id="columnsDescriptions" class="row justify-content-center text-secondary d-none">
+<div id="columnsDescriptions" class="row m-0 justify-content-center text-secondary d-none">
     <div class="col-10 border border-2" style="border-color: #0000 !important;">
         <div class="row align-items-center text-center px-2">
             <div class="col-5">Nom du serveur</div>
@@ -23,10 +23,10 @@
 </div>
 
 <!-- list of servers -->
-<div id="serversContainer" class="d-flex flex-column"></div>
+<div id="serversContainer" class="row m-0 d-flex flex-column"></div>
 
 <!-- controls -->
-<div id="controls" class="row px-3 pb-3 pt-2 mt-auto sticky-bottom justify-content-center pe-none">
+<div id="controls" class="row mx-3 pb-3 pt-2 mt-auto sticky-bottom justify-content-center pe-none">
     <div class="col-9 p-0 bg-body-tertiary border border-secondary rounded pe-auto">
         <div class="row m-2">
             <div class="col-4 p-2 d-grid">
@@ -38,11 +38,15 @@
                 </button>
             </div>
             <div class="col-4 p-2 d-grid">
-                <button class="btn btn-success btn-control-big fs-4 text-wrap" data-bs-toggle="modal" data-bs-target="#confirmationModal" disabled>Valider</button>
+                <!-- <button class="btn btn-success btn-control-big fs-4 text-wrap" data-bs-toggle="modal" data-bs-target="#confirmationModal" disabled>Valider</button> -->
+                <button class="btn btn-success btn-control-big fs-4 text-wrap" onclick="onValidateButtonClick();" disabled>Valider</button>
             </div>
         </div>
     </div>
 </div>
+
+</main>
+<!-- end of page content -->
 
 <!-- modal to confirm the changes -->
 <div id="confirmationModal" class="modal fade" tabindex="-1" aria-labelledby="confirmationModal" aria-hidden="true">
@@ -72,14 +76,9 @@
     </div>
 </div>
 
-<!-- <form id="form" method="POST"></form> -->
-
-</main>
-<!-- end of page content -->
-
 <!-- server template -->
 <template id="serverTemplate">
-    <div class="row justify-content-center my-2" data-server-id="0" data-state="secondary">
+    <div class="row justify-content-center mx-0 my-2 p-0" data-server-id="0" data-state="secondary">
         <div class="col-10 border border-2 border-secondary rounded bg-body">
             <div class="row p-2 align-items-center">
                 <div class="col-5 p-2">
@@ -157,6 +156,7 @@
     */
 
     // returns a string in which the HTML characters are decoded
+    // https://stackoverflow.com/a/7394787/16509326
     function decodeHtml(html) {
         var txt = document.createElement("textarea");
         txt.innerHTML = html;
@@ -253,7 +253,7 @@
         if (response.ok) {
             apiJsonResponse = await response.json();
             // apiJsonResponse.serveurs = {};
-            console.log(apiJsonResponse);
+            // console.log(apiJsonResponse);
             // hide the first load spinner
             document.querySelector("#spinnerFirstLoad").classList.add("d-none");
             // enable the disabled control buttons
@@ -336,6 +336,26 @@
         document.querySelector("#serversContainer").append(serverElement);
         // update its visual state and validate the form
         updateVisualStateAndValidateForm(mainDiv);
+    }
+
+    function onValidateButtonClick() {
+        console.log("validate button clicked");
+        // if nothing would be updated, redirect the user to /fixe/configuration
+        let nothingToUpdate = true;
+        for (const serverElement of document.querySelectorAll("#serversContainer > div")) {
+            if (serverElement.dataset.state !== "secondary") {
+                nothingToUpdate = false;
+                break;
+            }
+        };
+        if (nothingToUpdate) {
+            // redirect the user to /fixe/configuration
+            window.location.href = "/fixe/configuration";
+        }
+        else {
+            // show the confirmation modal
+            (new bootstrap.Modal("#confirmationModal")).show();
+        }
     }
 
     async function onModalConfirm() {

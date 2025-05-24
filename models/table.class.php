@@ -7,13 +7,64 @@ class Table {
      */
     public static function get_total_number_of_tables(): int {
         $db_connection = get_db_connection();
-        $query = "SELECT COUNT(*) nombre_tables FROM `table` t
-                  WHERE t.date_suppression IS NULL";
+        $query = "SELECT COUNT(*) nombre_tables
+                FROM `table` t
+                WHERE t.date_suppression IS NULL";
         $result_cursor = $db_connection->query($query);
         $row = $result_cursor->fetch_assoc();
         $number_of_tables = (int) $row['nombre_tables'];
         $db_connection->close();
         return $number_of_tables;
+    }
+
+    /**
+     * id => number
+     * @return int[]
+     */
+    public static function get_tables_ids_and_numbers_json(): array {
+        $db_connection = get_db_connection();
+        $query = "SELECT t.ID_table, t.numero
+                FROM `table` t
+                WHERE t.date_suppression IS NULL
+                ORDER BY t.numero";
+        $result_cursor = $db_connection->query($query);
+        $tables_array = [];
+        while ($row = $result_cursor->fetch_assoc()) {
+            $tables_array[(int) $row['ID_table']] = (int) $row['numero'];
+        }
+        $db_connection->close();
+        return $tables_array;
+    }
+
+    /**
+     * id => number
+     * @param int $sector_id
+     * @return int[]
+     */
+    public static function get_assignable_tables_ids_and_numbers_json($sector_id = 0): array {
+        // SELECT *
+        // FROM `table` t
+        // WHERE t.date_suppression IS NULL
+        // AND (
+        //     t.ID_secteur IS NULL
+        //     OR t.ID_secteur = 3
+        // )
+        $db_connection = get_db_connection();
+        $query = "SELECT t.ID_table, t.numero
+                FROM `table` t
+                WHERE t.date_suppression IS NULL
+                AND (
+                    t.ID_secteur IS NULL
+                    OR t.ID_secteur = {$sector_id}
+                )
+                ORDER BY t.numero";
+        $result_cursor = $db_connection->query($query);
+        $tables_array = [];
+        while ($row = $result_cursor->fetch_assoc()) {
+            $tables_array[(int) $row['ID_table']] = (int) $row['numero'];
+        }
+        $db_connection->close();
+        return $tables_array;
     }
 
     /**

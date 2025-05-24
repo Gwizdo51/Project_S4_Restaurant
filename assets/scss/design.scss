@@ -1,3 +1,13 @@
+// prevent the scrollbar from displacing the content
+// https://dev.to/rashidshamloo/preventing-the-layout-shift-caused-by-scrollbars-2flp
+body {
+  width: 100vw;
+  overflow-x: hidden;
+}
+// the body overflow-x hidden directive doesn't work on chrome android
+.container-fluid {
+  overflow-x: hidden;
+}
 .mh-3rem {
   max-height: 3rem;
 }
@@ -10,9 +20,6 @@
 .btn-control-big {
   min-height: 5rem;
 }
-// .test {
-//   background-color: blue;
-// }
 
 // custom border breakpoints
 // https://github.com/twbs/bootstrap/issues/23892#issuecomment-378172751

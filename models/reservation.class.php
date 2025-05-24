@@ -10,6 +10,7 @@ class Reservation {
     private ?bool $number_people_is_valid = null;
     private string $input_details;
     /**
+     * table_id => table_number
      * @var int[]
      */
     private array $reserved_tables;
@@ -65,15 +66,21 @@ class Reservation {
         $this->reserved_tables = $reserved_tables;
     }
 
-    public static function get_from_post($post_array): Reservation {
-        // gather the checked tables in an array
+    /**
+     * @param string[] $post_array
+     * @param int[] $tables_array
+     * @return self
+     */
+    public static function get_from_post($post_array, $tables_array): self {
+        // gather the checked tables IDs and numbers in an array
         $reserved_tables = [];
         foreach (array_keys($post_array) as $key) {
             if (is_int($key)) {
-                $reserved_tables[] = $key;
+                $table_id = (int) $key;
+                $reserved_tables[$table_id] = $tables_array[$table_id];
             }
         }
-        $reservation = new Reservation(
+        $reservation = new self(
             $post_array['name'],
             $post_array['datetime'],
             $post_array['number_people'],
@@ -116,25 +123,19 @@ class Reservation {
         $id_query = 'SELECT LAST_INSERT_ID() `id`';
         $result_cursor = $db_connection->query($id_query);
         $row = $result_cursor->fetch_assoc();
-        $id_reservation = (int) $row['id'];
+        $reservation_id = (int) $row['id'];
         // insert the reserved tables
-        foreach ($this->reserved_tables as $table_number) {
-            // INSERT INTO `reserver` (ID_reservation, ID_table) VALUES
-            // (2, (
-            //     SELECT ID_table FROM `table` t
-            //     WHERE t.date_suppression IS NULL
-            //     AND t.numero = 17
-            // ))
-            $insert_query = "INSERT INTO `reserver` (ID_reservation, ID_table) VALUES
-                            ({$id_reservation}, (
-                                SELECT ID_table FROM `table` t
-                                WHERE t.date_suppression IS NULL
-                                AND t.numero = {$table_number}
-                            ))";
+        if (count($this->reserved_tables) !== 0) {
+            $insert_query = 'INSERT INTO `reserver` (ID_reservation, ID_table) VALUES ';
+            $query_parts = [];
+            foreach (array_keys($this->reserved_tables) as $table_id) {
+                $query_parts[] = "({$reservation_id}, {$table_id})";
+            }
+            $insert_query .= implode(', ', $query_parts);
             $db_connection->query($insert_query);
         }
         $db_connection->close();
-        return $id_reservation;
+        return $reservation_id;
     }
 
     /**
@@ -142,13 +143,13 @@ class Reservation {
      * @return Reservation
      */
     public static function get_from_db($id): Reservation {
-        // SELECT r1.nom_client, r1.date, r1.nombre_personnes, r1.notes, t.numero numero_table
+        // SELECT r1.nom_client, r1.date, r1.nombre_personnes, r1.notes, t.ID_table, t.numero numero_table
         // FROM `reservation` r1
         // LEFT JOIN `reserver` r2 ON r2.ID_reservation = r1.ID_reservation
         // LEFT JOIN `table` t ON t.ID_table = r2.ID_table
         // WHERE r1.ID_reservation = 4
         $db_connection = get_db_connection();
-        $query = "SELECT r1.nom_client, r1.date, r1.nombre_personnes, r1.notes, t.numero numero_table
+        $query = "SELECT r1.nom_client, r1.date, r1.nombre_personnes, r1.notes, t.ID_table, t.numero numero_table
                 FROM `reservation` r1
                 LEFT JOIN `reserver` r2 ON r2.ID_reservation = r1.ID_reservation
                 LEFT JOIN `table` t ON t.ID_table = r2.ID_table
@@ -164,12 +165,12 @@ class Reservation {
                     $row['nombre_personnes'],
                     $row['notes']
                 );
-                if ($row['numero_table'] !== null) {
-                    $reservation->reserved_tables[] = $row['numero_table'];
+                if ($row['ID_table'] !== null) {
+                    $reservation->reserved_tables[(int) $row['ID_table']] = (int) $row['numero_table'];
                 }
             }
             else {
-                $reservation->reserved_tables[] = $row['numero_table'];
+                $reservation->reserved_tables[(int) $row['ID_table']] = (int) $row['numero_table'];
             }
         }
         $db_connection->close();
@@ -181,6 +182,7 @@ class Reservation {
      * @return void
      */
     public function update_in_db($id): void {
+        // get the original reservation from the database
         $saved_reservation = self::get_from_db($id);
         // update the basic info
         $db_connection = get_db_connection();
@@ -191,26 +193,18 @@ class Reservation {
         $db_connection->query($update_query);
         // update the reserved tables
         // remove all tables that are not reserved anymore
-        foreach ($saved_reservation->reserved_tables as $old_table_number) {
-            if (!in_array($old_table_number, $this->reserved_tables)) {
+        foreach (array_keys($saved_reservation->reserved_tables) as $old_table_id) {
+            if (!in_array($old_table_id, array_keys($this->reserved_tables))) {
                 $delete_query = "DELETE FROM `reserver`
-                                WHERE ID_reservation = {$id} AND ID_table = (
-                                    SELECT ID_table FROM `table` t
-                                    WHERE t.date_suppression IS NULL
-                                    AND t.numero = {$old_table_number}
-                                )";
+                                WHERE ID_reservation = {$id} AND ID_table = {$old_table_id}";
                 $db_connection->query($delete_query);
             }
         }
         // add all tables that were not reserved before
-        foreach ($this->reserved_tables as $new_table_number) {
-            if (!in_array($new_table_number, $saved_reservation->reserved_tables)) {
+        foreach (array_keys($this->reserved_tables) as $new_table_id) {
+            if (!in_array($new_table_id, array_keys($saved_reservation->reserved_tables))) {
                 $create_query = "INSERT INTO `reserver` (ID_reservation, ID_table) VALUES
-                                ({$id}, (
-                                    SELECT ID_table FROM `table` t
-                                    WHERE t.date_suppression IS NULL
-                                    AND t.numero = {$new_table_number}
-                                ))";
+                                ({$id}, {$new_table_id})";
                 $db_connection->query($create_query);
             }
         }

@@ -1,7 +1,7 @@
 </div>
 
 <!-- controls -->
-<div id="controls" class="row px-3 pb-3 pt-2 mt-auto sticky-bottom justify-content-center pe-none">
+<div class="row mx-3 pb-3 pt-2 mt-auto sticky-bottom justify-content-center pe-none">
     <div class="col-6 p-0 bg-body-tertiary border border-secondary rounded pe-auto">
         <div class="row m-2">
             <div class="col-6 p-2 d-grid">

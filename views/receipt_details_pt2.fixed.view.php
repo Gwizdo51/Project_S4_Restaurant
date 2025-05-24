@@ -11,7 +11,7 @@
 </div>
 
 <!-- controls -->
-<div class="row mx-0 mb-0 px-3 pb-3 sticky-bottom mt-auto">
+<div class="row mx-3 pb-3 mt-auto sticky-bottom">
     <div class="col-12 bg-body-tertiary border border-secondary rounded p-2 m-0">
         <div class="row m-0">
             <div class="col-5 p-2 d-grid">

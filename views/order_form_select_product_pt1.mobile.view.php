@@ -17,15 +17,3 @@
 
 <!-- list of products -->
 <div class="col-sm-10 p-0 fs-5 d-flex flex-column">
-    <!-- <div role="button" class="row m-2 bg-body-secondary border border-secondary border-2 rounded" onclick="onProductClick(7);">
-        <div class="col-8 p-3 border-end border-secondary border-2">Evian</div>
-        <div class="col-4 p-3 text-secondary-emphasis">1 €</div>
-    </div>
-    <div role="button" class="row m-2 bg-body-secondary border border-secondary border-2 rounded" onclick="onProductClick(8);">
-        <div class="col-8 p-3 border-end border-secondary border-2">Coca</div>
-        <div class="col-4 p-3 text-secondary-emphasis">2,5 €</div>
-    </div>
-    <div role="button" class="row m-2 bg-body-secondary border border-secondary border-2 rounded" onclick="onProductClick(9);">
-        <div class="col-8 p-3 border-end border-secondary border-2">Ice tea</div>
-        <div class="col-4 p-3 text-secondary-emphasis">2 €</div>
-    </div> -->

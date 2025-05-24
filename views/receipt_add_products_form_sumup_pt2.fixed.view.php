@@ -1,5 +1,5 @@
 <!-- controls -->
-<div class="row mb-0 mx-0 px-3 pb-3 sticky-bottom justify-content-center pe-none mt-auto">
+<div class="row mx-3 pb-3 mt-auto sticky-bottom justify-content-center pe-none">
     <div class="col-9 bg-body-tertiary border border-secondary rounded pe-auto">
         <div class="row p-3">
             <div class="col-4 p-0 d-grid">

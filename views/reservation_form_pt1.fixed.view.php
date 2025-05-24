@@ -1,8 +1,8 @@
 <!-- page content -->
-<main id="page-content" class="bg-body-tertiary rounded mt-3 pt-3 d-flex flex-column flex-grow-1">
+<main id="page-content" class="bg-body-tertiary rounded mt-3 pt-2 d-flex flex-column flex-grow-1">
 
 <!-- client name -->
-<div class="row mx-3 mb-3">
+<div class="row mx-3 my-2">
     <div class="container">
         <div class="row align-items-center">
             <label class="col-3 py-0 col-form-label col-form-label-lg" for="inputName">Nom du client</label>
@@ -21,7 +21,7 @@
 </div>
 
 <!-- date and time -->
-<div class="row mx-3 mb-3">
+<div class="row mx-3 my-2">
     <div class="container">
         <div class="row align-items-center">
             <label class="col-3 py-0 col-form-label col-form-label-lg" for="inputDateTime">Date et heure</label>
@@ -40,7 +40,7 @@
 </div>
 
 <!-- number of people -->
-<div class="row mx-3 mb-3">
+<div class="row mx-3 my-2">
     <div class="container">
         <div class="row align-items-center">
             <label class="col-3 py-0 col-form-label col-form-label-lg" for="inputNumberPeople">Nombre de personnes</label>
@@ -59,7 +59,7 @@
 </div>
 
 <!-- details -->
-<div class="row mx-3 mb-3 align-items-center">
+<div class="row mx-3 my-2 align-items-center">
     <label class="col-3 py-0 col-form-label col-form-label-lg" for="inputDetails">Notes</label>
     <div class="col-8">
         <textarea class="p-3 form-control form-control-lg" form="form" id="inputDetails" name="details" rows="5" placeholder="Notes ..."><?= $reservation->get_input_details() ?></textarea>
@@ -67,7 +67,7 @@
 </div>
 
 <!-- reserved tables -->
-<div class="row mx-3 mb-3 align-items-center">
+<div class="row mx-3 my-2 align-items-center">
 <label class="col-3 py-0 col-form-label col-form-label-lg">Tables réservées</label>
 <div class="col-8">
 <div class="container border rounded">
