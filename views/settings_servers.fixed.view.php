@@ -38,7 +38,6 @@
                 </button>
             </div>
             <div class="col-4 p-2 d-grid">
-                <!-- <button class="btn btn-success btn-control-big fs-4 text-wrap" data-bs-toggle="modal" data-bs-target="#confirmationModal" disabled>Valider</button> -->
                 <button class="btn btn-success btn-control-big fs-4 text-wrap" onclick="onValidateButtonClick();" disabled>Valider</button>
             </div>
         </div>
@@ -66,7 +65,6 @@
                             <button type="button" class="btn btn-danger py-5 fs-4" data-bs-dismiss="modal">Annuler</button>
                         </div>
                         <div class="col-6 d-grid">
-                            <!-- <button type="button" class="btn btn-success py-5 fs-4" onclick="onConfirmButtonClick();" data-bs-dismiss="modal">OK</button> -->
                             <button type="button" class="btn btn-success py-5 fs-4" data-bs-dismiss="modal" onclick="onModalConfirm();">OK</button>
                         </div>
                     </div>
@@ -157,10 +155,10 @@
 
     // returns a string in which the HTML characters are decoded
     // https://stackoverflow.com/a/7394787/16509326
-    function decodeHtml(html) {
-        var txt = document.createElement("textarea");
-        txt.innerHTML = html;
-        return txt.value;
+    function decodeHtml(encodedHtml) {
+        const textArea = document.createElement("textarea");
+        textArea.innerHTML = encodedHtml;
+        return textArea.value;
     }
 
     let apiJsonResponse = null;
@@ -233,7 +231,6 @@
         let formIsValid = true;
         for (const inputNameElement of document.querySelectorAll("input.serverNameInput")) {
             const relatedDeleteCheckbox = inputNameElement.parentElement.parentElement.querySelector("input.deleteCheckbox");
-            // console.log(relatedDeleteCheckbox);
             if (inputNameElement.value.length === 0 && !relatedDeleteCheckbox.checked) {
                 formIsValid = false;
                 break;
@@ -339,7 +336,6 @@
     }
 
     function onValidateButtonClick() {
-        console.log("validate button clicked");
         // if nothing would be updated, redirect the user to /fixe/configuration
         let nothingToUpdate = true;
         for (const serverElement of document.querySelectorAll("#serversContainer > div")) {

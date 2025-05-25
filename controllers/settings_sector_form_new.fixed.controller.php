@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // save the sector to the database
         $sector->save_to_db();
         // redirect the user to the sectors tab
-        header("Location: /fixe/configuration/secteurs");
+        header('Location: /fixe/configuration/secteurs');
         exit();
     }
 }
@@ -27,4 +27,4 @@ else {
 // display the page
 $tab_title = 'Configuration - Nouveau secteur - '.WEBSITE_TITLE;
 $page_title = 'Ajouter un secteur';
-require_once './controllers/sector_form_display.fixed.controller.php';
+require_once './controllers/settings_sector_form_display.fixed.controller.php';

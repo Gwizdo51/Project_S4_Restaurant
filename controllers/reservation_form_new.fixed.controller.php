@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // save the reservation to the database
         $reservation->save_to_db();
         // redirect the user to the reservations tab
-        header("Location: /fixe/reservations");
+        header('Location: /fixe/reservations');
         exit();
     }
 }

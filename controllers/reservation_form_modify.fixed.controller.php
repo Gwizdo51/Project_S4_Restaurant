@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // update the reservation in the database
         $reservation->update_in_db($reservation_id);
         // redirect the user to the reservations tab
-        header("Location: /fixe/reservations");
+        header('Location: /fixe/reservations');
         exit();
     }
 }

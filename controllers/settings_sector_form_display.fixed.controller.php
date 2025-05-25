@@ -24,7 +24,7 @@ else {
     }
 }
 $display_no_tables_message = count($selectable_tables) === 0 ? '' : ' d-none';
-require './views/sector_form_pt1.fixed.view.php';
+require './views/settings_sector_form_pt1.fixed.view.php';
 // list of tables
 $assigned_tables = $sector->get_assigned_tables();
 foreach ($selectable_tables as $table_id => $table_number) {
@@ -32,4 +32,4 @@ foreach ($selectable_tables as $table_id => $table_number) {
     require './views/templates/form_table_checkbox.template.fixed.view.php';
 }
 // part 2
-require './views/sector_form_pt2.fixed.view.php';
+require './views/settings_sector_form_pt2.fixed.view.php';

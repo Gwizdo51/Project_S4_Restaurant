@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // update the sector in the database
         $sector->update_in_db($sector_id);
         // redirect the user to the sectors tab
-        header("Location: /fixe/configuration/secteurs");
+        header('Location: /fixe/configuration/secteurs');
         exit();
     }
 }
@@ -28,4 +28,4 @@ else {
 // display the page
 $tab_title = 'Configuration - Modifier secteur - '.WEBSITE_TITLE;
 $page_title = 'Modifier un secteur';
-require_once './controllers/sector_form_display.fixed.controller.php';
+require_once './controllers/settings_sector_form_display.fixed.controller.php';

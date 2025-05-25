@@ -105,16 +105,16 @@ elseif ($route === '/fixe/configuration/secteurs') {
     require_once './controllers/settings_sectors.fixed.controller.php';
 }
 elseif ($route === '/fixe/configuration/secteurs/nouveau-secteur') {
-    require_once './controllers/sector_form_new.fixed.controller.php';
+    require_once './controllers/settings_sector_form_new.fixed.controller.php';
 }
 elseif (preg_match('~^/fixe/configuration/secteurs/(\d+)$~u', $route, $route_regex_matches)) {
-    require_once './controllers/sector_form_modify.fixed.controller.php';
+    require_once './controllers/settings_sector_form_modify.fixed.controller.php';
 }
 elseif ($route === '/fixe/configuration/serveurs') {
     require_once './controllers/settings_servers.fixed.controller.php';
 }
 elseif ($route === '/fixe/configuration/horaires') {
-    require_once './controllers/settings_schedule.fixed.controller.php';
+    // ...
 }
 // API
 elseif (preg_match('~^/api/get-orders-to-prepare/(\d+)$~u', $route, $route_regex_matches)) {

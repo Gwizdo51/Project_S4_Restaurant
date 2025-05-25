@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 unset($_SESSION['order_forms'][$id_receipt]);
             }
             // redirect to the receipt list page
-            header("Location: /fixe/bons");
+            header('Location: /fixe/bons');
             exit();
         }
         else {
