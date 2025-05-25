@@ -64,7 +64,7 @@ else {
             break;
         case 1:
             // get the list of categories
-            $categories_array = Category::get_all_categories_json();
+            $categories_array = Category::get_all_categories_with_products_json();
             // display the category selection view
             // - part 1
             if (count($categories_array) === 0) {
@@ -84,13 +84,12 @@ else {
         case 2:
             // get the list of products of the selected category
             $category_array = Category::get_all_category_products_json($order_form->get_current_category_id());
-            // var_dump_pre($category_array);
             // display the product selection view
             // - part 1
-            $category_label = array_keys($category_array)[0];
+            $category_label = $category_array['label'];
             require './views/order_form_select_product_pt1.mobile.view.php';
             // - list of products
-            foreach ($category_array[$category_label] as $product_array) {
+            foreach ($category_array['produits'] as $product_array) {
                 $product_id = $product_array['id'];
                 $product_label = $product_array['label'];
                 $product_price = format_price((float) $product_array['prix']);

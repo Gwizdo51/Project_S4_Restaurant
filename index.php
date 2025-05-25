@@ -99,7 +99,13 @@ elseif ($route === '/fixe/configuration/carte/categories') {
     // ...
 }
 elseif ($route === '/fixe/configuration/carte/options') {
-    // ...
+    require_once './controllers/settings_options.fixed.controller.php';
+}
+elseif ($route === '/fixe/configuration/carte/options/nouvelle-option') {
+    // require_once './controllers/settings_options.fixed.controller.php';
+}
+elseif (preg_match('~^/fixe/configuration/carte/options/(\d+)$~u', $route, $route_regex_matches)) {
+    // require_once './controllers/settings_options.fixed.controller.php';
 }
 elseif ($route === '/fixe/configuration/secteurs') {
     require_once './controllers/settings_sectors.fixed.controller.php';

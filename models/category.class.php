@@ -4,13 +4,17 @@ class Category {
 
     /**
      * Returns the list of categories from the database
+     * which contain products
      * @return string[]
      */
-    public static function get_all_categories_json(): array {
+    public static function get_all_categories_with_products_json(): array {
         $db_connection = get_db_connection();
         $query = "SELECT c.ID_categorie, c.label_categorie
                 FROM `categorie` c
-                WHERE c.date_suppression IS NULL";
+                JOIN `produit` p ON c.ID_categorie = p.ID_categorie
+                WHERE c.date_suppression IS NULL
+                GROUP BY c.ID_categorie
+                ORDER BY c.ID_categorie";
         $result_cursor = $db_connection->query($query);
         $categories_array = [];
         while ($row = $result_cursor->fetch_assoc()) {
@@ -21,8 +25,7 @@ class Category {
     }
 
     /**
-     * Returns the json containing all the products of the category
-     * with the specified ID
+     * Returns the json containing all the products of the category with the specified ID
      * @param int $id_category
      * @return array
      */
@@ -30,29 +33,25 @@ class Category {
         $db_connection = get_db_connection();
         $query = "SELECT c.label_categorie, p.ID_produit, p.label_produit, p.prix
                 FROM `categorie` c
-                JOIN `produit` p ON c.ID_categorie = p.ID_categorie
+                LEFT JOIN `produit` p ON c.ID_categorie = p.ID_categorie
                 WHERE c.ID_categorie = {$id_category}
-                AND p.date_suppression IS NULL";
+                AND p.date_suppression IS NULL
+                ORDER BY p.ID_produit";
         $result_cursor = $db_connection->query($query);
-        $category_array = [];
+        $category_array = [
+            'produits' => []
+        ];
         while ($row = $result_cursor->fetch_assoc()) {
-            $category_label = $row['label_categorie'];
-            // if the category is in $category_array, add the product to it
-            if (array_key_exists($category_label, $category_array)) {
-                $category_array[$category_label][] = [
-                        'id' => $row['ID_produit'],
-                        'label' => $row['label_produit'],
-                        'prix' => $row['prix']
-                ];
+            // add the category label if it isn't already added
+            if (!array_key_exists('label', $category_array)) {
+                $category_array['label'] = $row['label_categorie'];
             }
-            // otherwise, add the category to the array
-            else {
-                $category_array[$category_label] = [
-                    [
-                        'id' => $row['ID_produit'],
-                        'label' => $row['label_produit'],
-                        'prix' => $row['prix']
-                    ]
+            // if the product is not null, add it to the products array
+            if ($row['ID_produit'] !== null) {
+                $category_array['produits'][] = [
+                    'id' => $row['ID_produit'],
+                    'label' => $row['label_produit'],
+                    'prix' => $row['prix']
                 ];
             }
         }

@@ -110,7 +110,8 @@ class Sector {
                 FROM `secteur` s
                 LEFT JOIN `table` t ON s.ID_secteur = t.ID_secteur
                 WHERE s.ID_secteur = {$sector_id}
-                AND t.date_suppression IS NULL;";
+                AND t.date_suppression IS NULL
+                ORDER BY t.numero";
         $result_cursor = $db_connection->query($query);
         $sector = null;
         while ($row = $result_cursor->fetch_assoc()) {

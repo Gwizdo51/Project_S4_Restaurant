@@ -88,7 +88,7 @@
         modalTextContent.textContent = "Supprimer le secteur ?";
     }
 
-    // change the color of the background of the reservations on mouse hover
+    // change the color of the background of the sectors on mouse hover
     document.querySelectorAll("div.sector").forEach((sectorElement) => {
         sectorElement.addEventListener("mouseenter", (event) => {
             sectorElement.classList.remove("bg-body");

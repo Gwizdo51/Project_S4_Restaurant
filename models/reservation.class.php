@@ -153,7 +153,8 @@ class Reservation {
                 FROM `reservation` r1
                 LEFT JOIN `reserver` r2 ON r2.ID_reservation = r1.ID_reservation
                 LEFT JOIN `table` t ON t.ID_table = r2.ID_table
-                WHERE r1.ID_reservation = {$id}";
+                WHERE r1.ID_reservation = {$id}
+                ORDER BY t.numero";
         $result_cursor = $db_connection->query($query);
         $reservation = null;
         while ($row = $result_cursor->fetch_assoc()) {

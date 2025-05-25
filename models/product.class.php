@@ -3,7 +3,6 @@
 class Product {
 
     /**
-     * Summary of get_all_products_by_category_json
      * @return array
      */
     public static function get_all_products_by_category_json(): array {
@@ -38,7 +37,6 @@ class Product {
     }
 
     /**
-     * Summary of get_product_order_options
      * @param int $id_product
      * @return array
      */
