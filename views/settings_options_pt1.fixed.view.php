@@ -10,7 +10,7 @@
     <div class="row border border-2 align-items-center text-center text-secondary mx-3<?= $display_columns_descriptions ?>" style="border-color: #0000 !important;">
         <div class="col-10">
             <div class="row">
-                <div class="col-4 p-0">Label</div>
+                <div class="col-4 p-0">Titre</div>
                 <div class="col-4 p-0">Type de choix</div>
                 <div class="col-4 p-0">Choix possibles</div>
             </div>

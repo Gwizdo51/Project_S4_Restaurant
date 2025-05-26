@@ -102,10 +102,10 @@ elseif ($route === '/fixe/configuration/carte/options') {
     require_once './controllers/settings_options.fixed.controller.php';
 }
 elseif ($route === '/fixe/configuration/carte/options/nouvelle-option') {
-    // require_once './controllers/settings_options.fixed.controller.php';
+    require_once './controllers/settings_option_form_new.fixed.controller.php';
 }
 elseif (preg_match('~^/fixe/configuration/carte/options/(\d+)$~u', $route, $route_regex_matches)) {
-    // require_once './controllers/settings_options.fixed.controller.php';
+    require_once './controllers/settings_option_form_modify.fixed.controller.php';
 }
 elseif ($route === '/fixe/configuration/secteurs') {
     require_once './controllers/settings_sectors.fixed.controller.php';
@@ -135,12 +135,6 @@ elseif ($route === '/api/set-order-delivered') {
 elseif ($route === '/api/get-current-receipts') {
     require_once './api/get_current_receipts.api.php';
 }
-elseif ($route === '/api/get-server-settings') {
-    require_once './api/get_server_settings_data.api.php';
-}
-elseif ($route === '/api/update-servers') {
-    require_once './api/update-servers.api.php';
-}
 elseif ($route === '/api/create-receipt') {
     require_once './api/create_receipt.api.php';
 }
@@ -152,6 +146,15 @@ elseif (preg_match('~^/api/get-server-hub-data/(\d+)$~u', $route, $route_regex_m
 }
 elseif ($route === '/api/set-table-state') {
     require_once './api/set_table_state.api.php';
+}
+elseif ($route === '/api/get-server-settings') {
+    require_once './api/get_server_settings_data.api.php';
+}
+elseif ($route === '/api/update-servers') {
+    require_once './api/update-servers.api.php';
+}
+elseif ($route === '/api/order-option') {
+    require_once './api/order_option.api.php';
 }
 // tests bootstrap
 elseif ($route === '/test-bootstrap') {

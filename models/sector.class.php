@@ -80,7 +80,7 @@ class Sector {
                         ('{$this->input_name_sector}')";
         $db_connection->query($insert_query);
         // get the last inserted row id
-        $id_query = 'SELECT LAST_INSERT_ID() `id`';
+        $id_query = 'SELECT LAST_INSERT_ID() id';
         $result_cursor = $db_connection->query($id_query);
         $row = $result_cursor->fetch_assoc();
         $sector_id = (int) $row['id'];

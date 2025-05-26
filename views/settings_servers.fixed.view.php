@@ -246,7 +246,7 @@
     }
 
     async function pageSetup() {
-        const response = await fetch(`/api/get-server-settings`);
+        const response = await fetch("/api/get-server-settings");
         if (response.ok) {
             apiJsonResponse = await response.json();
             // apiJsonResponse.serveurs = {};
