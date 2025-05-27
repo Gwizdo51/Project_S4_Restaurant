@@ -9,4 +9,6 @@
     <!-- 🔹 Bootstrap CSS -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<!-- "p-0" to prevent bootstrap modal from displacing the content
+when the scrollbar is visible -->
+<body class="p-0">

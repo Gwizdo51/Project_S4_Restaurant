@@ -9,25 +9,28 @@ class Order {
     /**
      * Returns the JSON-like array containing all the orders to be prepared
      * in a specific place (kitchen or bar)
-     * @param string $id_place
+     * @param int $id_place
      * @return array
      */
     public static function get_all_orders_to_prepare_json($id_place): array {
         // get all commands to be prepared in a specific place ("cuisine" or "bar")
         // informations to get : table number, list of items (labels + details), time of creation
         $db_connection = get_db_connection();
-        $query = "SELECT c.ID_commande, c.date_creation, p.label_produit, i.details, t.numero
-                  FROM `commande` c
-                  JOIN `etat_commande` e ON c.ID_etat_commande = e.ID_etat_commande
-                  JOIN `lieu_preparation` l ON c.ID_lieu_preparation = l.ID_lieu_preparation
-                  JOIN `item` i ON c.ID_commande = i.ID_commande
-                  JOIN `produit` p ON i.ID_produit = p.ID_produit
-                  JOIN `bon` b ON c.ID_bon = b.ID_bon
-                  JOIN `table` t ON b.ID_table = t.ID_table
-                  WHERE e.ID_etat_commande = 1
-                  AND l.ID_lieu_preparation = {$id_place}
-                  ORDER BY c.date_creation, c.ID_commande, p.label_produit";
-        $result_cursor = $db_connection->query($query);
+        // prepare and execute statement
+        $query = 'SELECT c.ID_commande, c.date_creation, p.label_produit, i.details, t.numero
+                FROM `commande` c
+                JOIN `etat_commande` e ON c.ID_etat_commande = e.ID_etat_commande
+                JOIN `lieu_preparation` l ON c.ID_lieu_preparation = l.ID_lieu_preparation
+                JOIN `item` i ON c.ID_commande = i.ID_commande
+                JOIN `produit` p ON i.ID_produit = p.ID_produit
+                JOIN `bon` b ON c.ID_bon = b.ID_bon
+                JOIN `table` t ON b.ID_table = t.ID_table
+                WHERE e.ID_etat_commande = 1
+                AND l.ID_lieu_preparation = ?
+                ORDER BY c.date_creation, c.ID_commande, p.label_produit';
+        $statement = $db_connection->prepare($query);
+        $statement->bind_param('i', $id_place);
+        $statement->execute();
         /*
         {
             "1": {
@@ -46,9 +49,10 @@ class Order {
             }
         }
         */
+        $result_cursor = $statement->get_result();
         $orders_array = [];
         while ($row = $result_cursor->fetch_assoc()) {
-            $order_number = (int) $row['ID_commande'];
+            $order_number = $row['ID_commande'];
             // if the order number already exists in the array, add the item to the order
             if (array_key_exists($order_number, $orders_array)) {
                 $orders_array[$order_number]["items"][] = [
@@ -79,19 +83,17 @@ class Order {
      * @param int $id_state
      * @return bool[]
      */
-    // public static function set_order_to_ready($id): array {
     public static function set_order_state($id_order, $id_state): array {
         $db_connection = get_db_connection();
-        // UPDATE `commande`
-        // SET ID_etat_commande = 2
-        // WHERE ID_commande = $id;
-        $query = "UPDATE `commande`
-                SET ID_etat_commande = {$id_state}
-                WHERE ID_commande = {$id_order}";
-        $result = $db_connection->query($query);
-        $result_array = ['success' => (bool) $result];
+        // prepare and execute statement
+        $query = 'UPDATE `commande`
+                SET ID_etat_commande = ?
+                WHERE ID_commande = ?';
+        $statement = $db_connection->prepare($query);
+        $statement->bind_param('ii', $id_state, $id_order);
+        $statement->execute();
         $db_connection->close();
-        return $result_array;
+        return ['success' => true];
     }
 
     /**
@@ -106,12 +108,15 @@ class Order {
         // set the order as "to prepare" or as "delivered" depending on $new_order
         $id_order_state = $new_order ? 1 : 3;
         $db_connection = get_db_connection();
+        // prepare statement
+        $query = "INSERT INTO `commande` (ID_bon, ID_etat_commande, ID_lieu_preparation) VALUES
+                (?, {$id_order_state}, ?)";
+        $statement = $db_connection->prepare($query);
         // insert the new order
-        $insert_query = "INSERT INTO `commande` (ID_bon, ID_etat_commande, ID_lieu_preparation) VALUES
-                         ({$id_receipt}, {$id_order_state}, {$id_place})";
-        $db_connection->query($insert_query);
+        $statement->bind_param('ii', $id_receipt, $id_place);
+        $statement->execute();
         // get the last inserted row id
-        $id_query = 'SELECT LAST_INSERT_ID() `id`';
+        $id_query = 'SELECT LAST_INSERT_ID() id';
         $result_cursor = $db_connection->query($id_query);
         $row = $result_cursor->fetch_assoc();
         $id_order = (int) $row['id'];

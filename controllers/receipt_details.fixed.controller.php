@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (array_key_exists('confirm_payment', $_POST)) {
         // set the receipt as "payed" in the database
         $result_array = Receipt::set_to_payed($id_receipt);
-        if ($result_array['successQuery1'] and $result_array['successQuery2']) {
+        if ($result_array['success']) {
             // delete the order forms for this receipt from the session, if there are any
             if (array_key_exists($id_receipt, $_SESSION['order_forms'])) {
                 unset($_SESSION['order_forms'][$id_receipt]);

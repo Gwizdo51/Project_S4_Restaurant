@@ -4,7 +4,7 @@
         <td class="text-secondary-emphasis">Remise</td>
         <td class="text-secondary-emphasis">-</td>
         <td class="text-secondary-emphasis">-</td>
-        <td class="text-secondary-emphasis"><?= $discount ?> €</td>
+        <td class="text-secondary-emphasis"><?= $discount ?></td>
     </tr>
 </tfoot>
 </table>
@@ -23,7 +23,7 @@
             <div class="col-4 p-2 d-grid">
                 <div class="border border-info-subtle rounded d-flex flex-column justify-content-center align-items-center">
                     <div>Total à payer</div>
-                    <strong class="total fs-2"><?= $receipt_total ?> €</strong>
+                    <strong class="total fs-2"><?= $receipt_total ?></strong>
                 </div>
             </div>
         </div>

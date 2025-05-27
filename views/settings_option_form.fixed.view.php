@@ -40,32 +40,7 @@
         <div class="col-9 py-0 px-2">
             <div class="row border rounded m-0 p-2 fs-5 bg-body">
                 <div class="col-12 p-0">
-                    <div id="choiceList" class="d-flex flex-column">
-                        <!-- <div class="row my-2 mx-0">
-                            <div class="col-10 px-2 d-grid">
-                                <input type="text" class="inputChoiceName form-control form-control-lg" name="0" value="" required>
-                            </div>
-                            <div class="col-2 px-2 d-grid">
-                                <button type="button" class="btn btn-outline-danger fs-4" onclick="console.log('delete choice button clicked');">X</button>
-                            </div>
-                        </div>
-                        <div class="row my-2 mx-0">
-                            <div class="col-10 px-2 d-grid">
-                                <input type="text" class="inputChoiceName form-control form-control-lg" name="1" value="" required>
-                            </div>
-                            <div class="col-2 px-2 d-grid">
-                                <button type="button" class="btn btn-outline-danger fs-4" onclick="console.log('delete choice button clicked');">X</button>
-                            </div>
-                        </div>
-                        <div class="row my-2 mx-0">
-                            <div class="col-10 px-2 d-grid">
-                                <input type="text" class="inputChoiceName form-control form-control-lg" name="2" value="" required>
-                            </div>
-                            <div class="col-2 px-2 d-grid">
-                                <button type="button" class="btn btn-outline-danger fs-4" onclick="console.log('delete choice button clicked');">X</button>
-                            </div>
-                        </div> -->
-                    </div>
+                    <div id="choiceList" class="d-flex flex-column"></div>
                     <!-- add choice button -->
                      <div class="row m-2 justify-content-center">
                         <div class="col-3 p-0 d-grid">
@@ -161,7 +136,7 @@
             const response = await fetch(`/api/order-option?id=${storedData.optionId}`);
             if (response.ok) {
                 const apiJsonResponse = await response.json();
-                console.log(apiJsonResponse);
+                // console.log(apiJsonResponse);
                 // add the option label to the related input
                 storedData.inputLabelElement.value = apiJsonResponse.label;
                 // select the right choice type
@@ -201,7 +176,6 @@
     }
 
     async function onValidateButtonClick() {
-        // console.log("validate button clicked");
         // if the form is valid ...
         if (storedData.formElement.reportValidity()) {
             // display the full page spinner
@@ -216,8 +190,6 @@
             document.querySelectorAll("#choiceList input").forEach((choiceInputElement) => {
                 optionData.choices.push(choiceInputElement.value);
             });
-            // console.log(optionData);
-            // return;
             // send the JSON to /api/order-option
             const response = await fetch("/api/order-option", {
                 // use the "PUT" method for a new option

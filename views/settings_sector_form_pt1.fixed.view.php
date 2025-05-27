@@ -18,7 +18,7 @@
 <div class="row align-items-center m-2">
     <label class="col-3 py-0 px-2 col-form-label col-form-label-lg">Tables assignées</label>
     <div class="col-9 py-0 px-2">
-        <div class="row border rounded m-0 p-2 fs-4">
+        <div class="row border rounded m-0 p-2 fs-4 bg-body">
 
             <!-- display a message when there are no assignable table -->
             <div class="col-12 fs-4 text-center my-2 text-secondary<?= $display_no_tables_message ?>">

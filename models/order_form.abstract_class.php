@@ -164,20 +164,30 @@ abstract class OrderForm {
                 $items_list_bar[] = $item;
             }
         }
+        $db_connection = get_db_connection();
+        // prepare insert item statement
+        $query = 'INSERT INTO `item` (ID_commande, ID_produit, details) VALUES
+                (?, ?, ?)';
+        $statement = $db_connection->prepare($query);
         if (count($items_list_kitchen) !== 0) {
             $id_new_order = Order::create_order($this->id_receipt, 1, $new_order);
             foreach ($items_list_kitchen as $item) {
-                $item->set_id_order($id_new_order);
-                $item->save_to_db();
+                $product_id = $item->get_id_product();
+                $product_details = $item->get_details();
+                $statement->bind_param('iis', $id_new_order, $product_id, $product_details);
+                $statement->execute();
             }
         }
         if (count($items_list_bar) !== 0) {
             $id_new_order = Order::create_order($this->id_receipt, 2, $new_order);
             foreach ($items_list_bar as $item) {
-                $item->set_id_order($id_new_order);
-                $item->save_to_db();
+                $product_id = $item->get_id_product();
+                $product_details = $item->get_details();
+                $statement->bind_param('iis', $id_new_order, $product_id, $product_details);
+                $statement->execute();
             }
         }
+        $db_connection->close();
     }
 
     /**

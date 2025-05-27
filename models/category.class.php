@@ -31,13 +31,17 @@ class Category {
      */
     public static function get_all_category_products_json($id_category): array {
         $db_connection = get_db_connection();
-        $query = "SELECT c.label_categorie, p.ID_produit, p.label_produit, p.prix
+        // prepare and run statement
+        $query = 'SELECT c.label_categorie, p.ID_produit, p.label_produit, p.prix
                 FROM `categorie` c
                 LEFT JOIN `produit` p ON c.ID_categorie = p.ID_categorie
-                WHERE c.ID_categorie = {$id_category}
+                WHERE c.ID_categorie = ?
                 AND p.date_suppression IS NULL
-                ORDER BY p.ID_produit";
-        $result_cursor = $db_connection->query($query);
+                ORDER BY p.ID_produit';
+        $statement = $db_connection->prepare($query);
+        $statement->bind_param('i', $id_category);
+        $statement->execute();
+        $result_cursor = $statement->get_result();
         $category_array = [
             'produits' => []
         ];

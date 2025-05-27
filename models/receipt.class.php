@@ -1,34 +1,33 @@
 <?php
 
 class Receipt {
-
     /**
      * Creates a new receipt in the database
      * @param int $id_table
      * @param int $id_server
      * @return int
      */
-    public static function create($id_table, $id_server): int {
+    public static function create_receipt($id_table, $id_server): int {
         $db_connection = get_db_connection();
+        // prepare statements
+        $query = 'INSERT INTO `bon` (ID_table, ID_serveur) VALUES
+                                (?, ?)';
+        $insert_receipt_statement = $db_connection->prepare($query);
+        $query = 'UPDATE `table`
+                SET ID_etat_table = 2
+                WHERE ID_table = ?';
+        $update_table_statement = $db_connection->prepare($query);
         // create a new receipt in the database
-        $insert_query = "INSERT INTO `bon` (ID_table, ID_serveur) VALUES
-                ({$id_table}, {$id_server})";
-        $result = $db_connection->query($insert_query);
-        if (!$result) {
-            return -1;
-        }
-        $id_query = 'SELECT LAST_INSERT_ID() `id`';
+        $insert_receipt_statement->bind_param('ii', $id_table, $id_server);
+        $insert_receipt_statement->execute();
+        // get the new receipt ID
+        $id_query = 'SELECT LAST_INSERT_ID() id';
         $result_cursor = $db_connection->query($id_query);
         $row = $result_cursor->fetch_assoc();
         $id_receipt = (int) $row['id'];
         // set the table state to "occupied"
-        $query = "UPDATE `table`
-                SET ID_etat_table = 2
-                WHERE ID_table = {$id_table}";
-        $result = $db_connection->query($query);
-        if (!$result) {
-            return -1;
-        }
+        $update_table_statement->bind_param('i', $id_table);
+        $update_table_statement->execute();
         $db_connection->close();
         return $id_receipt;
     }
@@ -68,37 +67,44 @@ class Receipt {
      */
     public static function get_receipt_details_json($id): array {
         $db_connection = get_db_connection();
-        // get the total and the eventual discount of the receipt
-        $query = "SELECT b.remise, COALESCE(SUM(p.prix) - b.remise, 0) `total`
+        // prepare statements
+        $query = 'SELECT b.remise, COALESCE(SUM(p.prix) - b.remise, 0) total, b.ID_bon
                 FROM `bon` b
                 LEFT JOIN `commande` c ON b.ID_bon = c.ID_bon
                 LEFT JOIN `item` i ON c.ID_commande = i.ID_commande
                 LEFT JOIN `produit` p ON i.ID_produit = p.ID_produit
-                WHERE b.ID_bon = {$id}
-                GROUP BY b.ID_bon";
-        $result_cursor = $db_connection->query($query);
-        $row = $result_cursor->fetch_assoc();
-        $receipt_details_array = [
-            'remise' => str_replace('.', ',', sprintf("%.2f", - (float) $row['remise'])),
-            'total' => str_replace('.', ',', $row['total']),
-            'produits' => []
-        ];
-        // get the list of products in the receipt
-        $query = "SELECT p.label_produit, p.prix `prix_unitaire`, COUNT(p.ID_produit) `quantite`, SUM(p.prix) `total`
+                WHERE b.ID_bon = ?
+                GROUP BY b.ID_bon';
+        $get_receipt_info_statement = $db_connection->prepare($query);
+        $query = 'SELECT p.label_produit, p.prix `prix_unitaire`, COUNT(p.ID_produit) `quantite`, SUM(p.prix) `total`
                 FROM `bon` b
                 JOIN `commande` c ON b.ID_bon = c.ID_bon
                 JOIN `item` i ON c.ID_commande = i.ID_commande
                 JOIN `produit` p ON i.ID_produit = p.ID_produit
-                WHERE b.ID_bon = {$id}
+                WHERE b.ID_bon = ?
                 GROUP BY p.ID_produit
-                ORDER BY p.ID_produit";
-        $result_cursor = $db_connection->query($query);
+                ORDER BY p.ID_produit';
+        $get_receipt_products_statement = $db_connection->prepare($query);
+        // get the total and the discount of the receipt
+        $get_receipt_info_statement->bind_param('i', $id);
+        $get_receipt_info_statement->execute();
+        $result_cursor = $get_receipt_info_statement->get_result();
+        $row = $result_cursor->fetch_assoc();
+        $receipt_details_array = [
+            'remise' => format_price((float) $row['remise']),
+            'total' => format_price((float) $row['total']),
+            'produits' => []
+        ];
+        // get the list of products in the receipt
+        $get_receipt_products_statement->bind_param('i', $id);
+        $get_receipt_products_statement->execute();
+        $result_cursor = $get_receipt_products_statement->get_result();
         while ($row = $result_cursor->fetch_assoc()) {
             $product_array = [
                 'label' => $row['label_produit'],
-                'quantite' => $row['quantite'],
-                'prix_unitaire' => str_replace('.', ',', $row['prix_unitaire']),
-                'total' => str_replace('.', ',', $row['total'])
+                'quantite' => (int) $row['quantite'],
+                'prix_unitaire' => format_price((float) $row['prix_unitaire']),
+                'total' => format_price((float) $row['total'])
             ];
             $receipt_details_array['produits'][] = $product_array;
         }
@@ -113,14 +119,16 @@ class Receipt {
      */
     public static function set_discount($id, $amount): array {
         $db_connection = get_db_connection();
-        $query = "UPDATE `bon`
-                  SET remise = {$amount}
-                  WHERE ID_bon = {$id}";
-        $result = $db_connection->query($query);
-        $result_array = [];
-        $result_array['success'] = (bool) $result;
+        // prepare statement
+        $query = 'UPDATE `bon`
+                  SET remise = ?
+                  WHERE ID_bon = ?';
+        $statement = $db_connection->prepare($query);
+        // execute statement
+        $statement->bind_param('di', $amount, $id);
+        $statement->execute();
         $db_connection->close();
-        return $result_array;
+        return ['success' => true];
     }
 
     /**
@@ -129,34 +137,33 @@ class Receipt {
      */
     public static function set_to_payed($id): array {
         $db_connection = get_db_connection();
-        $result_array = [
-            'successQuery1' => false,
-            'successQuery2' => false
-        ];
-        // add a deletion date to the receipt
-        $query_1 = "UPDATE `bon`
-                    SET date_suppression = NOW()
-                    WHERE ID_bon = {$id}";
-        $result_array['successQuery1'] = (bool) $db_connection->query($query_1);
-        if (!$result_array['successQuery1']) {
-            $db_connection->close();
-            return $result_array;
-        }
-        // set every order of the receipt to "delivered"
-        $query = "UPDATE `commande`
+        // prepare statements
+        $query = 'UPDATE `bon`
+                SET date_suppression = NOW()
+                WHERE ID_bon = ?';
+        $delete_receipt_statement = $db_connection->prepare($query);
+        $query = 'UPDATE `commande`
                 SET ID_etat_commande = 3
-                WHERE ID_bon = {$id}";
-        $db_connection->query($query);
+                WHERE ID_bon = ?';
+        $update_orders_statement = $db_connection->prepare($query);
+        $query = 'UPDATE `table`
+                SET ID_etat_table = 3
+                WHERE ID_table = (
+                    SELECT ID_table FROM `bon`
+                    WHERE ID_bon = ?
+                )';
+        $update_table_statement = $db_connection->prepare($query);
+        // add a deletion date to the receipt
+        $delete_receipt_statement->bind_param('i', $id);
+        $delete_receipt_statement->execute();
+        // set every order of the receipt to "delivered"
+        $update_orders_statement->bind_param('i', $id);
+        $update_orders_statement->execute();
         // set the associated table to "to clean"
-        $query_2 = "UPDATE `table`
-                    SET ID_etat_table = 3
-                    WHERE ID_table = (
-                        SELECT ID_table FROM `bon`
-                        WHERE ID_bon = {$id}
-                    )";
-        $result_array['successQuery2'] = (bool) $db_connection->query($query_2);
+        $update_table_statement->bind_param('i', $id);
+        $update_table_statement->execute();
         $db_connection->close();
-        return $result_array;
+        return ['success' => true];
     }
 
     /**
@@ -165,21 +172,21 @@ class Receipt {
      */
     public static function get_table_current_receipt_id_and_number($id_table): array {
         $db_connection = get_db_connection();
-        // SELECT b.ID_bon, t.numero
-        // FROM `table` t
-        // JOIN `bon` b ON t.ID_table = b.ID_table
-        // WHERE t.ID_table = 11
-        // AND b.date_suppression IS NULL
-        $query = "SELECT b.ID_bon, t.numero
+        // prepare statement
+        $query = 'SELECT b.ID_bon, t.numero
                 FROM `table` t
                 JOIN `bon` b ON t.ID_table = b.ID_table
-                WHERE t.ID_table = {$id_table}
-                AND b.date_suppression IS NULL";
-        $result_cursor = $db_connection->query($query);
+                WHERE t.ID_table = ?
+                AND b.date_suppression IS NULL';
+        $statement = $db_connection->prepare($query);
+        // execute statement
+        $statement->bind_param('i', $id_table);
+        $statement->execute();
+        $result_cursor = $statement->get_result();
         $row = $result_cursor->fetch_assoc();
         $result_array = [
-            'id_bon' => (int) $row['ID_bon'],
-            'numero_table' => (int) $row['numero']
+            'id_bon' => $row['ID_bon'],
+            'numero_table' => $row['numero']
         ];
         $db_connection->close();
         return $result_array;

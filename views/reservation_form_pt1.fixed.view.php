@@ -70,5 +70,5 @@
 <div class="row mx-3 my-2 align-items-center">
 <label class="col-3 py-0 col-form-label col-form-label-lg">Tables réservées</label>
 <div class="col-8">
-<div class="container border rounded">
+<div class="container border rounded bg-body">
 <div class="row p-2 fs-4">

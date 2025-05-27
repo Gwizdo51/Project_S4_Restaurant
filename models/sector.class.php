@@ -75,26 +75,25 @@ class Sector {
 
     public function save_to_db(): int {
         $db_connection = get_db_connection();
+        // prepare statements
+        $query = 'INSERT INTO `secteur` (nom) VALUES (?)';
+        $create_sector_statement = $db_connection->prepare($query);
+        $query = 'UPDATE `table`
+                SET ID_secteur = ?
+                WHERE ID_table = ?';
+        $assign_table_statement = $db_connection->prepare($query);
         // insert the sector
-        $insert_query = "INSERT INTO `secteur` (nom) VALUES
-                        ('{$this->input_name_sector}')";
-        $db_connection->query($insert_query);
+        $create_sector_statement->bind_param('s', $this->input_name_sector);
+        $create_sector_statement->execute();
         // get the last inserted row id
         $id_query = 'SELECT LAST_INSERT_ID() id';
         $result_cursor = $db_connection->query($id_query);
         $row = $result_cursor->fetch_assoc();
         $sector_id = (int) $row['id'];
         // assign each selected table to the sector
-        if (count($this->assigned_tables) !== 0) {
-            $update_query = "UPDATE `table`
-                            SET ID_secteur = {$sector_id}
-                            WHERE ";
-            $query_parts = [];
-            foreach (array_keys($this->assigned_tables) as $table_id) {
-                $query_parts[] = "ID_table = {$table_id}";
-            }
-            $update_query .= implode(' OR ', $query_parts);
-            $db_connection->query($update_query);
+        foreach (array_keys($this->assigned_tables) as $table_id) {
+            $assign_table_statement->bind_param('ii', $sector_id, $table_id);
+            $assign_table_statement->execute();
         }
         $db_connection->close();
         return $sector_id;
@@ -106,13 +105,17 @@ class Sector {
      */
     public static function get_from_db($sector_id): Sector {
         $db_connection = get_db_connection();
-        $query = "SELECT s.nom, t.ID_table, t.numero
+        // prepare and run statement
+        $query = 'SELECT s.nom, t.ID_table, t.numero
                 FROM `secteur` s
                 LEFT JOIN `table` t ON s.ID_secteur = t.ID_secteur
-                WHERE s.ID_secteur = {$sector_id}
+                WHERE s.ID_secteur = ?
                 AND t.date_suppression IS NULL
-                ORDER BY t.numero";
-        $result_cursor = $db_connection->query($query);
+                ORDER BY t.numero';
+        $statement = $db_connection->prepare($query);
+        $statement->bind_param('i', $sector_id);
+        $statement->execute();
+        $result_cursor = $statement->get_result();
         $sector = null;
         while ($row = $result_cursor->fetch_assoc()) {
             if ($sector === null) {
@@ -120,11 +123,11 @@ class Sector {
                     $row['nom'],
                 );
                 if ($row['ID_table'] !== null) {
-                    $sector->assigned_tables[(int) $row['ID_table']] = (int) $row['numero'];
+                    $sector->assigned_tables[$row['ID_table']] = $row['numero'];
                 }
             }
             else {
-                $sector->assigned_tables[(int) $row['ID_table']] = (int) $row['numero'];
+                $sector->assigned_tables[$row['ID_table']] = $row['numero'];
             }
         }
         $db_connection->close();
@@ -138,33 +141,36 @@ class Sector {
     public function update_in_db($sector_id): void {
         // get the original sector from the database
         $saved_sector = self::get_from_db($sector_id);
-        // update the sector's name
         $db_connection = get_db_connection();
-        $update_query = "UPDATE `secteur`
-                        SET nom = '{$this->input_name_sector}'
-                        WHERE ID_secteur = {$sector_id}";
-        $db_connection->query($update_query);
+        // prepare statements
+        $query = 'UPDATE `secteur`
+                SET nom = ?
+                WHERE ID_secteur = ?';
+        $update_sector_statement = $db_connection->prepare($query);
+        $query = 'UPDATE `table`
+                SET ID_secteur = NULL
+                WHERE ID_table = ?';
+        $unassign_table_statement = $db_connection->prepare($query);
+        $query = 'UPDATE `table`
+                SET ID_secteur = ?
+                WHERE ID_table = ?';
+        $assign_table_statement = $db_connection->prepare($query);
+        // update the sector's name
+        $update_sector_statement->bind_param('si', $this->input_name_sector, $sector_id);
+        $update_sector_statement->execute();
         // update the assigned tables
         // unassign all tables that are not assigned anymore
         foreach (array_keys($saved_sector->assigned_tables) as $old_table_id) {
             if (!in_array($old_table_id, array_keys($this->assigned_tables))) {
-                // $delete_query = "DELETE FROM `reserver`
-                //                 WHERE ID_reservation = {$id} AND ID_table = {$old_table_id}";
-                $update_query = "UPDATE `table`
-                                SET ID_secteur = NULL
-                                WHERE ID_table = {$old_table_id}";
-                $db_connection->query($update_query);
+                $unassign_table_statement->bind_param('i', $old_table_id);
+                $unassign_table_statement->execute();
             }
         }
         // assign all tables that were not assigned before
         foreach (array_keys($this->assigned_tables) as $new_table_id) {
             if (!in_array($new_table_id, array_keys($saved_sector->assigned_tables))) {
-                // $create_query = "INSERT INTO `reserver` (ID_reservation, ID_table) VALUES
-                //                 ({$id}, {$new_table_id})";
-                $update_query = "UPDATE `table`
-                                SET ID_secteur = {$sector_id}
-                                WHERE ID_table = {$new_table_id}";
-                $db_connection->query($update_query);
+                $assign_table_statement->bind_param('ii', $sector_id, $new_table_id);
+                $assign_table_statement->execute();
             }
         }
         $db_connection->close();
@@ -217,21 +223,28 @@ class Sector {
      */
     public static function delete_sector($sector_id): void {
         $db_connection = get_db_connection();
+        // prepare statements
+        $query = 'UPDATE `table`
+                SET ID_secteur = NULL
+                WHERE ID_secteur = ?';
+        $unassign_tables_statement = $db_connection->prepare($query);
+        $query = 'UPDATE `serveur`
+                SET ID_secteur = NULL
+                WHERE ID_secteur = ?';
+        $unassign_servers_statement = $db_connection->prepare($query);
+        $query = 'UPDATE `secteur`
+                SET date_suppression = NOW()
+                WHERE ID_secteur = ?';
+        $delete_sector_statement = $db_connection->prepare($query);
         // unassign all tables from this sector
-        $update_query = "UPDATE `table`
-                        SET ID_secteur = NULL
-                        WHERE ID_secteur = {$sector_id}";
-        $db_connection->query($update_query);
+        $unassign_tables_statement->bind_param('i', $sector_id);
+        $unassign_tables_statement->execute();
         // unassign all servers to this sector
-        $update_query = "UPDATE `serveur`
-                        SET ID_secteur = NULL
-                        WHERE ID_secteur = {$sector_id}";
-        $db_connection->query($update_query);
+        $unassign_servers_statement->bind_param('i', $sector_id);
+        $unassign_servers_statement->execute();
         // delete the sector
-        $update_query = "UPDATE `secteur`
-                        SET date_suppression = NOW()
-                        WHERE ID_secteur = {$sector_id}";
-        $db_connection->query($update_query);
+        $delete_sector_statement->bind_param('i', $sector_id);
+        $delete_sector_statement->execute();
         $db_connection->close();
     }
 }

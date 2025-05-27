@@ -114,25 +114,27 @@ class Reservation {
 
     public function save_to_db(): int {
         $db_connection = get_db_connection();
+        // prepare statements
+        $query = 'INSERT INTO `reservation` (nom_client, date, nombre_personnes, notes) VALUES
+                (?, ?, ?, ?)';
+        $insert_reservation_statement = $db_connection->prepare($query);
+        $query = 'INSERT INTO `reserver` (ID_reservation, ID_table) VALUES
+                (?, ?)';
+        $insert_table_reservation_statement = $db_connection->prepare($query);
         // insert the reservation
         $datetime = (new DateTimeImmutable($this->input_datetime))->format('Y-m-d H:i:s');
-        $insert_query = "INSERT INTO `reservation` (nom_client, date, nombre_personnes, notes) VALUES
-                         ('{$this->input_name_client}', '{$datetime}', {$this->input_number_people}, '{$this->input_details}')";
-        $db_connection->query($insert_query);
+        $number_people = (int) $this->input_number_people;
+        $insert_reservation_statement->bind_param('ssis', $this->input_name_client, $datetime, $number_people, $this->input_details);
+        $insert_reservation_statement->execute();
         // get the last inserted row id
-        $id_query = 'SELECT LAST_INSERT_ID() `id`';
+        $id_query = 'SELECT LAST_INSERT_ID() id';
         $result_cursor = $db_connection->query($id_query);
         $row = $result_cursor->fetch_assoc();
         $reservation_id = (int) $row['id'];
         // insert the reserved tables
-        if (count($this->reserved_tables) !== 0) {
-            $insert_query = 'INSERT INTO `reserver` (ID_reservation, ID_table) VALUES ';
-            $query_parts = [];
-            foreach (array_keys($this->reserved_tables) as $table_id) {
-                $query_parts[] = "({$reservation_id}, {$table_id})";
-            }
-            $insert_query .= implode(', ', $query_parts);
-            $db_connection->query($insert_query);
+        foreach (array_keys($this->reserved_tables) as $table_id) {
+            $insert_table_reservation_statement->bind_param('ii', $reservation_id, $table_id);
+            $insert_table_reservation_statement->execute();
         }
         $db_connection->close();
         return $reservation_id;
@@ -143,19 +145,18 @@ class Reservation {
      * @return Reservation
      */
     public static function get_from_db($id): Reservation {
-        // SELECT r1.nom_client, r1.date, r1.nombre_personnes, r1.notes, t.ID_table, t.numero numero_table
-        // FROM `reservation` r1
-        // LEFT JOIN `reserver` r2 ON r2.ID_reservation = r1.ID_reservation
-        // LEFT JOIN `table` t ON t.ID_table = r2.ID_table
-        // WHERE r1.ID_reservation = 4
         $db_connection = get_db_connection();
-        $query = "SELECT r1.nom_client, r1.date, r1.nombre_personnes, r1.notes, t.ID_table, t.numero numero_table
+        // prepare and run statement
+        $query = 'SELECT r1.nom_client, r1.date, r1.nombre_personnes, r1.notes, t.ID_table, t.numero numero_table
                 FROM `reservation` r1
                 LEFT JOIN `reserver` r2 ON r2.ID_reservation = r1.ID_reservation
                 LEFT JOIN `table` t ON t.ID_table = r2.ID_table
-                WHERE r1.ID_reservation = {$id}
-                ORDER BY t.numero";
-        $result_cursor = $db_connection->query($query);
+                WHERE r1.ID_reservation = ?
+                ORDER BY t.numero';
+        $statement = $db_connection->prepare($query);
+        $statement->bind_param('i', $id);
+        $statement->execute();
+        $result_cursor = $statement->get_result();
         $reservation = null;
         while ($row = $result_cursor->fetch_assoc()) {
             if ($reservation === null) {
@@ -167,11 +168,11 @@ class Reservation {
                     $row['notes']
                 );
                 if ($row['ID_table'] !== null) {
-                    $reservation->reserved_tables[(int) $row['ID_table']] = (int) $row['numero_table'];
+                    $reservation->reserved_tables[$row['ID_table']] = $row['numero_table'];
                 }
             }
             else {
-                $reservation->reserved_tables[(int) $row['ID_table']] = (int) $row['numero_table'];
+                $reservation->reserved_tables[$row['ID_table']] = $row['numero_table'];
             }
         }
         $db_connection->close();
@@ -185,28 +186,36 @@ class Reservation {
     public function update_in_db($id): void {
         // get the original reservation from the database
         $saved_reservation = self::get_from_db($id);
-        // update the basic info
         $db_connection = get_db_connection();
+        // prepare statements
+        $query = 'UPDATE `reservation`
+                SET nom_client = ?, date = ?, nombre_personnes = ?, notes = ?
+                WHERE ID_reservation = ?';
+        $update_reservation_statement = $db_connection->prepare($query);
+        $query = 'DELETE FROM `reserver`
+                WHERE ID_reservation = ? AND ID_table = ?';
+        $delete_table_reservation_statement = $db_connection->prepare($query);
+        $query = 'INSERT INTO `reserver` (ID_reservation, ID_table) VALUES
+                (?, ?)';
+        $create_table_reservation_statement = $db_connection->prepare($query);
+        // update the basic info
         $datetime = (new DateTimeImmutable($this->input_datetime))->format('Y-m-d H:i:s');
-        $update_query = "UPDATE `reservation`
-                        SET nom_client = '{$this->input_name_client}', date = '{$datetime}', nombre_personnes = {$this->input_number_people}, notes = '{$this->input_details}'
-                        WHERE ID_reservation = {$id}";
-        $db_connection->query($update_query);
+        $number_people = (int) $this->input_number_people;
+        $update_reservation_statement->bind_param('ssisi', $this->input_name_client, $datetime, $number_people, $this->input_details, $id);
+        $update_reservation_statement->execute();
         // update the reserved tables
         // remove all tables that are not reserved anymore
         foreach (array_keys($saved_reservation->reserved_tables) as $old_table_id) {
             if (!in_array($old_table_id, array_keys($this->reserved_tables))) {
-                $delete_query = "DELETE FROM `reserver`
-                                WHERE ID_reservation = {$id} AND ID_table = {$old_table_id}";
-                $db_connection->query($delete_query);
+                $delete_table_reservation_statement->bind_param('ii', $id, $old_table_id);
+                $delete_table_reservation_statement->execute();
             }
         }
         // add all tables that were not reserved before
         foreach (array_keys($this->reserved_tables) as $new_table_id) {
             if (!in_array($new_table_id, array_keys($saved_reservation->reserved_tables))) {
-                $create_query = "INSERT INTO `reserver` (ID_reservation, ID_table) VALUES
-                                ({$id}, {$new_table_id})";
-                $db_connection->query($create_query);
+                $create_table_reservation_statement->bind_param('ii', $id, $new_table_id);
+                $create_table_reservation_statement->execute();
             }
         }
         $db_connection->close();
@@ -231,7 +240,7 @@ class Reservation {
             $reservation_id = (int) $row['ID_reservation'];
             // if the reservation already exists in the array, add the table number to it
             if (array_key_exists($reservation_id, $reservations_array)) {
-                $reservations_array[$reservation_id]['tables'][] = $row['numero_table'];
+                $reservations_array[$reservation_id]['tables'][] = (int) $row['numero_table'];
             }
             // otherwise, add the reservation to the array
             else {
@@ -243,7 +252,7 @@ class Reservation {
                     'tables' => []
                 ];
                 if ($row['numero_table'] !== null) {
-                    $reservations_array[$reservation_id]['tables'][] = $row['numero_table'];
+                    $reservations_array[$reservation_id]['tables'][] = (int) $row['numero_table'];
                 }
             }
         }
@@ -257,14 +266,13 @@ class Reservation {
      */
     public static function cancel_reservation($id): array {
         $db_connection = get_db_connection();
-        $query = "UPDATE `reservation`
+        // prepare and run statement
+        $query = 'UPDATE `reservation`
                 SET date_suppression = NOW()
-                WHERE ID_reservation = {$id}";
-        $result = $db_connection->query($query);
-        $result_array = [
-            'success' => (bool) $result
-        ];
-        $db_connection->close();
-        return $result_array;
+                WHERE ID_reservation = ?';
+        $statement = $db_connection->prepare($query);
+        $statement->bind_param('i', $id);
+        $statement->execute();
+        return ['success' => true];
     }
 }

@@ -27,9 +27,13 @@ class Server {
      */
     public static function get_server_name_json($id): string {
         $db_connection = get_db_connection();
-        $query = "SELECT s.nom FROM `serveur` s
-                  WHERE s.ID_serveur = {$id}";
-        $result_cursor = $db_connection->query($query);
+        // prepare and run statement
+        $query = 'SELECT s.nom FROM `serveur` s
+                WHERE s.ID_serveur = ?';
+        $statement = $db_connection->prepare($query);
+        $statement->bind_param('i', $id);
+        $statement->execute();
+        $result_cursor = $statement->get_result();
         $row = $result_cursor->fetch_assoc();
         $server_name = $row['nom'];
         $db_connection->close();
@@ -42,7 +46,8 @@ class Server {
      */
     public static function get_server_hub_data_json($id_server): array {
         $db_connection = get_db_connection();
-        $query = "SELECT t.ID_table, t.numero, t.ID_etat_table,
+        // prepare and run statement
+        $query = 'SELECT t.ID_table, t.numero, t.ID_etat_table,
                 res1.ID_reservation, res1.nom_client, res1.date, res1.nombre_personnes, res1.notes,
                 c.ID_commande, c.ID_lieu_preparation
                 FROM `serveur` ser
@@ -64,9 +69,12 @@ class Server {
                     WHERE c.ID_etat_commande = 2
                 ) c ON b.ID_bon = c.ID_bon
                 WHERE t.date_suppression IS NULL
-                AND ser.ID_serveur = {$id_server}
-                ORDER BY t.numero, res1.date, c.ID_commande";
-        $result_cursor = $db_connection->query($query);
+                AND ser.ID_serveur = ?
+                ORDER BY t.numero, res1.date, c.ID_commande';
+        $statement = $db_connection->prepare($query);
+        $statement->bind_param('i', $id_server);
+        $statement->execute();
+        $result_cursor = $statement->get_result();
         $data_array = [];
         while ($row = $result_cursor->fetch_assoc()) {
             $table_id = (int) $row['ID_table'];
@@ -167,42 +175,39 @@ class Server {
      * @return array
      */
     public static function update_servers($json_content): array {
-        $result_array = ['success' => true];
         $db_connection = get_db_connection();
+        // prepare statements
+        $query = 'UPDATE `serveur`
+                SET nom = ?, ID_secteur = ?
+                WHERE ID_serveur = ?';
+        $update_server_statement = $db_connection->prepare($query);
+        $query = 'INSERT INTO `serveur` (nom, ID_secteur) VALUES
+                (?, ?)';
+        $create_server_statement = $db_connection->prepare($query);
+        $query = 'UPDATE `serveur`
+                SET date_suppression = NOW()
+                WHERE ID_serveur = ?';
+        $delete_server_statement = $db_connection->prepare($query);
         // update the servers in $json_content['changed']
         foreach ($json_content['changed'] as $server_to_update) {
-            $id_sector = $server_to_update['sectorId'] === 0 ? 'NULL' : $server_to_update['sectorId'];
+            $sector_id = $server_to_update['sectorId'] === 0 ? 'NULL' : $server_to_update['sectorId'];
             $server_name = sanitize_input($server_to_update['serverName']);
-            $update_query = "UPDATE `serveur`
-                            SET nom = '{$server_name}', ID_secteur = {$id_sector}
-                            WHERE ID_serveur = {$server_to_update['serverId']}";
-            $db_connection->query($update_query);
+            $update_server_statement->bind_param('sii', $server_name, $sector_id, $server_to_update['serverId']);
+            $update_server_statement->execute();
         }
         // add the servers in $json_content['new']
-        if (count($json_content['new']) !== 0) {
-            $insert_query = 'INSERT INTO `serveur` (nom, ID_secteur) VALUES ';
-            $strings_array = [];
-            foreach ($json_content['new'] as $server_to_add) {
-                $id_sector = $server_to_add['sectorId'] === 0 ? 'NULL' : $server_to_add['sectorId'];
-                $server_name = sanitize_input($server_to_add['serverName']);
-                $strings_array[] = "('{$server_name}', {$id_sector})";
-            }
-            $insert_query .= implode(', ', $strings_array);
-            $db_connection->query($insert_query);
+        foreach ($json_content['new'] as $server_to_add) {
+            $sector_id = $server_to_add['sectorId'] === 0 ? null : $server_to_add['sectorId'];
+            $server_name = sanitize_input($server_to_add['serverName']);
+            $create_server_statement->bind_param('si', $server_name, $sector_id);
+            $create_server_statement->execute();
         }
         // delete the servers in $json_content['toDelete']
-        if (count($json_content['toDelete']) !== 0) {
-            $delete_query = 'UPDATE `serveur`
-                            SET date_suppression = NOW()
-                            WHERE ';
-            $strings_array = [];
-            foreach ($json_content['toDelete'] as $id_server_to_delete) {
-                $strings_array[] = "ID_serveur = {$id_server_to_delete}";
-            }
-            $delete_query .= implode(' OR ', $strings_array);
-            $db_connection->query($delete_query);
+        foreach ($json_content['toDelete'] as $server_to_delete_id) {
+            $delete_server_statement->bind_param('i', $server_to_delete_id);
+            $delete_server_statement->execute();
         }
         $db_connection->close();
-        return $result_array;
+        return ['success' => true];
     }
 }
