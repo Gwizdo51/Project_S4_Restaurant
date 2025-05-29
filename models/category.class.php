@@ -1,6 +1,26 @@
 <?php
 
 class Category {
+    /**
+     * Returns the json containing all the categories
+     * in the database
+     * @return array
+     */
+    public static function get_all_categories_json(): array {
+        $db_connection = get_db_connection();
+        $query = "SELECT c.ID_categorie, c.label_categorie
+                FROM `categorie` c
+                WHERE c.date_suppression IS NULL
+                ORDER BY c.ID_categorie";
+        $result_cursor = $db_connection->query($query);
+        $categories_array = [];
+        while ($row = $result_cursor->fetch_assoc()) {
+            $categories_array[(int) $row['ID_categorie']] = $row['label_categorie'];
+        }
+        $db_connection->close();
+        return $categories_array;
+    }
+
 
     /**
      * Returns the list of categories from the database
@@ -61,5 +81,50 @@ class Category {
         }
         $db_connection->close();
         return $category_array;
+    }
+
+    /**
+     * @param array $json_content
+     * @return array
+     */
+    public static function create($json_content): array {
+        // sanitize the json
+        $json_content['newCategoryLabel'] = sanitize_input($json_content['newCategoryLabel']);
+        $db_connection = get_db_connection();
+        // prepare statement
+        $query = 'INSERT INTO `categorie` (label_categorie) VALUES
+                (?)';
+        $statement = $db_connection->prepare($query);
+        // insert the new category
+        $statement->bind_param('s', $json_content['newCategoryLabel']);
+        $statement->execute();
+        // get the last inserted row id
+        $id_query = 'SELECT LAST_INSERT_ID() id';
+        $result_cursor = $db_connection->query($id_query);
+        $row = $result_cursor->fetch_assoc();
+        $category_id = (int) $row['id'];
+        $db_connection->close();
+        return [
+            'success' => true,
+            'newCategoryId' => $category_id
+        ];
+    }
+
+    /**
+     * @param array $json_content
+     * @return array
+     */
+    public static function delete($json_content): array {
+        $db_connection = get_db_connection();
+        // prepare statement
+        $query = 'UPDATE `categorie`
+                SET date_suppression = NOW()
+                WHERE ID_categorie = ?';
+        $statement = $db_connection->prepare($query);
+        // insert the new category
+        $statement->bind_param('i', $json_content['CategoryToDeleteId']);
+        $statement->execute();
+        $db_connection->close();
+        return ['success' => true];
     }
 }

@@ -400,8 +400,6 @@
                 window.location.href = "/fixe/configuration";
             }
         }
-        // remove the full page spinner
-        document.querySelector("#spinnerFullPage").classList.add("d-none");
     }
 </script>
 

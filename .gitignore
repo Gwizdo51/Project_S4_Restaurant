@@ -3,3 +3,4 @@ docker/data/
 
 # scss compiler output
 assets/css/design.css
+assets/css/bootstrap/

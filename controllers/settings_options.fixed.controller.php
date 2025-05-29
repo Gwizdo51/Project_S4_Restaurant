@@ -40,7 +40,7 @@ foreach ($options_array as $option_id => $option_array) {
         $html_choices_list[] = "<li>{$choice_label}</li>";
     }
     $option_choices = implode('', $html_choices_list);
-    require './views/templates/settings_option.template.fixed.view.php';
+    require './views/templates/option.template.fixed.view.php';
 }
 // part 2
 require './views/settings_options_pt2.fixed.view.php';

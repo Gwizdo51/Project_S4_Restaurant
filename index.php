@@ -96,6 +96,9 @@ elseif ($route === '/fixe/configuration/carte') {
     require_once './controllers/settings_menu.fixed.controller.php';
 }
 elseif ($route === '/fixe/configuration/carte/categories') {
+    require_once './controllers/settings_categories.fixed.controller.php';
+}
+elseif (preg_match('~^/fixe/configuration/carte/categories/(\d+)$~u', $route, $route_regex_matches)) {
     // ...
 }
 elseif ($route === '/fixe/configuration/carte/options') {
@@ -155,6 +158,9 @@ elseif ($route === '/api/update-servers') {
 }
 elseif ($route === '/api/order-option') {
     require_once './api/order_option.api.php';
+}
+elseif ($route == '/api/category') {
+    require_once './api/category.api.php';
 }
 // tests bootstrap
 elseif ($route === '/test-bootstrap') {

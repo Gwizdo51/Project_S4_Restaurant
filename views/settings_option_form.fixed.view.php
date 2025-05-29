@@ -207,8 +207,6 @@
                     window.location.href = "/fixe/configuration/carte/options";
                 }
             }
-            // remove the full page spinner
-            storedData.spinnerFullPageElement.classList.add("d-none");
         }
     }
 </script>
