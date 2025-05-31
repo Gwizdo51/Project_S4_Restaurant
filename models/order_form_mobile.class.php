@@ -34,7 +34,6 @@ class OrderFormMobile extends OrderForm {
          * - 3 : input product details
          * - 4 : confirm/cancel order
          */
-        // var_dump_pre($post_array);
         $post_array_key_regex_matches = [];
         if ($this->step === 0) {
             if (array_key_exists('cancel_order', $post_array)) {
@@ -62,7 +61,6 @@ class OrderFormMobile extends OrderForm {
             }
         }
         elseif ($this->step === 2) {
-            // var_dump_pre($post_array);
             if (array_key_exists('back', $post_array)) {
                 $this->step = 1;
             }

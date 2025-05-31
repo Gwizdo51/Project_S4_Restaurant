@@ -335,7 +335,6 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
         // clone the content from the order template
         const orderElement = document.querySelector("#orderTemplate").content.cloneNode(true);
         const mainDiv = orderElement.firstElementChild;
-        // console.log(mainDiv);
         mainDiv.dataset.orderId = orderId;
         orderElement.querySelector(".tableNumber").textContent = `Table ${tableNumber}`;
         orderElement.querySelector(".orderId").textContent = `Commande ${orderId}`;
@@ -368,19 +367,6 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
             // const newState = tableStates[currentTableJson.etat].dataset;
             const newState = tableStates[currentTableJson.etat];
             // update the state if it is different from the one in the json
-            // if (newState !== oldState) {
-            //     // update the state of the table element
-            //     tableElement.dataset.state = newState;
-            //     // - the outer borders
-            //     tableElement.classList.remove(`border-${oldState}`);
-            //     tableElement.classList.add(`border-${newState}`);
-            //     // - the inner borders and the text color
-            //     const stateElement = tableElement.querySelector("div.tableState");
-            //     stateElement.classList.remove(`border-${oldState}`, `text-${oldState}-emphasis`);
-            //     stateElement.classList.add(`border-${newState}`, `text-${newState}-emphasis`);
-            //     // - the text content
-            //     stateElement.textContent = tableStates[currentTableJson.etat].text;
-            // }
             updateTableState(tableElement, newState);
             // display or hide the reservation button
             if (Object.keys(currentTableJson).includes("reservations")) {
@@ -393,7 +379,6 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
     }
 
     function updateDisplayedContent() {
-        // console.log(storedData.apiJsonResponse);
         // add the list of tables on the first call
         if (!storedData.spinnerFirstLoad.classList.contains("d-none")) {
             // hide the first load spinner spinnerFirstLoad
@@ -424,7 +409,6 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
                 }
             }
         }
-        // console.log(ordersToDisplay);
         // get the list of all displayed orders
         const displayedOrdersList = storedData.ordersList.querySelectorAll("div.row");
         // if the list of orders to display is empty ...
@@ -544,7 +528,6 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
     }
 
     async function onConfirmButtonClick() {
-        // console.log("modal confirmed");
         // display the full page spinner
         storedData.spinnerFullPage.classList.remove("d-none");
         // make a FormData object to send via POST

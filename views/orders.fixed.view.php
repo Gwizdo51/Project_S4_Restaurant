@@ -144,7 +144,6 @@
         else {
             newState = "danger";
         }
-        // console.log(newState);
         // if the new state is different from the current state ...
         const currentState = orderMainDiv.dataset.state;
         if (newState !== currentState) {

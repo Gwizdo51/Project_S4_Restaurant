@@ -242,8 +242,6 @@
         const response = await fetch("/api/get-server-settings");
         if (response.ok) {
             apiJsonResponse = await response.json();
-            // apiJsonResponse.serveurs = {};
-            // console.log(apiJsonResponse);
             // hide the first load spinner
             document.querySelector("#spinnerFirstLoad").classList.add("d-none");
             // enable the disabled control buttons

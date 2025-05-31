@@ -102,10 +102,10 @@ elseif (preg_match('~^/fixe/configuration/carte/categories/(\d+)$~u', $route, $r
     require_once './controllers/settings_category.fixed.controller.php';
 }
 elseif (preg_match('~^/fixe/configuration/carte/categories/(\d+)/nouveau-produit$~u', $route, $route_regex_matches)) {
-    // ...
+    require_once './controllers/settings_product_form_new.fixed.controller.php';
 }
 elseif (preg_match('~^/fixe/configuration/carte/categories/(\d+)/(\d+)$~u', $route, $route_regex_matches)) {
-    // ...
+    require_once './controllers/settings_product_form_modify.fixed.controller.php';
 }
 elseif ($route === '/fixe/configuration/carte/options') {
     require_once './controllers/settings_options.fixed.controller.php';

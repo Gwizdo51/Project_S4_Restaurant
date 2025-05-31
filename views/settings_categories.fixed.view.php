@@ -206,6 +206,8 @@
             storedData.inputCategoryLabel.classList.add("is-invalid");
             // display the feedback message
             storedData.invalidFeedbackMessage.classList.remove("d-none");
+            // set the focus on the input
+            storedData.inputCategoryLabel.focus();
         }
         else {
             // show the full page spinner

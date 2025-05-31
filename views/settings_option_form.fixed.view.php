@@ -136,7 +136,6 @@
             const response = await fetch(`/api/order-option?id=${storedData.optionId}`);
             if (response.ok) {
                 const apiJsonResponse = await response.json();
-                // console.log(apiJsonResponse);
                 // add the option label to the related input
                 storedData.inputLabelElement.value = apiJsonResponse.label;
                 // select the right choice type
@@ -202,7 +201,6 @@
             });
             if (response.ok) {
                 const apiJsonResponse = await response.json();
-                console.log(apiJsonResponse);
                 if (apiJsonResponse.success) {
                     window.location.href = "/fixe/configuration/carte/options";
                 }

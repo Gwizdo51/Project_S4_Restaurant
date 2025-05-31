@@ -73,9 +73,6 @@
 <script>
     "use strict";
 
-    // const form = document.forms[0];
-    // console.log(form);
-
     /* pseudocode :
     on cancel order button click :
         change confirmation modal text to "Annuler la commande ?"

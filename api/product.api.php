@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // respond with a JSON
     header('Content-Type: application/json; charset=utf-8');
     // get data
-    // echo json_encode(Product::get($_GET));
+    echo json_encode(Product::get($_GET));
 }
 elseif (in_array($_SERVER['REQUEST_METHOD'], ['PUT', 'POST', 'DELETE'])) {
     // receive a JSON and respond with a JSON
@@ -16,17 +16,14 @@ elseif (in_array($_SERVER['REQUEST_METHOD'], ['PUT', 'POST', 'DELETE'])) {
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'PUT':
             // create a new product
-            echo json_encode($json_content);
-            // echo json_encode(Category::create($json_content));
+            echo json_encode(Product::create($json_content));
             break;
         case 'POST':
             // update a product
-            echo json_encode($json_content);
-            // echo json_encode(Category::update($json_content));
+            echo json_encode(Product::update($json_content));
             break;
         case 'DELETE':
             // delete a product
-            // echo json_encode($json_content);
             echo json_encode(Product::delete($json_content));
             break;
     }

@@ -166,7 +166,7 @@
         productTemplate: document.querySelector("#productTemplate")
     };
     // for debugging purposes
-    window.storedData = storedData;
+    // window.storedData = storedData;
 
     const preparationPlaces = {
         1: "Cuisine",
@@ -174,11 +174,9 @@
     };
 
     async function pageSetup() {
-        // console.log(storedData.categoryId);
         const response = await fetch(`/api/category?categoryId=${storedData.categoryId}`);
         if (response.ok) {
             const apiJsonResponse = await response.json();
-            console.log(apiJsonResponse);
             // hide the full page spinner
             storedData.spinnerFullPage.classList.add("d-none");
             // add the category label to the input
@@ -201,6 +199,8 @@
                 const mainDiv = productElement.firstElementChild;
                 // add the product ID to the dataset
                 mainDiv.dataset.productId = product.id;
+                // add the correct link target
+                mainDiv.querySelector("a").href = `/fixe/configuration/carte/categories/<?= $category_id ?>/${product.id}`;
                 // add the product label
                 mainDiv.querySelector(".productName").textContent = decodeHtml(product.label);
                 // add the product price
@@ -235,6 +235,8 @@
             storedData.inputCategoryLabel.classList.add("is-invalid");
             // display the feedback message
             storedData.invalidFeedbackMessage.classList.remove("d-none");
+            // set the focus on the input
+            storedData.inputCategoryLabel.focus();
         }
         else {
             // stop showing the input as invalid
@@ -277,7 +279,6 @@
         });
         if (response.ok) {
             const productApiJsonResponse = await response.json();
-            console.log(productApiJsonResponse);
             if (productApiJsonResponse.success) {
                 // remove the product from the displayed list
                 storedData.productElementToDelete.remove();
