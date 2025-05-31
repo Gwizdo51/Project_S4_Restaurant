@@ -99,6 +99,12 @@ elseif ($route === '/fixe/configuration/carte/categories') {
     require_once './controllers/settings_categories.fixed.controller.php';
 }
 elseif (preg_match('~^/fixe/configuration/carte/categories/(\d+)$~u', $route, $route_regex_matches)) {
+    require_once './controllers/settings_category.fixed.controller.php';
+}
+elseif (preg_match('~^/fixe/configuration/carte/categories/(\d+)/nouveau-produit$~u', $route, $route_regex_matches)) {
+    // ...
+}
+elseif (preg_match('~^/fixe/configuration/carte/categories/(\d+)/(\d+)$~u', $route, $route_regex_matches)) {
     // ...
 }
 elseif ($route === '/fixe/configuration/carte/options') {
@@ -161,6 +167,9 @@ elseif ($route === '/api/order-option') {
 }
 elseif ($route == '/api/category') {
     require_once './api/category.api.php';
+}
+elseif ($route == '/api/product') {
+    require_once './api/product.api.php';
 }
 // tests bootstrap
 elseif ($route === '/test-bootstrap') {

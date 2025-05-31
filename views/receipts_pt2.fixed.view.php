@@ -42,7 +42,7 @@
         // add the table number
         mainDiv.querySelector("strong.table-id").textContent = currentReceipt.numero_table;
         // add the total
-        mainDiv.querySelector("strong.total").textContent = `${currentReceipt.total} €`;
+        mainDiv.querySelector("strong.total").textContent = currentReceipt.total;
         return receiptElement;
     }
 
@@ -74,7 +74,7 @@
                 }
                 else {
                     // update its total
-                    displayedReceipt.querySelector("strong.total").textContent = `${JSONResponse[displayedReceiptID].total} €`;
+                    displayedReceipt.querySelector("strong.total").textContent = JSONResponse[displayedReceiptID].total;
                     // add it to the list of displayed receipts IDs
                     displayedReceiptsIDList.push(displayedReceiptID);
                 }

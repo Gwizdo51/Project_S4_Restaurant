@@ -52,7 +52,7 @@ class Receipt {
         while ($row = $result_cursor->fetch_assoc()) {
             $receipts_array[(int) $row['ID_bon']] = [
                 'numero_table' => $row['numero_table'],
-                'total' => str_replace('.', ',', $row['total'])
+                'total' => format_price((float) $row['total'])
             ];
         }
         $db_connection->close();

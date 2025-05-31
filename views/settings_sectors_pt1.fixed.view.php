@@ -17,7 +17,7 @@
 <div class="row mx-3 my-2 p-2 justify-content-center border rounded d-flex flex-column">
 
     <!-- display a message when there are no sectors to display -->
-    <div class="row fs-4 justify-content-center my-2 text-secondary<?= $display_no_sectors_message ?>">
+    <div class="row p-0 mx-0 my-2 fs-4 justify-content-center text-secondary<?= $display_no_sectors_message ?>">
         Aucun secteur enregistré.
     </div>
 

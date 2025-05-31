@@ -3,14 +3,14 @@
 
 <!-- new category -->
 <div class="row mx-3 my-2 p-2 border rounded">
-    <label class="col-3 p-2 col-form-label col-form-label-lg align-self-center" for="inputCategoryName">
+    <label class="col-3 p-2 col-form-label col-form-label-lg align-self-center" for="inputCategoryLabel">
         Nouvelle catégorie
     </label>
     <div class="col-7 p-2 d-grid">
-        <input id="inputCategoryName" type="text" class="form-control form-control-lg" placeholder="Boissons" value="">
+        <input id="inputCategoryLabel" type="text" class="form-control form-control-lg" placeholder="Boissons" value="">
     </div>
     <div class="col-2 p-2 d-grid">
-        <button class="btn btn-outline-primary p-0 fs-4" onclick="onAddCategoryButtonClick();">
+        <button id="addCategoryButton" class="btn btn-outline-primary p-0 fs-4">
             <img src="/assets/img/plus.svg" alt="plus icon" class="mh-3rem">
         </button>
     </div>
@@ -51,21 +51,6 @@
 </main>
 <!-- end of page content -->
 
-<!-- category template -->
-<template id="categoryTemplate">
-    <div class="col-6 fs-5 p-2" data-category-id="1">
-        <div class="row hoverable bg-body border border-secondary border-2 rounded m-0 d-flex" style="transition: 0.1s;">
-            <a href="/fixe/configuration/carte/categories/1" class="col-9 p-0 border-end border-secondary border-2 link-underline link-underline-opacity-0 text-body justify-content-center d-flex flex-column align-items-center">
-                Softs
-            </a>
-            <div class="col-3 p-3 d-grid">
-                <button type="button" class="btn btn-outline-danger fs-4" data-bs-toggle="modal"
-                data-bs-target="#confirmationModal" onclick="storedData.categoryElementToDelete = this.parentElement.parentElement.parentElement;">X</button>
-            </div>
-        </div>
-    </div>
-</template>
-
 <!-- confirmation modal -->
 <div id="confirmationModal" class="modal fade" tabindex="-1" aria-labelledby="confirmationModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -84,7 +69,7 @@
                             <button type="button" class="btn btn-danger py-5 fs-4" data-bs-dismiss="modal">Annuler</button>
                         </div>
                         <div class="col-6 d-grid">
-                            <button id="confirmModalButton" type="button" class="btn btn-success py-5 fs-4" data-bs-dismiss="modal" onclick="onModalConfirmButtonClick();">OK</button>
+                            <button id="confirmModalButton" type="button" class="btn btn-success py-5 fs-4" data-bs-dismiss="modal">OK</button>
                         </div>
                     </div>
                 </div>
@@ -92,6 +77,21 @@
         </div>
     </div>
 </div>
+
+<!-- category template -->
+<template id="categoryTemplate">
+    <div class="col-6 fs-5 p-2" data-category-id="1">
+        <div class="row hoverable bg-body border border-secondary border-2 rounded m-0" style="transition: 0.1s;">
+            <a href="/fixe/configuration/carte/categories/1" class="col-9 p-0 border-end border-secondary border-2
+            link-underline link-underline-opacity-0 text-body justify-content-center d-flex flex-column align-items-center">
+                Softs
+            </a>
+            <div class="col-3 p-3 d-grid">
+                <button type="button" class="btn btn-outline-danger fs-4" data-bs-toggle="modal" data-bs-target="#confirmationModal">X</button>
+            </div>
+        </div>
+    </div>
+</template>
 
 </div>
 
@@ -102,15 +102,14 @@
 <!-- 🔹 Bootstrap JS -->
 <script src="/assets/js/bootstrap.bundle.min.js"></script>
 
-<script>
-    "use strict";
-
+<script type="module">
     /* pseudocode :
     on page load :
         request the list of categories from the api (/api/category)
         on response :
             hide the page load spinner
-            display the categories
+            if there are categories to display, display them
+            otherwise, display the "no categories" message
     on add category button click :
         if the new category name is empty :
             show the input as invalid
@@ -131,23 +130,26 @@
         hide the full page spinner
     */
 
+    import {decodeHtml} from '/assets/js/utils.js';
+
     const storedData = {
         categoryElementToDelete: null,
         spinnerFullPageElement: document.querySelector("#spinnerFullPage"),
-        inputCategoryName: document.querySelector("#inputCategoryName"),
+        inputCategoryLabel: document.querySelector("#inputCategoryLabel"),
         invalidFeedbackMessage: document.querySelector("#invalidFeedbackMessage"),
         categoriesContainer: document.querySelector("#categoriesContainer"),
-        noCategoriesMessage: document.querySelector("#noCategoriesMessage")
+        noCategoriesMessage: document.querySelector("#noCategoriesMessage"),
+        categoryTemplate: document.querySelector("#categoryTemplate")
     };
 
     function addCategoryElement(categoryId, categoryLabel) {
         // clone the content from the category template
-        const categoryElement = document.querySelector("#categoryTemplate").content.cloneNode(true);
+        const categoryElement = storedData.categoryTemplate.content.cloneNode(true);
         const mainDiv = categoryElement.firstElementChild;
         const anchorElement = mainDiv.querySelector("a");
         // add the category ID to the dataset
         mainDiv.dataset.categoryId = categoryId;
-        // add the link destination
+        // add the link target
         anchorElement.href = `/fixe/configuration/carte/categories/${categoryId}`;
         // add the category label
         anchorElement.textContent = categoryLabel;
@@ -161,8 +163,14 @@
             hoverable.classList.add("bg-body");
             hoverable.classList.remove("bg-secondary-subtle");
         });
+        // add an "on click" event listener to the button
+        mainDiv.querySelector("button").addEventListener("click", (event) => {
+            storedData.categoryElementToDelete = event.srcElement.parentElement.parentElement.parentElement;
+        });
         // display the category
-        storedData.categoriesContainer.append(mainDiv);
+        storedData.categoriesContainer.append(categoryElement);
+        // hide the "no categories" message
+        storedData.noCategoriesMessage.classList.add("d-none");
     }
 
     async function pageSetup() {
@@ -175,27 +183,27 @@
             if (Object.keys(apiJsonResponse).length === 0) {
                 storedData.noCategoriesMessage.classList.remove("d-none");
             }
+            // display each category
             for (const categoryId in apiJsonResponse) {
-                addCategoryElement(categoryId, apiJsonResponse[categoryId]);
+                addCategoryElement(categoryId, decodeHtml(apiJsonResponse[categoryId]));
             }
         }
     }
 
     document.onreadystatechange = () => {
-        // on DOM content loaded
-        if (document.readyState === "interactive") {
-            // fetch and display the categories from the database
-            pageSetup();
-        }
+        // add "on click" event listeners to buttons
+        document.querySelector("#addCategoryButton").addEventListener("click", onAddCategoryButtonClick);
+        document.querySelector("#confirmModalButton").addEventListener("click", onModalConfirmButtonClick);
+        // fetch and display the categories from the database
+        pageSetup();
     }
 
     async function onAddCategoryButtonClick() {
-        console.log("add category button clicked");
         // the new category name cannot be empty
-        const newCategoryLabel = storedData.inputCategoryName.value.trim();
+        const newCategoryLabel = storedData.inputCategoryLabel.value.trim();
         if (newCategoryLabel.length === 0) {
             // show the input is invalid
-            storedData.inputCategoryName.classList.add("is-invalid");
+            storedData.inputCategoryLabel.classList.add("is-invalid");
             // display the feedback message
             storedData.invalidFeedbackMessage.classList.remove("d-none");
         }
@@ -214,8 +222,8 @@
                 const categoryApiJsonResponse = await response.json();
                 if (categoryApiJsonResponse.success) {
                     // clear the input value and state
-                    storedData.inputCategoryName.value = "";
-                    storedData.inputCategoryName.classList.remove("is-invalid");
+                    storedData.inputCategoryLabel.value = "";
+                    storedData.inputCategoryLabel.classList.remove("is-invalid");
                     // hide the feedback message
                     storedData.invalidFeedbackMessage.classList.add("d-none");
                     // display the new category
@@ -245,6 +253,11 @@
             if (categoryApiJsonResponse.success) {
                 // remove the category from the displayed list
                 storedData.categoryElementToDelete.remove();
+                // if there are no categories displayed ...
+                if (storedData.categoriesContainer.childElementCount === 0) {
+                    // show the "no categories" message
+                    storedData.noCategoriesMessage.classList.remove("d-none");
+                }
             }
         }
         // hide the full page spinner

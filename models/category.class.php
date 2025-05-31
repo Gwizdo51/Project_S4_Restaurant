@@ -2,6 +2,20 @@
 
 class Category {
     /**
+     * @param array $get_array
+     * @return array
+     */
+    public static function get($get_array): array {
+        if (array_key_exists('categoryId', $get_array)) {
+            $result = self::get_all_category_products_json((int) $get_array['categoryId']);
+        }
+        else {
+            $result = self::get_all_categories_json();
+        }
+        return $result;
+    }
+
+    /**
      * Returns the json containing all the categories
      * in the database
      * @return array
@@ -20,7 +34,6 @@ class Category {
         $db_connection->close();
         return $categories_array;
     }
-
 
     /**
      * Returns the list of categories from the database
@@ -52,7 +65,7 @@ class Category {
     public static function get_all_category_products_json($id_category): array {
         $db_connection = get_db_connection();
         // prepare and run statement
-        $query = 'SELECT c.label_categorie, p.ID_produit, p.label_produit, p.prix
+        $query = 'SELECT c.label_categorie, p.ID_produit, p.label_produit, p.prix, p.ID_lieu_preparation
                 FROM `categorie` c
                 LEFT JOIN `produit` p ON c.ID_categorie = p.ID_categorie
                 WHERE c.ID_categorie = ?
@@ -75,7 +88,8 @@ class Category {
                 $category_array['produits'][] = [
                     'id' => $row['ID_produit'],
                     'label' => $row['label_produit'],
-                    'prix' => $row['prix']
+                    'prix' => format_price((float) $row['prix']),
+                    'id_lieu_preparation' => $row['ID_lieu_preparation']
                 ];
             }
         }
@@ -114,16 +128,42 @@ class Category {
      * @param array $json_content
      * @return array
      */
+    public static function update($json_content): array {
+        // sanitize the json
+        $json_content['newCategoryLabel'] = sanitize_input($json_content['newCategoryLabel']);
+        $db_connection = get_db_connection();
+        // prepare and run statement
+        $query = 'UPDATE `categorie`
+                SET label_categorie = ?
+                WHERE ID_categorie = ?';
+        $statement = $db_connection->prepare($query);
+        $statement->bind_param('si', $json_content['newCategoryLabel'], $json_content['categoryId']);
+        $statement->execute();
+        $db_connection->close();
+        return ['success' => true];
+    }
+
+    /**
+     * @param array $json_content
+     * @return array
+     */
     public static function delete($json_content): array {
         $db_connection = get_db_connection();
-        // prepare statement
+        // prepare statements
         $query = 'UPDATE `categorie`
                 SET date_suppression = NOW()
                 WHERE ID_categorie = ?';
-        $statement = $db_connection->prepare($query);
-        // insert the new category
-        $statement->bind_param('i', $json_content['CategoryToDeleteId']);
-        $statement->execute();
+        $delete_category_statement = $db_connection->prepare($query);
+        $query = 'UPDATE `produit`
+                SET date_suppression = NOW()
+                WHERE ID_categorie = ?';
+        $delete_products_statement = $db_connection->prepare($query);
+        // delete the specified category
+        $delete_category_statement->bind_param('i', $json_content['CategoryToDeleteId']);
+        $delete_category_statement->execute();
+        // delete the contained products
+        $delete_products_statement->bind_param('i', $json_content['CategoryToDeleteId']);
+        $delete_products_statement->execute();
         $db_connection->close();
         return ['success' => true];
     }

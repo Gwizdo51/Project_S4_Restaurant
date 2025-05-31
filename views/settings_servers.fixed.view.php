@@ -33,12 +33,12 @@
                 <a href="/fixe/configuration" type="button" class="btn btn-danger btn-control-big fs-4 d-flex justify-content-center align-items-center">Annuler</a>
             </div>
             <div class="col-4 p-2 d-grid">
-                <button class="btn btn-primary btn-control-big p-0 fs-4" onclick="onAddServerButtonClick();" disabled>
+                <button id="addServerButton" class="btn btn-primary btn-control-big p-0 fs-4" disabled>
                     <img src="/assets/img/plus.svg" alt="plus icon" class="mh-3rem">
                 </button>
             </div>
             <div class="col-4 p-2 d-grid">
-                <button class="btn btn-success btn-control-big fs-4 text-wrap" onclick="onValidateButtonClick();" disabled>Valider</button>
+                <button id="validateButton" class="btn btn-success btn-control-big fs-4 text-wrap" disabled>Valider</button>
             </div>
         </div>
     </div>
@@ -65,7 +65,7 @@
                             <button type="button" class="btn btn-danger py-5 fs-4" data-bs-dismiss="modal">Annuler</button>
                         </div>
                         <div class="col-6 d-grid">
-                            <button type="button" class="btn btn-success py-5 fs-4" data-bs-dismiss="modal" onclick="onModalConfirm();">OK</button>
+                            <button id="confirmModalButton" type="button" class="btn btn-success py-5 fs-4" data-bs-dismiss="modal">OK</button>
                         </div>
                     </div>
                 </div>
@@ -104,8 +104,7 @@
 <!-- 🔹 Bootstrap JS -->
 <script src="/assets/js/bootstrap.bundle.min.js"></script>
 
-<script>
-    "use strict";
+<script type="module">
 
     /* pseudocode :
     on page load :
@@ -153,13 +152,7 @@
         on response, redirect to /fixe/configuration
     */
 
-    // returns a string in which the HTML characters are decoded
-    // https://stackoverflow.com/a/7394787/16509326
-    function decodeHtml(encodedHtml) {
-        const textArea = document.createElement("textarea");
-        textArea.innerHTML = encodedHtml;
-        return textArea.value;
-    }
+    import {decodeHtml} from '/assets/js/utils.js';
 
     let apiJsonResponse = null;
 
@@ -278,13 +271,15 @@
                 const serversContainer = document.querySelector("#serversContainer");
                 for (const serverId in apiJsonResponse.serveurs) {
                     const serverData = apiJsonResponse.serveurs[serverId];
+                    // decode the potential HTML in the server's name
+                    serverData.nom = decodeHtml(serverData.nom);
                     // clone the content from the order template
                     const serverElement = document.querySelector("#serverTemplate").content.cloneNode(true);
                     const mainDiv = serverElement.firstElementChild;
                     // add the server ID
                     mainDiv.dataset.serverId = serverId;
                     // add the server name
-                    mainDiv.querySelector("input.serverNameInput").setAttribute("value", decodeHtml(serverData.nom));
+                    mainDiv.querySelector("input.serverNameInput").setAttribute("value", serverData.nom);
                     // set the correct sector option as selected
                     if (serverData.id_secteur !== null) {
                         mainDiv.querySelector('option[value="0"]').removeAttribute("selected");
@@ -309,18 +304,19 @@
         serverElement.querySelector("select").addEventListener("change", (event) => {
             updateServerVisualState(serverElement);
         });
-        // add an "on change" event listener to the name input
+        // add an "on input" event listener to the name input
         serverElement.querySelector("input.serverNameInput").addEventListener("input", (event) => {
             updateVisualStateAndValidateForm(serverElement);
         });
     }
 
     document.onreadystatechange = () => {
-        // on DOM content loaded
-        if (document.readyState === "interactive") {
-            // fetch and display the active servers in the database
-            pageSetup();
-        }
+        // add "on click" event listeners to buttons
+        document.querySelector("#addServerButton").addEventListener("click", onAddServerButtonClick);
+        document.querySelector("#validateButton").addEventListener("click", onValidateButtonClick);
+        document.querySelector("#confirmModalButton").addEventListener("click", onModalConfirm);
+        // fetch and display the active servers in the database
+        pageSetup();
     }
 
     function onAddServerButtonClick() {

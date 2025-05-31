@@ -1,6 +1,13 @@
 <?php
 
 class Product {
+    // /**
+    //  * @param array $get_array
+    //  * @return array
+    //  */
+    // public static function get($get_array): array {
+
+    // }
 
     /**
      * @return array
@@ -99,5 +106,22 @@ class Product {
         $product_array['id_lieu_preparation'] = $row['ID_lieu_preparation'];
         $db_connection->close();
         return $product_array;
+    }
+
+    /**
+     * @param array $json_content
+     * @return array
+     */
+    public static function delete($json_content): array {
+        $db_connection = get_db_connection();
+        // prepare and run statement
+        $query = 'UPDATE `produit`
+                SET date_suppression = NOW()
+                WHERE ID_produit = ?';
+        $statement = $db_connection->prepare($query);
+        $statement->bind_param('i', $json_content['productToDeleteId']);
+        $statement->execute();
+        $db_connection->close();
+        return ['success' => true];
     }
 }

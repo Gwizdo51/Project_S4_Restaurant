@@ -83,7 +83,7 @@ else {
             break;
         case 2:
             // get the list of products of the selected category
-            $category_array = Category::get_all_category_products_json($order_form->get_current_category_id());
+            $category_array = Category::get(['categoryId' => $order_form->get_current_category_id()]);
             // display the product selection view
             // - part 1
             $category_label = $category_array['label'];
@@ -92,7 +92,8 @@ else {
             foreach ($category_array['produits'] as $product_array) {
                 $product_id = $product_array['id'];
                 $product_label = $product_array['label'];
-                $product_price = format_price((float) $product_array['prix']);
+                // $product_price = format_price((float) $product_array['prix']);
+                $product_price = $product_array['prix'];
                 require './views/templates/order_form_product.template.mobile.view.php';
             }
             // - part 2

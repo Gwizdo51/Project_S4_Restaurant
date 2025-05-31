@@ -9,7 +9,7 @@
     </div>
     <div class="col-4 p-3 border-end border-secondary border-2 d-flex flex-column justify-content-center align-items-center">
         <div>Total</div>
-        <strong class="total fs-2"><?= $total ?> €</strong>
+        <strong class="total fs-2"><?= $total ?></strong>
     </div>
     <div class="col-2 p-3 d-grid">
         <a href="/fixe/bons/<?= $receipt_id ?>" type="button" class="btn btn-primary py-5 fs-4">Détails</a>
