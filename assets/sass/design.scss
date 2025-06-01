@@ -4,10 +4,6 @@ body {
     width: 100vw;
     overflow-x: hidden;
 }
-// the body overflow-x hidden directive doesn't work on chrome android
-.container-fluid {
-    overflow-x: hidden;
-}
 
 // to limit the size of SVG icons
 .mh-3rem {

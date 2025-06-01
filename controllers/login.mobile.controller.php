@@ -22,7 +22,6 @@ require './views/login_pt1.mobile.view.php';
 // list of servers
 foreach ($servers_array as $server_id => $server_array) {
     $server_name = $server_array['nom'];
-    // $sector_name = $server_array['secteur'];
     $sector_name = $server_array['secteur'] ?? '-';
     require './views/templates/server.template.mobile.view.php';
 }

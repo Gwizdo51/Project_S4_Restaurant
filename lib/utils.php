@@ -16,7 +16,7 @@ function var_dump_pre($mixed): void {
  */
 function generate_navbar($index_active_tab): string {
     $navbar_html = "<!-- side navigation bar -->\n"
-                  ."<div class=\"col-2 vh-100 sticky-top overflow-y-auto p-3 bg-body-tertiary\">\n"
+                  ."<div class=\"col-2 vh-100 position-sticky top-0 overflow-y-auto p-3 bg-body-tertiary\">\n"
                   ."    <div class=\"fs-4 px-3\">Navigation</div>\n"
                   ."    <hr>\n"
                   ."    <ul class=\"nav nav-pills flex-column\">\n";

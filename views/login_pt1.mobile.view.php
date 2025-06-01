@@ -1,10 +1,10 @@
 <div class="container-fluid min-vh-100 d-flex flex-column">
 
 <!-- title bar -->
-<div class="row text-center bg-body-tertiary position-sticky top-0 z-1">
-    <div class="display-5 pt-2 pb-3">Sélectionnez votre nom</div>
+<header class="row position-sticky top-0 bg-body-tertiary">
+    <div class="text-center display-5 pt-2 pb-3">Sélectionnez votre nom</div>
     <hr class="mb-0">
-</div>
+</header>
 
 <!-- page content -->
 <main class="row flex-grow-1 d-flex flex-column justify-content-center fs-5 text-center py-2">

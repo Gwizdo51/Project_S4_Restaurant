@@ -74,7 +74,7 @@
 </template>
 
 <!-- page content -->
-<main class="row flex-grow-1 d-flex flex-column justify-content-center text-center py-2">
+<main class="row flex-grow-1 d-flex flex-column justify-content-center text-center py-2 overflow-x-hidden">
 
     <!-- loading spinner -->
     <div id="spinnerFirstLoad" class="row justify-content-center">
