@@ -1,4 +1,4 @@
-<div class="reservation row border border-<?= $border_color ?> border-2 rounded mb-3 mx-3 bg-body fs-5" data-reservation-id="<?= $reservation_id ?>" style="transition: 0.1s;">
+<div class="reservation row hoverable border border-<?= $border_color ?> border-2 rounded mb-3 mx-3 bg-body fs-5" data-reservation-id="<?= $reservation_id ?>">
     <a href="/fixe/reservations/<?= $reservation_id ?>" class="reservation-details col-10 p-0 link-underline link-underline-opacity-0 text-body text-center">
         <div class="row m-0">
             <div class="col-4 p-3 d-flex flex-column justify-content-center<?= $date_text_color ?>">

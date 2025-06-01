@@ -1,0 +1,23 @@
+// should be loaded by the page after bootstrap CSS
+
+// set border opacity to 0
+.border-invisible {
+    border-color: #0000 !important;
+}
+
+// sets the size and rotation speed of the spinner
+.spinner-border {
+    --bs-spinner-width: 5rem;
+    --bs-spinner-height: 5rem;
+    --bs-spinner-animation-speed: 1s;
+}
+
+// for sticky top elements that should stay below the title bar
+.sticky-top-below-title {
+    top: 107px;
+}
+
+// for the order ready notification in server hub
+.badge {
+    padding: .75rem;
+}

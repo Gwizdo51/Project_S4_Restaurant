@@ -65,7 +65,7 @@
     }
 
     // change the color of the background of the options on mouse hover
-    document.querySelectorAll("div.option").forEach((optionElement) => {
+    document.querySelectorAll(".hoverable").forEach((optionElement) => {
         optionElement.addEventListener("mouseenter", (event) => {
             optionElement.classList.remove("bg-body");
             optionElement.classList.add("bg-secondary-subtle");

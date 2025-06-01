@@ -8,12 +8,12 @@
 
 <!-- display a spinner while the page is loading -->
 <div id="spinnerFirstLoad" class="row justify-content-center mt-auto">
-    <div class="spinner-border text-light" role="status" style="height: 5rem; width: 5rem;"></div>
+    <div class="spinner-border text-light"></div>
 </div>
 
 <!-- columns descriptions -->
 <div id="columnsDescriptions" class="row m-0 justify-content-center text-secondary d-none">
-    <div class="col-10 border border-2" style="border-color: #0000 !important;">
+    <div class="col-10 border border-invisible border-2">
         <div class="row align-items-center text-center px-2">
             <div class="col-5">Nom du serveur</div>
             <div class="col-5">Secteur assigné</div>

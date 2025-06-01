@@ -25,7 +25,7 @@
 
     <!-- display a spinner on page load -->
     <div id="spinnerPageLoad" class="row p-2 m-0 justify-content-center mt-auto">
-        <div class="spinner-border text-light" role="status" style="height: 5rem; width: 5rem;"></div>
+        <div class="spinner-border text-light" role="status"></div>
     </div>
 
     <!-- display a message when there are no categories to display -->
@@ -81,7 +81,7 @@
 <!-- category template -->
 <template id="categoryTemplate">
     <div class="col-6 fs-5 p-2" data-category-id="1">
-        <div class="row hoverable bg-body border border-secondary border-2 rounded m-0" style="transition: 0.1s;">
+        <div class="row hoverable bg-body border border-secondary border-2 rounded m-0">
             <a href="/fixe/configuration/carte/categories/1" class="col-9 p-0 border-end border-secondary border-2
             link-underline link-underline-opacity-0 text-body justify-content-center d-flex flex-column align-items-center">
                 Softs

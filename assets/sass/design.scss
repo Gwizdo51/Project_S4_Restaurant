@@ -1,0 +1,110 @@
+// prevent the scrollbar from displacing the content
+// https://dev.to/rashidshamloo/preventing-the-layout-shift-caused-by-scrollbars-2flp
+body {
+    width: 100vw;
+    overflow-x: hidden;
+}
+// the body overflow-x hidden directive doesn't work on chrome android
+.container-fluid {
+    overflow-x: hidden;
+}
+
+// to limit the size of SVG icons
+.mh-3rem {
+    max-height: 3rem;
+}
+
+// for the reservation modal in server hub
+.hide-last-hr > hr:last-child {
+    display: none;
+}
+
+.btn-control {
+    min-height: 50px;
+}
+.btn-control-big {
+    min-height: 5rem;
+}
+
+// for the full page spinner
+.on-top {
+    z-index: 1100;
+}
+
+.h-50px {
+    height: 50px;
+}
+
+// sets the transition speed on hoverable elements
+.hoverable {
+    transition: 0.1s;
+}
+
+// custom border breakpoints
+// https://github.com/twbs/bootstrap/issues/23892#issuecomment-378172751
+// @import "./bootstrap/bootstrap";
+@import "./bootstrap/functions";
+@import "./bootstrap/variables";
+@import "./bootstrap/variables-dark";
+@import "./bootstrap/mixins";
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        .border#{$infix}-up {
+            border-top: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+        }
+        .border#{$infix}-right {
+            border-right: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+        }
+        .border#{$infix}-down {
+            border-bottom: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+        }
+        .border#{$infix}-left {
+            border-left: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+        }
+
+        .border#{$infix}-up-0 {
+            border-top: 0 !important;
+        }
+        .border#{$infix}-right-0 {
+            border-right: 0 !important;
+        }
+        .border#{$infix}-down-0 {
+            border-bottom: 0 !important;
+        }
+        .border#{$infix}-left-0 {
+            border-left: 0 !important;
+        }
+
+        .border#{$infix}-ud {
+            border-top: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+            border-bottom: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+        }
+        .border#{$infix}-lr {
+            border-left: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+            border-right: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+        }
+        .border#{$infix}-ud-0 {
+            border-top: 0 !important;
+            border-bottom: 0 !important;
+        }
+        .border#{$infix}-lr-0 {
+            border-left: 0 !important;
+            border-right: 0 !important;
+        }
+
+        .border#{$infix}-udlr {
+            border-top: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+            border-bottom: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+            border-left: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+            border-right: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+        }
+        .border#{$infix}-udlr-0 {
+            border-top: 0 !important;
+            border-bottom: 0 !important;
+            border-left: 0 !important;
+            border-right: 0 !important;
+        }
+    }
+}

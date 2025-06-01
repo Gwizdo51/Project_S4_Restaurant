@@ -1,5 +1,5 @@
 <div class="col-12 fs-5 p-2">
-    <div class="sector row bg-body border border-secondary border-2 rounded m-0" style="transition: 0.1s;">
+    <div class="row hoverable bg-body border border-secondary border-2 rounded m-0">
         <a href="/fixe/configuration/secteurs/<?= $sector_id ?>" class="col-10 p-0 link-underline link-underline-opacity-0 text-body text-center d-flex flex-column">
             <div class="row m-0 flex-grow-1">
                 <div class="col-6 p-3 d-flex flex-column justify-content-center">

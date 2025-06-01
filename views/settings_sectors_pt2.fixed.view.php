@@ -89,7 +89,7 @@
     }
 
     // change the color of the background of the sectors on mouse hover
-    document.querySelectorAll("div.sector").forEach((sectorElement) => {
+    document.querySelectorAll(".hoverable").forEach((sectorElement) => {
         sectorElement.addEventListener("mouseenter", (event) => {
             sectorElement.classList.remove("bg-body");
             sectorElement.classList.add("bg-secondary-subtle");

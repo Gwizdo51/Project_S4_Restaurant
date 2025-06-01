@@ -1,6 +1,6 @@
 <!-- loading spinner greyed bg -->
 <div id="spinnerFullPage" class="h-100 w-100 z-1 position-fixed bg-body opacity-75 d-flex flex-column justify-content-center align-items-center d-none">
-    <div class="spinner-border text-light" role="status" style="height: 5rem; width: 5rem;"></div>
+    <div class="spinner-border text-light" role="status"></div>
 </div>
 
 <div class="container-fluid min-vh-100 d-flex flex-column">
@@ -78,7 +78,7 @@
 
     <!-- loading spinner -->
     <div id="spinnerFirstLoad" class="row justify-content-center">
-        <div class="spinner-border text-light" role="status" style="height: 5rem; width: 5rem;"></div>
+        <div class="spinner-border text-light" role="status"></div>
     </div>
 
     <!-- tables tab content -->
@@ -153,8 +153,8 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
     <div class="col-6 py-3 px-0 rounded-top-5 bg-primary-subtle text-primary-emphasis" data-content-id="pageOrders" data-tab-index="1" role="button">
         Commandes
     </div>
-    <span class="position-absolute end-0 top-0 translate-middle badge rounded-circle bg-danger border border-light d-none me-3 w-auto" style="padding: .75rem;">
-        <span class="visually-hidden">!</span>
+    <span class="position-absolute end-0 top-0 translate-middle badge rounded-circle bg-danger border border-light d-none me-3 w-auto pe-none">
+        <span class="visually-hidden"></span>
     </span>
 </div>
 <div id="navTabs" class="row position-fixed bottom-0 w-100 text-center fs-4">
@@ -164,8 +164,8 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
     <div class="col-6 py-3 px-0 rounded-top-5 bg-primary-subtle text-primary-emphasis" data-content-id="pageOrders" data-tab-index="1" role="button">
         Commandes
     </div>
-    <span id="newOrdersBadge" class="position-absolute end-0 top-0 translate-middle badge rounded-circle bg-danger border border-light d-none me-3 w-auto" style="padding: .75rem;">
-        <span class="visually-hidden">!</span>
+    <span id="newOrdersBadge" class="position-absolute end-0 top-0 translate-middle badge rounded-circle bg-danger border border-light d-none me-3 w-auto pe-none">
+        <span class="visually-hidden"></span>
     </span>
 </div>
 
@@ -184,10 +184,10 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-6 d-grid">
-                            <button type="button" class="btn btn-danger py-3 fs-4" data-bs-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn btn-danger py-4 fs-4" data-bs-dismiss="modal">Annuler</button>
                         </div>
                         <div class="col-6 d-grid">
-                            <button type="button" class="btn btn-success py-3 fs-4" onclick="onConfirmButtonClick();" data-bs-dismiss="modal">OK</button>
+                            <button type="button" class="btn btn-success py-4 fs-4" onclick="onConfirmButtonClick();" data-bs-dismiss="modal">OK</button>
                         </div>
                     </div>
                 </div>
@@ -258,17 +258,17 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
         clickedElement: null,
         apiJsonResponse: null,
         // relevant page elements
-        noTablesMessage: null,
-        noOrdersMessage: null,
-        tablesColumnsDescriptions: null,
-        ordersColumnsDescriptions: null,
-        tablesList: null,
-        ordersList: null,
-        spinnerFirstLoad: null,
-        spinnerFullPage: null,
-        reservationsDetailsModalContent: null,
-        confirmationModalBody: null,
-        newOrdersBadge: null,
+        noTablesMessage: document.querySelector("#noTablesMessage"),
+        noOrdersMessage: document.querySelector("#noOrdersMessage"),
+        tablesColumnsDescriptions: document.querySelector("#tablesColumnsDescriptions"),
+        ordersColumnsDescriptions: document.querySelector("#ordersColumnsDescriptions"),
+        tablesList: document.querySelector("#tablesList"),
+        ordersList: document.querySelector("#ordersList"),
+        spinnerFirstLoad: document.querySelector("#spinnerFirstLoad"),
+        spinnerFullPage: document.querySelector("#spinnerFullPage"),
+        reservationsDetailsModalContent: document.querySelector("#reservationsDetailsModal div.hide-last-hr"),
+        confirmationModalBody: document.querySelector("#confirmationModal div.modal-body"),
+        newOrdersBadge: document.querySelector("#newOrdersBadge"),
         // update from API timer id
         idTimerupdateData: null
     };
@@ -544,7 +544,7 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
                     body: formData
                 });
                 if (!response.ok) {
-                    console.error("The server encountered an error while creating an order");
+                    console.error("The server encountered an error while processing the request");
                 }
                 else {
                     // update the table state
@@ -559,7 +559,7 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
                     body: formData
                 });
                 if (!response.ok) {
-                    console.error("The server encountered an error while creating an order");
+                    console.error("The server encountered an error while processing the request");
                 }
                 else {
                     // update the table state
@@ -569,8 +569,6 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
         }
         // otherwise, if the active tab is "Orders" ...
         else {
-            // make a FormData object to send via POST
-            const formData = new FormData();
             formData.append("order-id", storedData.clickedElement.dataset.orderId);
             const response = await fetch("/api/set-order-delivered", {
                 method: "POST",
@@ -602,18 +600,6 @@ https://stackoverflow.com/questions/72830064/sticky-html-element-gets-hidden-bel
     document.onreadystatechange = () => {
         // on DOM content loaded
         if (document.readyState === "interactive") {
-            // add the handles to the relevant HTML elements
-            storedData.noTablesMessage = document.querySelector("#noTablesMessage");
-            storedData.noOrdersMessage = document.querySelector("#noOrdersMessage");
-            storedData.tablesColumnsDescriptions = document.querySelector("#tablesColumnsDescriptions");
-            storedData.ordersColumnsDescriptions = document.querySelector("#ordersColumnsDescriptions");
-            storedData.tablesList = document.querySelector("#tablesList");
-            storedData.ordersList = document.querySelector("#ordersList");
-            storedData.spinnerFirstLoad = document.querySelector("#spinnerFirstLoad");
-            storedData.spinnerFullPage = document.querySelector("#spinnerFullPage");
-            storedData.reservationsDetailsModalContent = document.querySelector("#reservationsDetailsModal div.hide-last-hr");
-            storedData.confirmationModalBody = document.querySelector("#confirmationModal div.modal-body");
-            storedData.newOrdersBadge = document.querySelector("#newOrdersBadge");
             // add the tabs click listeners
             document.querySelectorAll("#navTabs > div").forEach((tabElement) => {
                 tabElement.addEventListener("click", (event) => {onNavTabClick(tabElement);});

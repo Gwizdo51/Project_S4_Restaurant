@@ -190,7 +190,7 @@ class Server {
         $delete_server_statement = $db_connection->prepare($query);
         // update the servers in $json_content['changed']
         foreach ($json_content['changed'] as $server_to_update) {
-            $sector_id = $server_to_update['sectorId'] === 0 ? 'NULL' : $server_to_update['sectorId'];
+            $sector_id = $server_to_update['sectorId'] === 0 ? null : $server_to_update['sectorId'];
             $server_name = sanitize_input($server_to_update['serverName']);
             $update_server_statement->bind_param('sii', $server_name, $sector_id, $server_to_update['serverId']);
             $update_server_statement->execute();

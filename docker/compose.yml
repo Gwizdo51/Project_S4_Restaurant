@@ -68,11 +68,11 @@ services:
     # write the files as myself (not root)
     user: "1000:1000"
     volumes:
-    - "../assets/scss:/sass:ro"
+    - "../assets/sass:/sass:ro"
     - "../assets/css:/css"
     command:
     - "/sass/:/css/"
-    - "--no-source-map"
+    # - "--no-source-map"
     - "--style=compressed"
     # uncomment the following line to compile the css files after every change
     - "--watch"

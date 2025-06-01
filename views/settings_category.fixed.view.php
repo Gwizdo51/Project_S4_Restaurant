@@ -10,7 +10,7 @@
             <input id="inputCategoryLabel" type="text" class="form-control form-control-lg" value="">
         </div>
         <div class="col-2 p-2 d-grid">
-            <button id="changeCategoryLabelButton" class="btn btn-outline-primary p-0 fs-4" style="height: 50px;">Modifier</button>
+            <button id="changeCategoryLabelButton" class="btn btn-outline-primary h-50px p-0 fs-4">Modifier</button>
         </div>
         <div id="invalidFeedbackMessage" class="col-9 offset-3 pb-2 px-2 d-none">
             <div class="invalid-feedback d-inline px-3">
@@ -28,7 +28,7 @@
 
         <!-- columns descriptions -->
         <div id="columnsDescriptions" class="col-12 p-2 justify-content-center text-secondary d-none">
-            <div class="row border border-2 align-items-center text-center m-0" style="border-color: #0000 !important;">
+            <div class="row border border-2 border-invisible align-items-center text-center m-0">
                 <div class="col-10">
                     <div class="row">
                         <div class="col-6">Nom du produit</div>
@@ -93,7 +93,7 @@
 <!-- product template -->
 <template id="productTemplate">
     <div class="col-12 fs-5 p-2" data-product-id="1">
-        <div class="row hoverable bg-body border border-secondary border-2 rounded m-0" style="transition: 0.1s;">
+        <div class="row hoverable bg-body border border-secondary border-2 rounded m-0">
             <a href="/fixe/configuration/carte/categories/<?= $category_id ?>/1" class="col-10 p-0 link-underline link-underline-opacity-0 text-body text-center d-flex flex-column">
                 <div class="row m-0 flex-grow-1">
                     <div class="productName col-6 p-3 d-flex flex-column justify-content-center">
@@ -207,6 +207,16 @@
                 mainDiv.querySelector(".productPrice").textContent = product.prix;
                 // add the product preparation place
                 mainDiv.querySelector(".productPlace").textContent = preparationPlaces[product.id_lieu_preparation];
+                // change the color of the background of the product on mouse hover
+                const hoverable = mainDiv.querySelector(".hoverable");
+                hoverable.addEventListener("mouseenter", (event) => {
+                    hoverable.classList.remove("bg-body");
+                    hoverable.classList.add("bg-secondary-subtle");
+                });
+                hoverable.addEventListener("mouseleave", (event) => {
+                    hoverable.classList.add("bg-body");
+                    hoverable.classList.remove("bg-secondary-subtle");
+                });
                 // add an "on click" event listener to the button
                 mainDiv.querySelector("button").addEventListener("click", (event) => {
                     storedData.productElementToDelete = event.srcElement.parentElement.parentElement.parentElement;

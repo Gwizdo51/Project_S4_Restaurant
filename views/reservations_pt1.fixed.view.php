@@ -8,7 +8,7 @@
 
 <!-- columns description -->
 <!-- $0.getBoundingClientRect() to get the position of a selected element -->
-<div id="columns-description" class="row mb-3 mx-3 text-secondary sticky-top bg-body-tertiary<?= $display_columns_descriptions ?>" style="top: 107px;">
+<div id="columns-description" class="row mb-3 mx-3 text-secondary sticky-top sticky-top-below-title bg-body-tertiary<?= $display_columns_descriptions ?>">
     <div class="col-12 p-0 bg-body-tertiary border border-secondary rounded">
         <div class="row m-0">
             <div class="col-10 p-0">

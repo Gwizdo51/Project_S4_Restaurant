@@ -8,6 +8,8 @@
     <link href="/assets/css/design.css" rel="stylesheet">
     <!-- 🔹 Bootstrap CSS -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- custom CSS post boostrap -->
+    <link href="/assets/css/design_post_bootstrap.css" rel="stylesheet">
 </head>
 <!-- "p-0" to prevent bootstrap modal from displacing the content
 when the scrollbar is visible -->

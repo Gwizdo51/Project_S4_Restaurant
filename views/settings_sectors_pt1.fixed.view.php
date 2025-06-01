@@ -23,7 +23,7 @@
 
     <!-- columns descriptions -->
     <div class="col-12 justify-content-center text-secondary<?= $display_columns_descriptions ?>">
-        <div class="row border border-2 align-items-center text-center m-0" style="border-color: #0000 !important;">
+        <div class="row border border-invisible border-2 align-items-center text-center m-0">
             <div class="col-5">Nom du secteur</div>
             <div class="col-5">Tables assignées</div>
         </div>

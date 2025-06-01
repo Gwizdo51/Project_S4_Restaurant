@@ -7,7 +7,7 @@
     </div>
 
     <!-- columns descriptions -->
-    <div class="row border border-2 align-items-center text-center text-secondary mx-3<?= $display_columns_descriptions ?>" style="border-color: #0000 !important;">
+    <div class="row border border-invisible border-2 align-items-center text-center text-secondary mx-3<?= $display_columns_descriptions ?>">
         <div class="col-10">
             <div class="row">
                 <div class="col-4 p-0">Titre</div>

@@ -2,5 +2,5 @@
 docker/data/
 
 # scss compiler output
-assets/css/design.css
+assets/css/design*
 assets/css/bootstrap/

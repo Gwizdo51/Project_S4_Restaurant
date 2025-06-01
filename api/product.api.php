@@ -6,7 +6,6 @@ require_once './models/product.class.php';
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // respond with a JSON
     header('Content-Type: application/json; charset=utf-8');
-    // get data
     echo json_encode(Product::get($_GET));
 }
 elseif (in_array($_SERVER['REQUEST_METHOD'], ['PUT', 'POST', 'DELETE'])) {
