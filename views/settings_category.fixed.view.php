@@ -233,6 +233,15 @@
         // add "on click" event listeners to buttons
         document.querySelector("#changeCategoryLabelButton").addEventListener("click", onChangeLabelButtonClick);
         document.querySelector("#confirmModalButton").addEventListener("click", onModalConfirmButtonClick);
+        // submit the new category label on "Enter" key press
+        storedData.inputCategoryLabel.onkeydown = (event) => {
+            let forwardEvent = true;
+            if (event.key === "Enter") {
+                forwardEvent = false;
+                onChangeLabelButtonClick();
+            }
+            return forwardEvent;
+        };
         // fetch and display the category data (name and products) from the database
         pageSetup();
     }

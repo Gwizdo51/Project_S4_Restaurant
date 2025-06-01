@@ -64,10 +64,11 @@
     const confirmModalButton = document.querySelector("#confirmModalButton");
     const modalTextContent = document.querySelector("#modalTextContent");
     const inputNumberTables = document.querySelector("#inputNumberTables");
+    const originalTablesNumber = <?= $original_tables_number ?>;
 
-    function onChangeNumberTablesClick(originalNumber) {
+    function onChangeNumberTablesClick() {
         // if the number of tables would not change ...
-        if (inputNumberTables.value == originalNumber) {
+        if (inputNumberTables.value == originalTablesNumber) {
             // stop here
             return;
         }
@@ -99,6 +100,16 @@
             sectorElement.classList.remove("bg-secondary-subtle");
         });
     });
+
+    // submit the new number of tables on "Enter" key press
+    inputNumberTables.onkeydown = (event) => {
+        let forwardEvent = true;
+        if (event.key === "Enter") {
+            forwardEvent = false;
+            onChangeNumberTablesClick();
+        }
+        return forwardEvent;
+    };
 </script>
 
 </body>

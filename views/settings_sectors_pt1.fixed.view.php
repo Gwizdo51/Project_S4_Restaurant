@@ -7,10 +7,11 @@
         Nombre de tables
     </label>
     <div class="col-4 p-2 d-grid">
-        <input type="number" class="form-control form-control-lg" form="updateTableNumberForm" id="inputNumberTables" name="numberTables" placeholder="20" value="<?= $original_tables_number ?>" min="0" step="1" required>
+        <input type="number" class="form-control form-control-lg" form="updateTableNumberForm" id="inputNumberTables" name="numberTables" placeholder="20"
+        value="<?= $original_tables_number ?>" min="0" step="1" required>
     </div>
     <div class="col-2 p-2 d-grid">
-        <button class="btn btn-outline-primary fs-4" onclick="onChangeNumberTablesClick(<?= $original_tables_number ?>);">OK</button>
+        <button class="btn btn-outline-primary fs-4" onclick="onChangeNumberTablesClick();">OK</button>
     </div>
 </div>
 
