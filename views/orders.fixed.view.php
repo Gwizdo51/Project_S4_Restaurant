@@ -1,5 +1,5 @@
 <!-- order template -->
-<template id="template-order">
+<template id="templateOrder">
     <div class="row border border-success border-2 rounded mb-3 mx-3 bg-body" data-order-id="" data-date-creation="" data-state="success">
         <div class="col-4 p-3">
             <table class="table">
@@ -23,13 +23,13 @@
             <dl class="list-group list-group-flush"></dl>
         </div>
         <div class="col-2 p-3 d-grid">
-            <button type="button" class="btn btn-primary fs-4" onclick="storedData.buttonClicked = this;" data-bs-toggle="modal" data-bs-target="#confirmation-modal">Prête</button>
+            <button type="button" class="btn btn-primary fs-4" data-bs-toggle="modal" data-bs-target="#confirmationModal">Prête</button>
         </div>
     </div>
 </template>
 
 <!-- item template -->
-<template id="template-item">
+<template id="templateItem">
     <div class="list-group-item">
         <dt>Entrecôte</dt>
         <dd>Cuisson : Saignant</dd>
@@ -37,7 +37,7 @@
 </template>
 
 <!-- modal to confirm an order is ready -->
-<div class="modal fade" id="confirmation-modal" tabindex="-1" aria-labelledby="confirmation-modal" aria-hidden="true">
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -54,7 +54,7 @@
                             <button type="button" class="btn btn-danger py-5 fs-4" data-bs-dismiss="modal">Annuler</button>
                         </div>
                         <div class="col-6 d-grid">
-                            <button type="button" class="btn btn-success py-5 fs-4" onclick="onConfirmButtonClick();" data-bs-dismiss="modal">OK</button>
+                            <button id="modalConfirmButton" type="button" class="btn btn-success py-5 fs-4" data-bs-dismiss="modal">OK</button>
                         </div>
                     </div>
                 </div>
@@ -64,10 +64,10 @@
 </div>
 
 <!-- page content -->
-<main id="page-content" class="bg-body-tertiary mt-3 pt-3 rounded flex-grow-1">
+<main id="pageContent" class="bg-body-tertiary mt-3 pt-3 rounded flex-grow-1">
 
 <!-- display a message when there are no orders to display -->
-<div id="no-orders-message" class="fs-4 text-center mb-3 text-secondary">
+<div id="noOrdersMessage" class="fs-4 text-center mb-3 text-secondary">
     Chargement des commandes ...
 </div>
 
@@ -83,8 +83,7 @@
 <!-- 🔹 Bootstrap JS -->
 <script src="/assets/js/bootstrap.bundle.min.js"></script>
 
-<script>
-    "use strict";
+<script type="module">
 
     /* pseudocode :
     on page load :
@@ -114,10 +113,12 @@
             display the "no orders" message
     */
 
+    import {decodeHtml} from '/assets/js/utils.js';
+
     // global object to store data
     const storedData = {
         // which button was clicked
-        buttonClicked: null,
+        orderElementClicked: null,
         // the id of the timers
         idTimerUpdateOrders: null,
         idTimerUpdateOrdersStates: null
@@ -169,8 +170,8 @@
         // get the order with the specified ID from the JSON
         const currentOrder = JSONResponse[orderID];
         // clone the content from the order template
-        const orderElement = document.querySelector("#template-order").content.cloneNode(true);
-        const templateItem = document.querySelector("#template-item");
+        const orderElement = document.querySelector("#templateOrder").content.cloneNode(true);
+        const templateItem = document.querySelector("#templateItem");
         const mainDiv = orderElement.firstElementChild;
         // add the order ID
         mainDiv.dataset.orderId = orderID;
@@ -190,11 +191,11 @@
             // clone the content from the item template
             let itemElement = templateItem.content.cloneNode(true);
             // add the product label
-            itemElement.querySelector("dt").textContent = item.label;
+            itemElement.querySelector("dt").textContent = decodeHtml(item.label);
             // add the order details if there are any
             let detailsElement = itemElement.querySelector("dd");
             if (item.details.length !== 0) {
-                detailsElement.innerHTML = item.details.replaceAll("\n", "<br>")
+                detailsElement.innerHTML = item.details.replaceAll("\n", "<br>");
             }
             else {
                 detailsElement.remove();
@@ -202,13 +203,17 @@
             // add the item element to the order element
             orderedItemsContainer.append(itemElement);
         });
+        // add an "on click" event listener to the button
+        mainDiv.querySelector("button").addEventListener("click", () => {
+            storedData.orderElementClicked = mainDiv;
+        });
         return orderElement;
     }
 
     // update the list of displayed orders based on the JSON response
     function updateDisplayedOrders(JSONResponse) {
-        const ordersContainer = document.querySelector("#page-content");
-        const noOrdersMessageDiv = ordersContainer.querySelector("#no-orders-message");
+        const ordersContainer = document.querySelector("#pageContent");
+        const noOrdersMessageDiv = ordersContainer.querySelector("#noOrdersMessage");
         // change the "no orders" message
         noOrdersMessageDiv.textContent = "Aucune commande à préparer.";
         // get the list of all orders displayed on the page
@@ -259,7 +264,7 @@
     // update the amount of minutes passed and the state of each displayed orders
     function updateOrdersStates() {
         // for each order displayed on the page ...
-        document.querySelectorAll("#page-content > div.row").forEach((orderElement) => {
+        document.querySelectorAll("#pageContent > div.row").forEach((orderElement) => {
             // get the time that passed since the order was created
             const timePassedMinutes = getTimePassedMinutes(orderElement.dataset.dateCreation);
             orderElement.querySelector("tr.time-passed th").textContent = `${timePassedMinutes} min`;
@@ -271,12 +276,12 @@
     // set an order to "ready" state on "OK" button click in confirmation modal
     async function onConfirmButtonClick() {
         // disable every "order ready" buttons while waiting for the API response
-        document.querySelectorAll("#page-content > div.row button").forEach((button) => {
+        document.querySelectorAll("#pageContent > div.row button").forEach((button) => {
             button.setAttribute("disabled", "");
         });
         // make a FormData object to send via POST
         const formData = new FormData();
-        formData.append("order-id", storedData.buttonClicked.parentElement.parentElement.dataset.orderId);
+        formData.append("order-id", storedData.orderElementClicked.dataset.orderId);
         const response = await fetch("/api/set-order-ready", {
             method: "POST",
             body: formData
@@ -285,11 +290,11 @@
             const JSONResponse = await response.json();
             if (JSONResponse.success) {
                 // remove the order from the list
-                storedData.buttonClicked.parentElement.parentElement.remove();
+                storedData.orderElementClicked.remove();
                 // if there are no orders displayed ...
-                if (document.querySelectorAll("#page-content > div.row").length === 0) {
+                if (document.querySelectorAll("#pageContent > div.row").length === 0) {
                     // display the "no orders" message
-                    document.querySelector("#no-orders-message").classList.remove("d-none");
+                    document.querySelector("#noOrdersMessage").classList.remove("d-none");
                 }
             }
             else {
@@ -300,7 +305,7 @@
             alert("Une erreur est survenue lors de l'envoi de la requête");
         }
         // enable every "order ready" button
-        document.querySelectorAll("#page-content > div.row button").forEach((button) => {
+        document.querySelectorAll("#pageContent > div.row button").forEach((button) => {
             button.removeAttribute("disabled");
         });
     }
@@ -308,12 +313,13 @@
     // schedule update functions when the DOM is loaded
     // https://developer.mozilla.org/en-US/docs/Web/API/Document/readyState
     document.onreadystatechange = () => {
-        // on DOM content loaded
-        if (document.readyState === "interactive") {
-            updateOrders();
-            storedData.idTimerUpdateOrders = setInterval(updateOrders, 5000);
-            storedData.idTimerUpdateOrdersStates = setInterval(updateOrdersStates, 1000);
-        }
+        // add "on click" event listeners to the modal button
+        document.querySelector("#modalConfirmButton").addEventListener("click", onConfirmButtonClick);
+        // update displayed orders now and every 5 seconds
+        updateOrders();
+        storedData.idTimerUpdateOrders = setInterval(updateOrders, 5000);
+        // update displayed orders states every second
+        storedData.idTimerUpdateOrdersStates = setInterval(updateOrdersStates, 1000);
     };
 
     // disable page updates when it is not visible

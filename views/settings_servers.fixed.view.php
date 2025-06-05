@@ -3,7 +3,7 @@
 
 <!-- display a message when there are no servers to display -->
 <div id="noServersMessage" class="row fs-4 justify-content-center m-3 text-secondary d-none">
-    Aucun serveurs actifs.
+    Aucun serveur.
 </div>
 
 <!-- display a spinner while the page is loading -->
@@ -254,7 +254,7 @@
             for (const sectorId in apiJsonResponse.secteurs) {
                 const sectorOption = document.createElement("option");
                 sectorOption.setAttribute("value", sectorId);
-                sectorOption.textContent = apiJsonResponse.secteurs[sectorId];
+                sectorOption.textContent = decodeHtml(apiJsonResponse.secteurs[sectorId]);
                 sectorSelectElement.append(sectorOption);
             }
             // if the list of active servers is empty ...
@@ -325,6 +325,8 @@
         addEventListenersToServerElement(mainDiv);
         // add the template as-is to the list of servers
         document.querySelector("#serversContainer").append(serverElement);
+        // hide the "no servers" message
+        document.querySelector("#noServersMessage").classList.add("d-none");
         // update its visual state and validate the form
         updateVisualStateAndValidateForm(mainDiv);
     }

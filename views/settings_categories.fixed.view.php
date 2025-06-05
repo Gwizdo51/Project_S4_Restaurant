@@ -80,9 +80,9 @@
 
 <!-- category template -->
 <template id="categoryTemplate">
-    <div class="col-6 fs-5 p-2" data-category-id="1">
+    <div class="col-6 fs-5 p-2 d-grid" data-category-id="1">
         <div class="row hoverable bg-body border border-secondary border-2 rounded m-0">
-            <a href="/fixe/configuration/carte/categories/1" class="col-9 p-0 border-end border-secondary border-2
+            <a href="/fixe/configuration/carte/categories/1" class="col-9 p-3 border-end border-secondary border-2
             link-underline link-underline-opacity-0 text-body justify-content-center d-flex flex-column align-items-center">
                 Softs
             </a>
@@ -164,8 +164,8 @@
             hoverable.classList.remove("bg-secondary-subtle");
         });
         // add an "on click" event listener to the button
-        mainDiv.querySelector("button").addEventListener("click", (event) => {
-            storedData.categoryElementToDelete = event.srcElement.parentElement.parentElement.parentElement;
+        mainDiv.querySelector("button").addEventListener("click", () => {
+            storedData.categoryElementToDelete = mainDiv;
         });
         // display the category
         storedData.categoriesContainer.append(categoryElement);

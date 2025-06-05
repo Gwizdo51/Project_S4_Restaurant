@@ -18,7 +18,7 @@
     </div>
     <div class="row mx-3 mb-3 justify-content-center">
         <div class="col-7">
-            <a href="/fixe/configuration/horaires" type="button" class="btn btn-primary d-flex justify-content-center align-items-center fs-4 py-3">Horaires d'ouverture du restaurant</a>
+            <a href="#" type="button" class="btn btn-primary d-flex justify-content-center align-items-center fs-4 py-3">Horaires d'ouverture du restaurant</a>
         </div>
     </div>
 
