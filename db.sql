@@ -238,56 +238,56 @@ INSERT INTO `plage` (heure_debut, heure_fin, ID_horaire) VALUES
 ("12:00:00", "15:00:00", 1),
 ("19:00:00", "22:30:00", 1);
 
-INSERT INTO `secteur` (nom) VALUES
-("Salle 1"),
-("Salle 2"),
-("Etage"),
-("Terrasse");
+-- INSERT INTO `secteur` (nom) VALUES
+-- ("Salle 1"),
+-- ("Salle 2"),
+-- ("Etage"),
+-- ("Terrasse");
 
-INSERT INTO `serveur` (nom, ID_secteur) VALUES
-("Johnathan", 3),
-("Monique", 4),
-("Ines", 1),
-("Marc", 2);
+-- INSERT INTO `serveur` (nom, ID_secteur) VALUES
+-- ("Johnathan", 3),
+-- ("Monique", 4),
+-- ("Ines", 1),
+-- ("Marc", 2);
 
 INSERT INTO `etat_table` (ID_etat_table, label_etat_table) VALUES
 (1, "disponible"),
 (2, "occupée"),
 (3, "à nettoyer");
 
-INSERT INTO `table` (numero, ID_secteur, ID_etat_table) VALUES
-(1, 1, 1),
-(2, 1, 1),
-(3, 1, 1),
-(4, 1, 2),
-(5, 1, 1),
-(6, 2, 1),
-(7, 2, 1),
-(8, 2, 1),
-(9, 2, 1),
-(10, 2, 1),
-(11, 3, 1),
-(12, 3, 1),
-(13, 3, 1),
-(14, 3, 1),
-(15, 3, 1),
-(16, 4, 1),
-(17, 4, 1),
-(18, 4, 1),
-(19, 4, 1),
-(20, 4, 1);
+-- INSERT INTO `table` (numero, ID_secteur, ID_etat_table) VALUES
+-- (1, 1, 1),
+-- (2, 1, 1),
+-- (3, 1, 1),
+-- (4, 1, 2),
+-- (5, 1, 1),
+-- (6, 2, 1),
+-- (7, 2, 1),
+-- (8, 2, 1),
+-- (9, 2, 1),
+-- (10, 2, 1),
+-- (11, 3, 1),
+-- (12, 3, 1),
+-- (13, 3, 1),
+-- (14, 3, 1),
+-- (15, 3, 1),
+-- (16, 4, 1),
+-- (17, 4, 1),
+-- (18, 4, 1),
+-- (19, 4, 1),
+-- (20, 4, 1);
 
-INSERT INTO `reservation` (nom_client, date, nombre_personnes, notes) VALUES
-("Anderson", "2025-05-11 20:15:00", 2, DEFAULT),
-("Smith", "2025-05-10 08:30:00", 8, "un bébé");
+-- INSERT INTO `reservation` (nom_client, date, nombre_personnes, notes) VALUES
+-- ("Anderson", "2025-05-11 20:15:00", 2, DEFAULT),
+-- ("Smith", "2025-05-10 08:30:00", 8, "un bébé");
 
-INSERT INTO `reserver` (ID_reservation, ID_table) VALUES
-(1, 10),
-(2, 15),
-(2, 16);
+-- INSERT INTO `reserver` (ID_reservation, ID_table) VALUES
+-- (1, 10),
+-- (2, 15),
+-- (2, 16);
 
-INSERT INTO `bon` (ID_table, ID_serveur, remise) VALUES
-(4, 3, DEFAULT);
+-- INSERT INTO `bon` (ID_table, ID_serveur, remise) VALUES
+-- (4, 3, DEFAULT);
 
 INSERT INTO `etat_commande` (ID_etat_commande, label_etat_commande) VALUES
 (1, "à préparer"),
@@ -298,60 +298,60 @@ INSERT INTO `lieu_preparation` (ID_lieu_preparation, label_lieu) VALUES
 (1, "cuisine"),
 (2, "bar");
 
-INSERT INTO `commande` (ID_bon, ID_etat_commande, ID_lieu_preparation) VALUES
-(1, 1, 1),
-(1, 1, 1),
-(1, 1, 1),
-(1, 1, 2);
+-- INSERT INTO `commande` (ID_bon, ID_etat_commande, ID_lieu_preparation) VALUES
+-- (1, 1, 1),
+-- (1, 1, 1),
+-- (1, 1, 1),
+-- (1, 1, 2);
 
-INSERT INTO `categorie` (label_categorie) VALUES
-("Softs"),
-("Vins"),
-("Entrées"),
-("Plats"),
-("Desserts");
+-- INSERT INTO `categorie` (label_categorie) VALUES
+-- ("Softs"),
+-- ("Vins"),
+-- ("Entrées"),
+-- ("Plats"),
+-- ("Desserts");
 
-INSERT INTO `produit` (label_produit, prix, ID_categorie, ID_lieu_preparation) VALUES
-("Evian", 1.50, 1, 2),
-("Grenadine", 1.50, 1, 2),
-("Pichet vin rouge", 7, 2, 2),
-("Pichet vin blanc", 7, 2, 2),
-("Salade verte", 5, 3, 1),
-("Entrecôte", 9.50, 4, 1),
-("Flan", 3, 5, 1);
+-- INSERT INTO `produit` (label_produit, prix, ID_categorie, ID_lieu_preparation) VALUES
+-- ("Evian", 1.50, 1, 2),
+-- ("Grenadine", 1.50, 1, 2),
+-- ("Pichet vin rouge", 7, 2, 2),
+-- ("Pichet vin blanc", 7, 2, 2),
+-- ("Salade verte", 5, 3, 1),
+-- ("Entrecôte", 9.50, 4, 1),
+-- ("Flan", 3, 5, 1);
 
-INSERT INTO `item` (ID_commande, ID_produit, details) VALUES
-(1, 7, DEFAULT),
-(1, 5, DEFAULT),
-(2, 6, "Cuisson : Saignant - Sauces : Mayonnaise, Ketchup"),
-(2, 6, "Cuisson : A point"),
-(3, 6, "Cuisson : Cuit"),
-(3, 5, "Sans tomates"),
-(4, 2, "Glaçons : Avec");
+-- INSERT INTO `item` (ID_commande, ID_produit, details) VALUES
+-- (1, 7, DEFAULT),
+-- (1, 5, DEFAULT),
+-- (2, 6, "Cuisson : Saignant - Sauces : Mayonnaise, Ketchup"),
+-- (2, 6, "Cuisson : A point"),
+-- (3, 6, "Cuisson : Cuit"),
+-- (3, 5, "Sans tomates"),
+-- (4, 2, "Glaçons : Avec");
 
 INSERT INTO `type_choix` (ID_type_choix, label_type_choix) VALUES
 (1, "unique"),
 (2, "multiple");
 
-INSERT INTO `option_commande` (label_option, ID_type_choix) VALUES
-("Cuisson", 1),
-("Glaçons", 1),
-("Sauces", 2);
+-- INSERT INTO `option_commande` (label_option, ID_type_choix) VALUES
+-- ("Cuisson", 1),
+-- ("Glaçons", 1),
+-- ("Sauces", 2);
 
-INSERT INTO `preciser` (ID_option, ID_produit) VALUES
-(1, 6),
-(2, 2),
-(3, 6);
+-- INSERT INTO `preciser` (ID_option, ID_produit) VALUES
+-- (1, 6),
+-- (2, 2),
+-- (3, 6);
 
-INSERT INTO `choix` (label_choix, ID_option) VALUES
-("Bleu", 1),
-("Saignant", 1),
-("A point", 1),
-("Cuit", 1),
-("Bien cuit", 1),
-("Avec", 2),
-("Sans", 2),
-("Moutarde", 3),
-("Blanche", 3),
-("Ketchup", 3),
-("Mayonnaise", 3);
+-- INSERT INTO `choix` (label_choix, ID_option) VALUES
+-- ("Bleu", 1),
+-- ("Saignant", 1),
+-- ("A point", 1),
+-- ("Cuit", 1),
+-- ("Bien cuit", 1),
+-- ("Avec", 2),
+-- ("Sans", 2),
+-- ("Moutarde", 3),
+-- ("Blanche", 3),
+-- ("Ketchup", 3),
+-- ("Mayonnaise", 3);

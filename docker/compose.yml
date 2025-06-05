@@ -32,8 +32,7 @@ services:
     - "3306:3306"
     # mount a local directory to save the database files
     volumes:
-    # - "./data:/var/lib/mysql"
-    - "~/Documents/code/docker_data/Project_S4_Restaurant:/var/lib/mysql"
+    - "./data:/var/lib/mysql"
     environment:
       TZ: "Europe/Paris"
       MYSQL_ROOT_PASSWORD: "123456789"
@@ -75,4 +74,4 @@ services:
     # - "--no-source-map"
     - "--style=compressed"
     # uncomment the following line to compile the css files after every change
-    - "--watch"
+    # - "--watch"
